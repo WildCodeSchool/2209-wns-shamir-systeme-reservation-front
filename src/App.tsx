@@ -7,7 +7,7 @@ import "bootstrap/dist/js/bootstrap.bundle.js";
 function App() {
   return (
     <div>
-
+      <h1>WildRent</h1>
     </div>
   );
 }
