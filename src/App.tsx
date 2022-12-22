@@ -9,9 +9,15 @@ import "bootstrap/js/src/collapse.js";
 import NavbarDesktop from "./Components/NavbarDesktop";
 import NavbarResponsive from "./Components/NavBarResponsive";
 import NavbarMobile from "./Components/NavbarMobile";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from './pages/Home';
+import Catalog from './pages/Catalog';
+import Contact from './pages/Contact';
+import Profile from './pages/Profile';
+import Basket from './pages/Basket';
 
 function App() {
-  Aos.init();
   return (
     <div>
       {/* Les 2 navbar fixe top */}
@@ -20,6 +26,17 @@ function App() {
 
       {/* navbar version mobile */}
       <NavbarResponsive />
+
+      <Router>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/catalogue" element={<Catalog />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/profil" element={<Profile />} />
+            <Route path="/panier" element={<Basket />} />
+          </Routes>
+       </Router>
+
     </div>
   );
 }
