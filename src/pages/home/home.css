@@ -59,19 +59,27 @@
 .home_infos_one div {
   width: 100%;
   display: flex;
-  justify-content: center;
-  margin: 1rem auto;
-  padding: 1rem;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    color: white;
+    font-size: 1.5rem;
+    text-align: center;
 }
 
 .home_infos_one div img {
-  width: 35%;
+  width: 100px;
+}
+
+.home_infos_one span{
+  font-size: 1.8rem;
+  font-weight: bold;
 }
 
 .home_infos_one h2 {
   color: white;
   font-weight: 700;
-  font-size: 2rem;
+  font-size: 1.7rem;
 }
 
 .full_skieur {
