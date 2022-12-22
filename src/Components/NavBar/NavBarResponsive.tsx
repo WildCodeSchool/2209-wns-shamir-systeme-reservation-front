@@ -1,9 +1,9 @@
-import boutique from "../assets/images/boutique.png";
-import produit from "../assets/images/produit.png";
-import profil from "../assets/images/profil.png";
-import "../Components/navbar.css";
+import boutique from "../../assets/images/boutique.png";
+import produit from "../../assets/images/produit.png";
+import profil from "../../assets/images/profil.png";
+import "./navbar.css";
 import "./navbarScript";
-import { Container, Navbar, Offcanvas } from "react-bootstrap";
+import { Container, Navbar } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
 
 const NavbarResponse = () => {
