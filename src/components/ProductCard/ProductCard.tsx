@@ -1,7 +1,7 @@
-import React from 'react'
 import "./ProductCard.css"
 
-function ProductCard() {
+function ProductCard({ products }) {
+  console.log(products)
   return (
     <div>ProductCard</div>
   )
