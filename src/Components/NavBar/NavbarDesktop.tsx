@@ -1,8 +1,7 @@
-import logo from "../assets/images/512.png";
-import profil from "../assets/images/48.png";
-import panier from "../assets/images/47.png";
-import "./navbarScript";
-import "../Components/navbar.css";
+import logo from "../../assets/images/512.png";
+import profil from "../../assets/images/48.png";
+import panier from "../../assets/images/47.png";
+import "./navbar.css";
 import "./navbarScript";
 import { Container, Navbar, Offcanvas } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";

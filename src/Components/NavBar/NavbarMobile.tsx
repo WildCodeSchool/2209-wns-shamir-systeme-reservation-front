@@ -1,6 +1,6 @@
-import logo from "../assets/images/512.png";
-import login from "../assets/images/Login.png";
-import "../Components/navbar.css";
+import logo from "../../assets/images/512.png";
+import login from "../../assets/images/Login.png";
+import "./navbar.css";
 import "./navbarScript";
 import { Container, Navbar } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
