@@ -11,12 +11,13 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_ALL_PRODUCTS } from "./tools/queries";
-import Home from './pages/home/Home';
-import Catalog from './pages/Catalog';
-import Contact from './pages/Contact';
-import Profile from './pages/Profile';
-import Basket from './pages/Basket';
+import Home from './pages/Home/Home';
+import Catalog from './pages/Catalog/Catalog';
+import Contact from './pages/Contact/Contact';
+import Profile from './pages/Profile/Profile';
+import Basket from './pages/Basket/Basket';
 import IProduct from "./interfaces/IProduct";
+import Footer from "./components/Footer/Footer";
 
 
 function App() {
@@ -40,16 +41,18 @@ function App() {
       {/* navbar version mobile */}
       <NavbarResponsive />
 
+      
+    
       <Router>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home {...products} />} />
             <Route path="/catalogue" element={<Catalog {...products} />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/profil" element={<Profile />} />
             <Route path="/panier" element={<Basket />} />
           </Routes>
        </Router>
-
+       <Footer />
     </div>
   );
 }
