@@ -1,0 +1,333 @@
+.header_home {
+  background-image: url('../../assets/images/img_home_mobile.jpg');
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header_home_title,
+.header_home_title2 {
+  display: none;
+}
+
+.home_search_prod_by_date {
+  display: none;
+}
+
+.search_product {
+  width: 220px;
+  background-color: rgba(255, 255, 255, 0);
+  color: white;
+  padding: 1rem;
+  border: 2px solid white;
+  border-radius: 5px;
+  font-weight: 700;
+}
+
+.img_home_mobile {
+  top: -2rem;
+  padding: 0;
+}
+
+.home h2 {
+  margin: 2rem auto;
+  text-align: center;
+  font-weight: 700;
+}
+
+.home .card_product {
+  width: 80%;
+  margin: 1rem auto;
+  padding: 1rem;
+}
+
+.home_infos_one {
+  background-image: url('../../assets/images/img_home_mobile_info1.jpg');
+  height: 100vh;
+  /*filter: brightness(80%);*/
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  min-height: 1000px;
+}
+
+.home_infos_one div {
+  width: 100%;
+  display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    color: white;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.home_infos_one div img {
+  width: 100px;
+}
+
+.home_infos_one span{
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.home_infos_one h2 {
+  color: white;
+  font-weight: 700;
+  font-size: 1.7rem;
+}
+
+.full_skieur {
+  display: none;
+}
+
+.img_mountain {
+  width: 100%;
+  min-height: 500px;
+
+}
+
+.home_infos_two_description1 {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 3rem 2rem;
+}
+
+.home_infos_two_description1 h3 {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.home_infos_two_description2 {
+  display: none;
+}
+
+
+@media (min-width: 765px) {
+  .header_home {
+    background-image: url('../../assets/images/mountain_man.png');
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding-right: 5rem;
+  }
+
+  .search_product {
+    display: none;
+  }
+
+  .header_home_title {
+    display: block;
+    text-align: right;
+    width: 100%;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-right: 1rem;
+    margin-bottom: 16rem;
+  }
+
+  .header_home_title2 {
+    display: block;
+    text-align: right;
+    color: white;
+    width: 100%;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-right: 1rem;
+    margin-top: 2rem;
+  }
+
+  .home_search_prod_by_date p {
+    display: block;
+    margin-bottom: 0.1rem;
+    width: 100%;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-right: 7rem;
+  }
+
+  .home_search_prod_by_date {
+    top: 10rem;
+    left: 3rem;
+    width: 90%;
+    min-width: 650px;
+    max-width: 800px;
+    display: flex;
+    justify-content: space-between;
+    background-color: rgba(255, 255, 255, 0.722);
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    margin-top: 6rem;
+  }
+
+  .home_search_prod_by_date div {
+    width: 150px;
+    margin-right: 0.5rem;
+    border-radius: 20px;
+  }
+
+  .home_search_prod_by_date input {
+    width: 150px;
+    border: 0;
+    height: 2rem;
+    border: 1px solid #0D83AB;
+    border-radius: 5px;
+  }
+
+  .home_search_prod_by_date div p {
+    text-transform: uppercase;
+    color: black;
+    font-weight: 700;
+    font-size: 0.8rem;
+  }
+
+  .home_search_prod_by_date button {
+    padding: 0;
+    height: 2.5rem;
+    align-self: flex-end;
+    padding: 0 0.5rem;
+    background-color: #0D83AB;
+    color: white;
+    font-weight: 700;
+    border: 0;
+    border-radius: 5px;
+  }
+
+  .home_products {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+
+  .home_products h2 {
+    width: 100%;
+  }
+
+  .home .card_product {
+    width: 20%;
+    margin: 1rem auto;
+    padding: 1rem;
+  }
+
+  .home_infos_one h2 {
+    width: 100%;
+  }
+
+  .home_infos_one {
+    background-image: url('../../assets/images/ski.png');
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    margin-bottom: 3rem;
+    min-height: 0;
+  }
+
+  .home_infos_one div {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    color: white;
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .home_infos_one span{
+    font-size: 1.8rem;
+    font-weight: bold;
+  }
+
+  .home_infos_one div img {
+    width: 150px;
+  }
+
+  .full_skieur {
+    display: block;
+    width: 100%;
+  }
+
+  .home_infos_two_description1 {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 0;
+  }
+
+  .home_infos_two_description1 div {
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-left: 2rem;
+  }
+
+  .home_infos_two_description1 div h3 {
+    text-align: center;
+  }
+
+  .home_infos_two_description1 img {
+    width: 40%;
+  }
+
+  .home_infos_two_description1 h3,
+  .home_infos_two_description1 p {
+    text-align: left;
+  }
+
+  .home_infos_two_description2 {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 2rem;
+    padding: 0;
+  }
+
+  .home_infos_two_description2_left {
+    width: 40%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .home_infos_two_description2_left div {
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+  }
+
+  .home_infos_two_description2_left .img_mountain_info {
+    width: 60%;
+    height: 90%;
+  }
+
+  .home_infos_two_description2_right {
+    width: 35%;
+    margin-left: 2rem;
+  }
+
+  .home_infos_two_description2_right div {
+    width: 100%;
+  }
+
+  .home_infos_two_description2_right img {
+    width: 100%;
+
+    margin-bottom: 1rem;
+  }
+
+  .img_mountain {
+    display: none;
+  }
+
+}

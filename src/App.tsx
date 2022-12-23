@@ -11,11 +11,12 @@ import NavbarResponsive from "./components/NavBar/NavBarResponsive";
 import NavbarMobile from "./components/NavBar/NavbarMobile";
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from './pages/Home';
+import Home from './pages/home/Home';
 import Catalog from './pages/Catalog';
 import Contact from './pages/Contact';
 import Profile from './pages/Profile';
 import Basket from './pages/Basket';
+
 
 function App() {
   return (
