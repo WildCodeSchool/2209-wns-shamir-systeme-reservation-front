@@ -17,10 +17,11 @@ import Catalog from './pages/Catalog';
 import Contact from './pages/Contact';
 import Profile from './pages/Profile';
 import Basket from './pages/Basket';
+import IProduct from "./interfaces/IProduct";
 
 function App() {
 
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<IProduct[]>([]);
 
   const { loading, data, error } = useQuery(GET_ALL_PRODUCTS, {
     onCompleted: (data) => {
@@ -28,6 +29,7 @@ function App() {
     },
   });
 
+  // console.log(products);
 
   return (
     <div>
@@ -41,7 +43,7 @@ function App() {
       <Router>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/catalogue" element={<Catalog products={products} />} />
+            <Route path="/catalogue" element={<Catalog {...products} />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/profil" element={<Profile />} />
             <Route path="/panier" element={<Basket />} />
