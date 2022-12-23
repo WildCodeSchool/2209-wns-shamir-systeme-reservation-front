@@ -11,17 +11,17 @@ const NavbarResponse = () => {
     <Navbar expand="md" className="fixed-bottom py-0" id="mainNavResponsive">
       <Container fluid className="justify-content-center">
         <Nav className="justify-content-center flex-row pe-3">
-          <Nav.Link href="#" className="my-auto linkIconResponsive text-center">
+          <Nav.Link href="/" className="my-auto linkIconResponsive text-center">
             <img className="boutiqueIcon" src={boutique} alt="Profil" />
             <br />
             Accueil
           </Nav.Link>
-          <Nav.Link href="#" className="my-auto linkIconResponsive text-center">
+          <Nav.Link href="/catalogue" className="my-auto linkIconResponsive text-center">
             <img className="produitIcon" src={produit} alt="Profil" />
             <br />
             Produits
           </Nav.Link>
-          <Nav.Link href="#" className="my-auto linkIconResponsive text-center">
+          <Nav.Link href="/profil" className="my-auto linkIconResponsive text-center">
             <img className="produitIcon" src={profil} alt="Profil" />
             <br />
             Profil

@@ -26,19 +26,19 @@ const NavbarDesktop = () => {
           </Offcanvas.Header>
           <Offcanvas.Body>
             <Nav className="justify-content-end flex-grow-1 pe-3">
-              <Nav.Link href="#" className="nav-link mx-4 linkPage">
+              <Nav.Link href="/" className="nav-link mx-4 linkPage">
                 Accueil
               </Nav.Link>
-              <Nav.Link href="#" className="nav-link mx-4 linkPage">
+              <Nav.Link href="/catalogue" className="nav-link mx-4 linkPage">
                 Catalogue
               </Nav.Link>
-              <Nav.Link href="#" className="nav-link mx-4 linkPage">
+              <Nav.Link href="/contact" className="nav-link mx-4 linkPage">
                 Contact
               </Nav.Link>
-              <Nav.Link href="#" className="nav-link mx-4 my-auto linkIcon">
+              <Nav.Link href="/profil" className="nav-link mx-4 my-auto linkIcon">
                 <img className="profilIcon" src={profil} alt="Profil" />
               </Nav.Link>
-              <Nav.Link href="#" className="nav-link mx-4 my-auto linkIcon">
+              <Nav.Link href="/panier" className="nav-link mx-4 my-auto linkIcon">
                 <img className="panierIcon" src={panier} alt="Panier" />
               </Nav.Link>
             </Nav>
