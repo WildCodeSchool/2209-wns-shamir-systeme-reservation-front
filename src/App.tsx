@@ -1,6 +1,5 @@
 import "./index.css";
 import "./App.css";
-import "aos/dist/aos.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.js";
 import "bootstrap/js/dist/collapse";
@@ -12,12 +11,13 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_ALL_PRODUCTS } from "./tools/queries";
-import Home from './pages/Home';
+import Home from './pages/home/Home';
 import Catalog from './pages/Catalog';
 import Contact from './pages/Contact';
 import Profile from './pages/Profile';
 import Basket from './pages/Basket';
 import IProduct from "./interfaces/IProduct";
+
 
 function App() {
 
