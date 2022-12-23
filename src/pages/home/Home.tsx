@@ -5,7 +5,7 @@ import mountain from '../../assets/images/mountain.jpg';
 import fullSkieur from '../../assets/images/full_skieur.jpg';
 import mountainMan from '../../assets/images/mountain_man2.jpg';
 
-import Footer from '../../components/footer/Footer';
+import Footer from '../../components/Footer/Footer';
 import './home.css';
 
 

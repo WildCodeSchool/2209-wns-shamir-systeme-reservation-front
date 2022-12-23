@@ -1,7 +1,5 @@
 import "./index.css";
 import "./App.css";
-import Aos from "aos";
-import "aos/dist/aos.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.js";
 import "bootstrap/js/dist/collapse";
