@@ -4,3 +4,9 @@
 .catalog_container h1{
   font-size: 6rem;
 }
+
+.go_back{
+  font-weight: 500;
+  font-size: 2rem;
+  margin-left: 5rem;
+}

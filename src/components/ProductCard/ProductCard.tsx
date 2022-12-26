@@ -7,7 +7,7 @@ function ProductCard(product: IProduct) {
 
   return (
 
-  <Card className={product.description ? "col-4 m-4 p-4" : "col-12 col-md-2 card_product"} >
+  <Card className={product.description ? "col-3 m-4 p-4" : "col-12 col-md-2 card_product"} >
 
 
     <Card.Img alt={product.name} src={product.image} />

@@ -16,4 +16,12 @@ query getAllProducts {
   }
 }`
 
-export {GET_ALL_PRODUCTS};
+const GET_ALL_CATEGORIES = gql`
+query getAllCategories {
+  getAllCategories {
+      id
+      name
+  }
+}`
+
+export { GET_ALL_PRODUCTS, GET_ALL_CATEGORIES };

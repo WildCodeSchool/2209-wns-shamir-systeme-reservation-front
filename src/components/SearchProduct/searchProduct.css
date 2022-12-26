@@ -1,0 +1,26 @@
+.search_product_container{
+  border: 1px solid rgb(181, 180, 180);
+  height: 100%;
+  margin-left: 2rem;
+}
+
+.search_product_container label{
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.search_product_container input,
+.search_product_container select,
+.search_product_container button{
+  height: 3rem;
+}
+
+.search_product_container button{
+  font-size: 1.5rem;
+}
+
+.search_product_container .row{
+  margin-bottom: 2rem;
+}
+

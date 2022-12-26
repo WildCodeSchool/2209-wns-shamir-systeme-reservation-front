@@ -54,10 +54,6 @@ const Home = (products: IProduct[]) => {
             }
           </div>
 
-
-
-
-
         </div>
 
         <aside className='home_infos_one'>
