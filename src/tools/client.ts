@@ -1,9 +1,30 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
 
-// init connection to back
+const httpLink = createHttpLink({
+  uri: "http://localhost:5002",
+});
+
+// Middleware pour intecepter
+const authLink = setContext((_, { headers }) => {
+  // get token in localstore
+  const token = localStorage.getItem("token");
+
+  // stock token in headers
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : "",
+    },
+  };
+});
+
+// init connection to back (with a link the middleware + httpLink)
 const client = new ApolloClient({
-  uri: "http://localhost:5000",
-  cache: new InMemoryCache(),
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache({
+    addTypename: false,
+  }),
 });
 
 export default client;
