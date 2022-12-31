@@ -13,13 +13,4 @@ window.addEventListener("scroll", function () {
       navlink[i].classList.add("navPadding");
     }
   }
-
-  const btnNav = document.querySelector(".navbar-toggler");
-  const bar = document.querySelector(".bar");
-
-  btnNav.addEventListener("click", () => {
-    btnNav.classList.toggle("active");
-    bar.classList.toggle("transition");
-    btnNav.classList.toggle("hov");
-  });
 });

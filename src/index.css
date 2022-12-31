@@ -82,5 +82,19 @@ textarea.form-control {
 }
 
 header {
- /* margin-bottom: 300px; */
+  /* margin-bottom: 300px; */
+}
+
+.btnWild {
+  font-size: 16px !important;
+  background-color: #0d83ab !important;
+  color: #fff;
+  padding: 0.5em 1.8em !important;
+  border-radius: 4px !important;
+  border-color: #0d83ab !important;
+  display: inline-block !important;
+}
+.btnWild:hover {
+  background-color: #fff !important;
+  color: #0d83ab !important;
 }
