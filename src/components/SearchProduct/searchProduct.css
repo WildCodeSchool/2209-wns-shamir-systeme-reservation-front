@@ -4,10 +4,23 @@
   margin-left: 2rem;
 }
 
-.search_product_container label{
+.search_product_container label,
+.category_chackbox_title{
   text-transform: uppercase;
   font-weight: 700;
   margin-bottom: 0.5rem;
+}
+
+.category_chackbox{
+  display: flex;
+  align-items: center;
+}
+
+.category_chackbox label{
+ margin: 0;
+ text-transform: capitalize;
+ font-weight: 400;
+ margin-left: 1rem;
 }
 
 .search_product_container input,
@@ -22,5 +35,10 @@
 
 .search_product_container .row{
   margin-bottom: 2rem;
+}
+
+.errorMessage{
+  color: red;
+  text-align: center;
 }
 
