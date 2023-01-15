@@ -56,7 +56,7 @@ function Catalog({products, categories}: ICatalogProps ) {
       <Nav.Link href="/" className='go_back'>&#60; Accueil</Nav.Link>
       <div className='row'>
         <SearchProduct categories={categories} findBySearchTerm={findBySearchTerm} findByCategory={findByCategory} />
-        <div className="col-9 row justify-content-center">
+        <div className="col-lg-9 col-md-9 col-sm-10 row d-flex justify-content-center m-auto">
           { productsCatalog.map((product) => (
             <ProductCard key={product.id} {...product} />
           ))}

@@ -77,7 +77,7 @@ function SearchProduct({ categories, findBySearchTerm, findByCategory }: ISearch
 
   return (
 
-    <form className="col-2 d-flex-start shadow pt-5 pb-5 ml-5 mb-5 mt-4 bg-white rounded search_product_container" onSubmit={handleSubmit}>
+    <form className="col-lg-2 col-md-3 col-sm-10 col-11 m-auto shadow pt-5 pb-5 ml-5 mb-5 mt-4 bg-white rounded search_product_container" onSubmit={handleSubmit}>
       <div className="col-9 m-auto mb-5 row">
         <p className="category_chackbox_title" >categories</p>
         {

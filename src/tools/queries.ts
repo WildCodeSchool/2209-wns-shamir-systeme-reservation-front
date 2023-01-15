@@ -16,6 +16,22 @@ query getAllProducts {
   }
 }`
 
+const GET_HOME_PRODUCTS = gql`
+query getHomeProducts {
+  getHomeProducts {
+    category {
+      name
+      id
+    }
+    description
+    id
+    image
+    name
+    price
+    quantity
+  }
+}`
+
 const GET_ALL_CATEGORIES = gql`
 query getAllCategories {
   getAllCategories {
@@ -24,4 +40,4 @@ query getAllCategories {
   }
 }`
 
-export { GET_ALL_PRODUCTS, GET_ALL_CATEGORIES };
+export { GET_ALL_PRODUCTS, GET_ALL_CATEGORIES, GET_HOME_PRODUCTS };
