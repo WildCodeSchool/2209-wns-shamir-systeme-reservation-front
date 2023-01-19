@@ -8,11 +8,15 @@ import mountainMan from '../../assets/images/mountain_man2.jpg';
 import './home.css';
 import IProduct from '../../interfaces/IProduct';
 import ProductCard from '../../components/ProductCard/ProductCard';
+import Login from '../../components/LogIn/Login';
+import { useState } from 'react';
 
 const Home = (products: IProduct[]) => {
 
   // transforme un objet qui contient une liste d'objects en tableau d'objets
   const productsArray = Object.values(products);
+
+ 
 
   return (
     <div>
@@ -41,7 +45,6 @@ const Home = (products: IProduct[]) => {
       </header>
 
       <section className='home'>
-
         <div className='home_products px-4'>
           <h2>Derniers Produits Ajoutés</h2>
           <div className='row justify-content-center'>
@@ -53,9 +56,6 @@ const Home = (products: IProduct[]) => {
               ))
             }
           </div>
-
-
-
 
 
         </div>
