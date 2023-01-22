@@ -16,7 +16,7 @@ const NavbarMobile = ({setLoginOpen,loginOpen, logged, handleLogout} :any ) => {
         <Nav className="justify-content-end flex-grow-1 pe-3">
           <Nav.Link href="#" className="mx-4 my-auto linkIconMobile text-end">
            { !logged && <img className="loginIcon" src={login} alt="Profil" onClick={() => setLoginOpen(!loginOpen)} /> }
-           { logged && <p onClick={() => handleLogout()}  >LOGOUT</p> }
+           { logged && <p onClick={() => handleLogout()} >LOGOUT</p> }
 
           </Nav.Link>
         </Nav>

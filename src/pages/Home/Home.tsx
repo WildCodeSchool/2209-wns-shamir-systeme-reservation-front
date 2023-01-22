@@ -4,19 +4,16 @@ import service_rapide from '../../assets/images/foudre.png';
 import mountain from '../../assets/images/mountain.jpg';
 import fullSkieur from '../../assets/images/full_skieur.jpg';
 import mountainMan from '../../assets/images/mountain_man2.jpg';
-
-import './home.css';
 import IProduct from '../../interfaces/IProduct';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import Login from '../../components/LogIn/Login';
 import { useState } from 'react';
+import './home.css';
 
 const Home = (products: IProduct[]) => {
 
   // transforme un objet qui contient une liste d'objects en tableau d'objets
   const productsArray = Object.values(products);
-
- 
 
   return (
     <div>
@@ -56,7 +53,6 @@ const Home = (products: IProduct[]) => {
               ))
             }
           </div>
-
 
         </div>
 
