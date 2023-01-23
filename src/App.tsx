@@ -11,19 +11,21 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_ALL_CATEGORIES, GET_ALL_PRODUCTS } from "./tools/queries";
-import Home from './pages/Home/Home';
-import Catalog from './pages/Catalog/Catalog';
-import Contact from './pages/Contact/Contact';
-import Profile from './pages/Profile/Profile';
-import Basket from './pages/Basket/Basket';
+import Home from "./pages/Home/Home";
+import Catalog from "./pages/Catalog/Catalog";
+import Contact from "./pages/Contact/Contact";
+import Profile from "./pages/Profile/Profile";
+import Basket from "./pages/Basket/Basket";
 import IProduct from "./interfaces/IProduct";
 import ICategory from "./interfaces/ICategory";
 import Footer from "./components/Footer/Footer";
-
+import SignIn from "./pages/Authentification/SignIn";
+import { useMutation } from "@apollo/client";
+import "../src/components/NavBar/navbarScript";
+import { GET_TOKEN } from "./tools/mutation";
 
 
 function App() {
-
   const [products, setProducts] = useState<IProduct[]>([]);
   const [categories, setCategories] = useState<ICategory[]>([]);
 
@@ -39,18 +41,25 @@ function App() {
     },
   });
 
+  const [errorSign, setErroSign] = useState("");
+
+  // Mutation SignIn with getToken
+  const [loadToken] = useMutation(GET_TOKEN, {
+    onCompleted(data) {
+      // stock the token in localStore
+      localStorage.setItem("token", data.getToken);
+    },
+    onError(error) {
+      console.log(error.message);
+      setErroSign(error.message);
+    },
+  });
 
   return (
     <div>
-      {/* Les 2 navbar fixe top */}
       <NavbarMobile />
       <NavbarDesktop />
-
-      {/* navbar version mobile */}
       <NavbarResponsive />
-
-      
-    
       <Router>
           <Routes>
             <Route path="/" element={<Home {...products} />} />
@@ -58,6 +67,7 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/profil" element={<Profile />} />
             <Route path="/panier" element={<Basket />} />
+            <Route path="/login" element={<SignIn LoadToken={loadToken} errorSign={errorSign} />} />
           </Routes>
        </Router>
        <Footer />
