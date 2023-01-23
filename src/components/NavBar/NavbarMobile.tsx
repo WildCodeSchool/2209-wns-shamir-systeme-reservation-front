@@ -28,3 +28,4 @@ const NavbarMobile = ({setLoginOpen,loginOpen, logged} :any ) => {
 };
 
 export default NavbarMobile;
+

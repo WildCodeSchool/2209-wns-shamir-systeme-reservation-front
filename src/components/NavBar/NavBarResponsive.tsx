@@ -35,3 +35,4 @@ const NavbarResponse = ({ logged, setIsMenuUserOpen, isMenuUserOpen}: any) => {
 };
 
 export default NavbarResponse;
+

@@ -6,7 +6,7 @@ import "./navbarScript";
 import { Container, Navbar, Offcanvas } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
 
-const NavbarDesktop = ({setLoginOpen,loginOpen, logged, setIsMenuUserOpen, isMenuUserOpen } :any ) => {
+const NavbarDesktop = ({ setLoginOpen, loginOpen, logged, setIsMenuUserOpen, isMenuUserOpen }: any) => {
   return (
     <Navbar expand="md" className="mb-3 fixed-top py-0" id="mainNav">
       <Container fluid>
@@ -35,15 +35,15 @@ const NavbarDesktop = ({setLoginOpen,loginOpen, logged, setIsMenuUserOpen, isMen
               <Nav.Link href="/contact" className="nav-link mx-4 linkPage">
                 Contact
               </Nav.Link>
-            {logged &&  <Nav.Link className="nav-link mx-4 my-auto linkIcon">
+              {logged && <Nav.Link className="nav-link mx-4 my-auto linkIcon">
                 <img className="profilIcon" src={profil} alt="Profil" onClick={() => setIsMenuUserOpen(!isMenuUserOpen)} />
-              </Nav.Link> }
-             {!logged && <Nav.Link className="nav-link mx-4 linkPage " onClick={() => setLoginOpen(!loginOpen)}>
-             Se connecter / S'inscrire
-              </Nav.Link> }
+              </Nav.Link>}
+              {!logged && <Nav.Link className="nav-link mx-4 linkPage " onClick={() => setLoginOpen(!loginOpen)}>
+                Se connecter / S'inscrire
+              </Nav.Link>}
               {logged && <Nav.Link href="/panier" className="nav-link mx-4 my-auto linkIcon">
                 <img className="panierIcon" src={panier} alt="Panier" />
-              </Nav.Link> }
+              </Nav.Link>}
             </Nav>
           </Offcanvas.Body>
         </Navbar.Offcanvas>
@@ -53,3 +53,4 @@ const NavbarDesktop = ({setLoginOpen,loginOpen, logged, setIsMenuUserOpen, isMen
 };
 
 export default NavbarDesktop;
+
