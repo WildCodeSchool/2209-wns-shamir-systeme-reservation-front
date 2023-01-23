@@ -6,7 +6,7 @@ import "./navbarScript";
 import { Container, Navbar } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
 
-const NavbarResponse = () => {
+const NavbarResponse = ({ logged, setIsMenuUserOpen, isMenuUserOpen}: any) => {
   return (
     <Navbar expand="md" className="fixed-bottom py-0" id="mainNavResponsive">
       <Container fluid className="justify-content-center">
@@ -21,11 +21,13 @@ const NavbarResponse = () => {
             <br />
             Produits
           </Nav.Link>
-          <Nav.Link href="/profil" className="my-auto linkIconResponsive text-center">
-            <img className="produitIcon" src={profil} alt="Profil" />
+          { logged && 
+          <Nav.Link className="my-auto linkIconResponsive text-center">
+            <img className="produitIcon" src={profil} alt="Profil" onClick={() => setIsMenuUserOpen(!isMenuUserOpen)}/>
             <br />
             Profil
           </Nav.Link>
+          }
         </Nav>
       </Container>
     </Navbar>

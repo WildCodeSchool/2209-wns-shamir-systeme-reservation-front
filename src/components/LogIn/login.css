@@ -1,7 +1,7 @@
 .login_container{
   width: 100%;
   display: flex;
-  position: absolute;
+  position: fixed;
   justify-content: center;
   margin-top: 20rem;
   z-index: 100;
@@ -23,6 +23,15 @@
 
 .login button {
   width: 20rem;
+ }
+
+ .login h4:first-child {
+  padding-top: 6rem;
+ }
+
+ .login{
+  position: fixed;
+  top: 5rem;
  }
 
 

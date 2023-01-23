@@ -1,0 +1,26 @@
+[33mcommit ff91906b61f0b18d542cadc8628f132a20e7d88e[m[33m ([m[1;36mHEAD -> [m[1;32mcomposant_login_signin[m[33m)[m
+Author: Della Biancia <andreadellabiancia@gmail.com>
+Date:   Sun Jan 22 15:38:00 2023 +0100
+
+    :rocket: US06 - US07
+
+[33mcommit d6c75d9dc1c3f473214959b6d04dde351e365d5f[m
+Author: Della Biancia <andreadellabiancia@gmail.com>
+Date:   Thu Jan 19 13:40:18 2023 +0100
+
+    login version mobile
+
+[33mcommit 5853b127433ad6206713fdc2b7c86f1c1e595c57[m[33m ([m[1;31morigin/dev[m[33m, [m[1;32mdev[m[33m)[m
+Merge: 6b33078 99afb02
+Author: AndreaDellaBiancia <86592793+AndreaDellaBiancia@users.noreply.github.com>
+Date:   Fri Dec 23 16:54:51 2022 +0100
+
+    Merge pull request #8 from WildCodeSchool/home_dynamique
+    
+    Liaison composant Product et Home
+
+[33mcommit 99afb02b7ac57efc9d6876e1f2ada64d124f7e34[m[33m ([m[1;31morigin/home_dynamique[m[33m, [m[1;32mhome_dynamique[m[33m)[m
+Author: Della Biancia <andreadellabiancia@gmail.com>
+Date:   Fri Dec 23 16:50:01 2022 +0100
+
+    Liaison composant Product et Home

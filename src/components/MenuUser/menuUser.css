@@ -1,0 +1,45 @@
+.menuUser_container{
+  width: 100%;
+  display: flex;
+  position: absolute;
+  justify-content: center;
+  margin-top: 10rem;
+  z-index: 100;
+  font-size: 2rem;
+}
+.menuUser_container div:nth-child(2),
+.menuUser_container div:first-child {
+  border-bottom: 2px solid #9dbcd3;
+  padding: 2rem;
+  color: #9dbcd3 ;
+}
+
+.menuUser_container div:nth-child(3){
+  padding: 2rem;
+  color:  #9dbcd3;
+}
+
+.menuUser_container div:hover{
+  background-color: #9dbcd3;
+  color: white;
+  cursor: pointer;
+}
+
+.menuUser div:first-child {
+  padding-top: 8rem;
+ }
+
+ .menuUser{
+  position: fixed;
+  top: 5rem;
+ }
+
+@media (min-width: 700px) {
+  .menuUser_container{
+    width: 100%;
+    display: flex;
+    position: absolute;
+    justify-content: flex-end;
+    margin-top: 8rem;
+  }
+}

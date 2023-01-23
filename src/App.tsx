@@ -21,6 +21,8 @@ import Footer from "./components/Footer/Footer";
 import Login from "./components/LogIn/Login";
 import {GET_TOKEN, CREATE_USER} from "./tools/mutations";
 import Signin from "./pages/Singin/Signin";
+import NavBarUser from "./components/MenuUser/MenuUser";
+import MenuUser from "./components/MenuUser/MenuUser";
 
 
 
@@ -28,6 +30,7 @@ function App() {
 
   const [products, setProducts] = useState<IProduct[]>([]);
   const [loginOpen, setLoginOpen] = useState<boolean>(false);
+  const [isMenuUserOpen, setIsMenuUserOpen] = useState<boolean>(false);
   const [loginError, setLoginError] = useState<boolean>(false);
   const [logged, setLogged] = useState<boolean>(false);
 
@@ -37,6 +40,9 @@ function App() {
       setLogged(true);
     }
   }, []);
+
+
+
 
   const { loading, data, error } = useQuery(GET_ALL_PRODUCTS, {
     onCompleted: (data) => {
@@ -65,6 +71,7 @@ function App() {
   const handleLogout = () => {
     setLogged(false);
     localStorage.removeItem("token");
+    setIsMenuUserOpen(!isMenuUserOpen);
   } 
 
   const handleRegister = (lastname: string, firstname: string, email: string, phone: string, password: string, passwordConfirm: string)=> {  
@@ -80,25 +87,27 @@ function App() {
   return (
     <div className="app">
       {/* Les 2 navbar fixe top */}
-      <NavbarMobile setLoginOpen={setLoginOpen} loginOpen={loginOpen} logged={logged} handleLogout={handleLogout}/>
-      <NavbarDesktop setLoginOpen={setLoginOpen} loginOpen={loginOpen} logged={logged} handleLogout={handleLogout}/>
+      <NavbarMobile setLoginOpen={setLoginOpen} loginOpen={loginOpen} logged={logged} handleLogout={handleLogout} isMenuUserOpen={isMenuUserOpen} setIsMenuUserOpen={setIsMenuUserOpen} />
+      <NavbarDesktop setLoginOpen={setLoginOpen} loginOpen={loginOpen} logged={logged} handleLogout={handleLogout} isMenuUserOpen={isMenuUserOpen} setIsMenuUserOpen={setIsMenuUserOpen}/>
 
       {/* navbar version mobile */}
-      <NavbarResponsive />
+      <NavbarResponsive  logged={logged} isMenuUserOpen={isMenuUserOpen} setIsMenuUserOpen={setIsMenuUserOpen} />
 
       {loginOpen && <Login handleLogin={handleLogin} loginError={loginError} setLoginError={setLoginError}/>}
+      {isMenuUserOpen && <MenuUser handleLogout={handleLogout} />}
+   
+        <Router>
+          <Routes>
+            <Route path="/" element={<Home {...products} />} />
+            <Route path="/catalogue" element={<Catalog {...products} />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/profil" element={<Profile />} />
+            <Route path="/panier" element={<Basket />} />
+            <Route path="/inscription" element={<Signin handleRegister={handleRegister} />} />
+          </Routes>
+        </Router>
+        <Footer />
 
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home {...products} />} />
-          <Route path="/catalogue" element={<Catalog {...products} />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/profil" element={<Profile />} />
-          <Route path="/panier" element={<Basket />} />
-          <Route path="/inscription" element={<Signin handleRegister={handleRegister} />} />
-        </Routes>
-      </Router>
-      <Footer />
     </div>
   );
 }
