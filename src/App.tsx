@@ -10,7 +10,7 @@ import NavbarMobile from "./components/NavBar/NavbarMobile";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useMutation, useQuery } from "@apollo/client";
-import { GET_ALL_PRODUCTS } from "./tools/queries";
+import { GET_ALL_CATEGORIES, GET_ALL_PRODUCTS } from "./tools/queries";
 import Home from './pages/Home/Home';
 import Catalog from './pages/Catalog/Catalog';
 import Contact from './pages/Contact/Contact';
@@ -20,9 +20,9 @@ import IProduct from "./interfaces/IProduct";
 import Footer from "./components/Footer/Footer";
 import Login from "./components/LogIn/Login";
 import {GET_TOKEN, CREATE_USER} from "./tools/mutations";
-import Signin from "./pages/Singin/Signin";
-import NavBarUser from "./components/MenuUser/MenuUser";
+import Signin from "./pages/Signin/Signin";
 import MenuUser from "./components/MenuUser/MenuUser";
+import ICategory from "./interfaces/ICategory";
 
 
 
@@ -33,6 +33,7 @@ function App() {
   const [isMenuUserOpen, setIsMenuUserOpen] = useState<boolean>(false);
   const [loginError, setLoginError] = useState<boolean>(false);
   const [logged, setLogged] = useState<boolean>(false);
+  const [categories, setCategories] = useState<ICategory[]>([]);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -41,7 +42,11 @@ function App() {
     }
   }, []);
 
-
+  const { loading : loadingCategory, data : dataCategory, error : errorCategory } = useQuery(GET_ALL_CATEGORIES, {
+    onCompleted: (dataCategory) => {
+      setCategories(dataCategory.getAllCategories);
+    },
+  });
 
 
   const { loading, data, error } = useQuery(GET_ALL_PRODUCTS, {
@@ -99,7 +104,7 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<Home {...products} />} />
-            <Route path="/catalogue" element={<Catalog {...products} />} />
+            <Route path="/catalogue" element={<Catalog products={products} categories={categories}/>} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/profil" element={<Profile />} />
             <Route path="/panier" element={<Basket />} />

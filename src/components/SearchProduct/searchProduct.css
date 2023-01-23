@@ -1,6 +1,6 @@
 .search_product_container{
   border: 1px solid rgb(181, 180, 180);
-  height: 100%;
+  height: fit-content;
   margin-left: 2rem;
 }
 
