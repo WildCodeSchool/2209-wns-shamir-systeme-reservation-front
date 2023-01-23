@@ -7,7 +7,7 @@ import "bootstrap/js/src/collapse.js";
 import NavbarDesktop from "./components/NavBar/NavbarDesktop";
 import NavbarResponsive from "./components/NavBar/NavBarResponsive";
 import NavbarMobile from "./components/NavBar/NavbarMobile";
-import { BrowserRouter as Router, Routes, Route, redirect } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { GET_ALL_PRODUCTS } from "./tools/queries";

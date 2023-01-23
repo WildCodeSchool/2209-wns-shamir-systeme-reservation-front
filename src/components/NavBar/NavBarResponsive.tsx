@@ -2,7 +2,6 @@ import boutique from "../../assets/images/boutique.png";
 import produit from "../../assets/images/produit.png";
 import profil from "../../assets/images/profil.png";
 import "./navbar.css";
-import "./navbarScript";
 import { Container, Navbar } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
 
@@ -16,12 +15,18 @@ const NavbarResponse = () => {
             <br />
             Accueil
           </Nav.Link>
-          <Nav.Link href="/catalogue" className="my-auto linkIconResponsive text-center">
+          <Nav.Link
+            href="/catalogue"
+            className="my-auto linkIconResponsive text-center"
+          >
             <img className="produitIcon" src={produit} alt="Profil" />
             <br />
             Produits
           </Nav.Link>
-          <Nav.Link href="/profil" className="my-auto linkIconResponsive text-center">
+          <Nav.Link
+            href="/profil"
+            className="my-auto linkIconResponsive text-center"
+          >
             <img className="produitIcon" src={profil} alt="Profil" />
             <br />
             Profil
