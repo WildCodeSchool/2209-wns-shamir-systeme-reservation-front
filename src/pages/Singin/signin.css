@@ -1,0 +1,49 @@
+.signin {
+  padding-top: 17rem;
+  margin-top: 3rem;
+  z-index: -1;
+
+}
+
+
+.signin div{
+ position: relative;
+
+}
+.signin button, 
+.signin label, 
+.signin input {
+  font-size: 2rem;
+}
+
+.signin p {
+  font-size: 1.3rem;
+ }
+
+
+.signin .eye {
+  display: block;
+  position: absolute;
+  z-index: 1;
+  width: 5rem;
+  right: 0;
+  bottom : 0;
+}
+
+.signin .eyeError {
+  display: block;
+  position: absolute;
+  z-index: 1;
+  width: 5rem;
+  right: 0;
+  bottom : 3rem;
+}
+
+.signin .info_password {
+  width: 3rem;
+}
+
+.error {
+  border: 2px solid red;
+}
+

@@ -4,10 +4,11 @@ import service_rapide from '../../assets/images/foudre.png';
 import mountain from '../../assets/images/mountain.jpg';
 import fullSkieur from '../../assets/images/full_skieur.jpg';
 import mountainMan from '../../assets/images/mountain_man2.jpg';
-
-import './home.css';
 import IProduct from '../../interfaces/IProduct';
 import ProductCard from '../../components/ProductCard/ProductCard';
+import Login from '../../components/LogIn/Login';
+import { useState } from 'react';
+import './home.css';
 
 const Home = (products: IProduct[]) => {
 
@@ -40,7 +41,6 @@ const Home = (products: IProduct[]) => {
       </header>
 
       <section className='home'>
-
         <div className='home_products px-4'>
           <h2>Derniers Produits Ajoutés</h2>
           <div className='row justify-content-center'>
