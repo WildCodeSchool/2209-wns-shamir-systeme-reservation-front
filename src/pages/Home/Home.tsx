@@ -16,7 +16,6 @@ const Home = (products: IProduct[]) => {
 
   return (
     <div>
-
       <header className='header_home' >
         <p className='header_home_title'>Renting Skis has never been easier before !</p>
         <button className="btn search_product">
@@ -53,10 +52,6 @@ const Home = (products: IProduct[]) => {
               ))
             }
           </div>
-
-
-
-
 
         </div>
 

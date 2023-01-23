@@ -7,7 +7,7 @@ function ProductCard(product: IProduct) {
 
   return (
 
-  <Card className={product.description ? "col-4 m-4 p-4" : "col-12 col-md-2 card_product"} >
+  <Card className={product.description ? "col-lg-3 col-md-5 col-sm-10 col-11 m-4 p-4 "  : "col-12 col-md-2 card_product"} >
 
 
     <Card.Img alt={product.name} src={product.image} />
@@ -19,7 +19,7 @@ function ProductCard(product: IProduct) {
       <Card.Text className="mt-4">Prix / Jour : <span className="fw-bold fs-2">{product.price} €</span></Card.Text>
     </Card.Body>
     {
-      product.description ? (<Button className="fs-2 p-3 col-5 m-auto">Ajouter au panier</Button>) : ""
+      product.description ? (<Button className="fs-2 p-3 col-7 m-auto">Ajouter au panier</Button>) : ""
     }
     
   </Card>
