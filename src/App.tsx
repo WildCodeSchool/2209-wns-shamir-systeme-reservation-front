@@ -66,7 +66,7 @@ function App() {
         localStorage.setItem('token', data.getToken);
         setLoginError(false);
         setLogged(true);
-        setLoginOpen(!loginOpen);
+        setLoginOpen(false);
         window.location.href = '/';
       }).catch(error => {
         setLoginError(true);

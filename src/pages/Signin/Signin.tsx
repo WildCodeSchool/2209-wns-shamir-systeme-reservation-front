@@ -61,8 +61,8 @@ function Signin({handleRegister}: ISigninProps) {
   const handleSubmit = (e: any): void => {
     e.preventDefault();
 
-    // Regex pour le mot de passe : Minimum 8 caracteres, minimum une lettre maj. , minimum une lettre min. , minimum un chiffre    
-    const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+    // Regex pour le mot de passe : Minimum 12 caracteres, minimum une lettre maj. , minimum une lettre min. , minimum un chiffre, minimum un caractere special    
+    const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{12,}$/;
     //Regex pour le telephone : tous les numeros français 
     const regexPhone = /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/;
 
