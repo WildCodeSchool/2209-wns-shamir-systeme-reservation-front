@@ -5,8 +5,11 @@ import info from "../../assets/images/info.svg";
 
 import './signin.css';
 import ISigninProps from '../../interfaces/ISigninProps';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 
-function Signin({handleRegister}: ISigninProps) {
+function Signin({ handleRegister, isEmailAlredyExist }: ISigninProps) {
 
   const [lastname, setLastname] = useState<string>('');
   const [isLastnameError, setIsLastnameError] = useState<boolean>(false);
@@ -85,12 +88,12 @@ function Signin({handleRegister}: ISigninProps) {
         setIsPhoneError(true);
         setPhoneErrorMessage("Votre numero de telephone n'est pas correct");
       }
-    }else{
+    } else {
       setIsPhoneError(true);
       setPhoneErrorMessage("Saisissez votre numéro de téléphone");
     }
 
-     // On test le mdp  avec regexPassword
+    // On test le mdp  avec regexPassword
     if (password) {
       if (regexPassword.test(password)) {
         passwordDone = true;
@@ -99,7 +102,7 @@ function Signin({handleRegister}: ISigninProps) {
         setIsPasswordError(true);
         setPasswordErrorMessage("Votre mot de passe n'est pas correct");
       }
-    }else{
+    } else {
       setIsPasswordError(true);
       setPasswordErrorMessage("Saisissez votre mot de passe");
     }
@@ -109,60 +112,72 @@ function Signin({handleRegister}: ISigninProps) {
       if (password === passwordConfirm) {
         passwordConfirmDone = true;
         setIsPasswordConfirmError(false);
-      }else{
+      } else {
         setIsPasswordConfirmError(true);
         setPasswordConfirmErrorMessage("Les mots de passe ne correspondent pas");
       }
-    }else{
+    } else {
       setIsPasswordConfirmError(true);
       setPasswordConfirmErrorMessage("Saisissez à nouveau votre mot de passe");
     }
 
     // Dans le cas on a pas d'erreur et tous les champs ont été replis on utilise la fonction handleRegister pour enregistrer le nouveau utilisateur
-    if (lastnameDone && firstnameDone && emailDone && phoneDone && passwordDone && passwordConfirmDone ) {
-      handleRegister(lastname, firstname, email, phone, password, passwordConfirm); 
+    if (lastnameDone && firstnameDone && emailDone && phoneDone && passwordDone && passwordConfirmDone) {
+      handleRegister(lastname, firstname, email, phone, password, passwordConfirm);
     }
   }
 
   return (
     <div className="signin row">
       <h1 className='text-center'>INSCRIPTION</h1>
-      <form className="col-xl-4 col-lg-6 col-md-8 col-sm-10 col-11 m-auto shadow pt-5 pb-5 ml-5 mb-5 mt-4 bg-white rounded search_product_container" onSubmit={handleSubmit}>
+         <form className="col-xl-4 col-lg-6 col-md-8 col-sm-10 col-11 m-auto shadow ml-5 mb-5 bg-white rounded search_product_container" onSubmit={handleSubmit}>
+   
+      <div className=" RetourProfila">
+          <Link className="text-dark RetourProfil text-decoration-none" to="/" >
+            <FontAwesomeIcon
+              icon={faChevronLeft}
+              className="fas fa-chevron-left me-3 iconRetourProfil"
+            />
+            Accueil
+          </Link>
+        </div>
         <div className="col-10 m-auto mb-5 row">
           <label htmlFor="lastname">NOM *</label>
-          <input name="lastname" type="text" onChange={handleLastname} className={ isLastnameError ? 'error' : '' } />
-          { isLastnameError && <p style={{color: "red"}}>Saisissez votre nom</p> }
+          <input name="lastname" type="text" onChange={handleLastname} className={isLastnameError ? 'error form-control' : 'form-control'} />
+          {isLastnameError && <p style={{ color: "red" }}>Saisissez votre nom</p>}
         </div>
         <div className="col-10 m-auto mb-5 row">
           <label htmlFor="firstname">PRENOM *</label>
-          <input name="firstname" type="text" onChange={handleFirstname} className={ isFirstnameError ? 'error' : '' }/>
-         { isFirstnameError && <p style={{color: "red"}}>Saisissez votre prenom</p> }
+          <input name="firstname" type="text" onChange={handleFirstname} className={isFirstnameError ? 'error form-control' : 'form-control'} />
+          {isFirstnameError && <p style={{ color: "red" }}>Saisissez votre prenom</p>}
         </div>
         <div className="col-10 m-auto mb-5 row">
           <label htmlFor="email">EMAIL *</label>
-          <input name="email" type="email" onChange={handleEmail} className={ isEmailError ? 'error' : '' }/>
-          { isEmailError && <p style={{color: "red"}}>Saisissez votre adresse e-mail</p> }
+          <input name="email" type="email" onChange={handleEmail} className={isEmailError ? 'error form-control' : 'form-control'} />
+          {isEmailError && <p style={{ color: "red" }}>Saisissez votre adresse e-mail</p>}
+          {isEmailAlredyExist && <p style={{ color: "red" }}>Cette adresse mail est déjà enregistrée</p>}
+
         </div>
         <div className="col-10 m-auto mb-5 row">
           <label htmlFor="phone">TELEPHONE *</label>
-          <input name="phone" type="text" onChange={handlePhone} className={ isPhoneError ? 'error' : '' }/>
-          { isPhoneError && <p style={{color: "red"}}>{phoneErrorMessage}</p> }
+          <input name="phone" type="text" onChange={handlePhone} className={isPhoneError ? 'error form-control' : 'form-control'} />
+          {isPhoneError && <p style={{ color: "red" }}>{phoneErrorMessage}</p>}
         </div>
         <div className="col-10 m-auto mb-5 row">
           <label htmlFor="password" className='d-flex justify-content-start'>MOT DE PASSE * <img className="info_password ms-4" src={info} alt="closeEye" data-toggle="tooltip" data-placement="top" title="8 caractères minimum, au moins une lettre minuscule, une lettre majuscule un chiffre." /></label>
-          <input name="password" type={isShowPassword ? 'text' : 'password'} onChange={handlePassword} className={ isPasswordError ? 'error' : '' }/>
+          <input name="password" type={isShowPassword ? 'text' : 'password'} onChange={handlePassword} className={isPasswordError ? 'error form-control' : 'form-control'} />
           {!isShowPassword && <img className={isPasswordError ? ' eyeError ms-4' : 'eye ms-4'} src={closeEye} alt="closeEye" onClick={handleShowPassword} />}
           {isShowPassword && <img className={isPasswordError ? ' eyeError ms-4' : 'eye ms-4'} src={openEye} alt="openEye" onClick={handleShowPassword} />}
-          { isPasswordError && <p style={{color: "red"}}>{passwordErrorMessage}</p>}
+          {isPasswordError && <p style={{ color: "red" }}>{passwordErrorMessage}</p>}
         </div>
         <div className="col-10 m-auto mb-5 row">
           <label htmlFor="passwordConfirm">CONFIRMATION DU MOT DE PASSE *</label>
-          <input name="passwordConfirm" type={isShowPasswordConfirm ? 'text' : 'password'} onChange={handlePasswordConfirm} className={ isPasswordConfirmError ? 'error' : '' }/>
-          {!isShowPasswordConfirm && <img className={isPasswordConfirmError ? ' eyeError ms-4' : 'eye ms-4'} src={closeEye} alt="closeEye" onClick={handleShowPasswordConfirm}  />}
+          <input name="passwordConfirm" type={isShowPasswordConfirm ? 'text' : 'password'} onChange={handlePasswordConfirm} className={isPasswordConfirmError ? 'error form-control' : 'form-control'} />
+          {!isShowPasswordConfirm && <img className={isPasswordConfirmError ? ' eyeError ms-4' : 'eye ms-4'} src={closeEye} alt="closeEye" onClick={handleShowPasswordConfirm} />}
           {isShowPasswordConfirm && <img className={isPasswordConfirmError ? ' eyeError ms-4' : 'eye ms-4'} src={openEye} alt="openEye" onClick={handleShowPasswordConfirm} />}
-          { isPasswordConfirmError && <p style={{color: "red"}}>{passwordConfirmErrorMessage}</p>}
+          {isPasswordConfirmError && <p style={{ color: "red" }}>{passwordConfirmErrorMessage}</p>}
         </div>
-        <div className="row"><button type="submit" className="btn btn-primary col-7 m-auto" >S'inscrire</button></div>
+        <div className="row"><button type="submit" className="btn btn-primary col-5 m-auto  mt-4" >S'inscrire</button></div>
 
       </form>
     </div>

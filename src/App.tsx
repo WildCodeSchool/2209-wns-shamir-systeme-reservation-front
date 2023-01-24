@@ -34,6 +34,8 @@ function App() {
   const [loginError, setLoginError] = useState<boolean>(false);
   const [logged, setLogged] = useState<boolean>(false);
   const [categories, setCategories] = useState<ICategory[]>([]);
+  const [isEmailAlredyExist, setIsEmailAlredyExist] = useState<boolean>(false);
+
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -83,8 +85,11 @@ function App() {
     createUser({ variables: { firstname, lastname, phone, email, password, passwordConfirm}} )
     .then(({ data }) => {
         handleLogin(email, password);
+        setIsEmailAlredyExist(false);
     }).catch(error => {
       console.log(error);   
+      setIsEmailAlredyExist(true);
+
       });
     
   } 
@@ -108,7 +113,7 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/profil" element={<Profile />} />
             <Route path="/panier" element={<Basket />} />
-            <Route path="/inscription" element={<Signin handleRegister={handleRegister} />} />
+            <Route path="/inscription" element={<Signin handleRegister={handleRegister} isEmailAlredyExist={isEmailAlredyExist} />} />
           </Routes>
         </Router>
         <Footer />
