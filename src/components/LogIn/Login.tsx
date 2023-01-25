@@ -46,7 +46,7 @@ function Login({handleLogin, loginError,  setLoginError}: any) {
         </div>
         <div className="row"><button type="submit" className="btn btn-primary mb-3 m-auto" >Se connecter</button></div>
         { errorMessage && <p  className="col-9 m-auto mb-2 mt-4 row text-center" style={{color: "red"}}>Saisissez un mail et un mot de passe</p>}
-        { loginError && <p className="col-9 m-auto mb-2 mt-4 row text-center" style={{color: "red"}}>Les donées saisies ne sont pas correctes</p>}    
+        { loginError && <p className="col-9 m-auto mb-2 mt-4 row text-center" style={{color: "red"}}>Les données saisies ne sont pas correctes</p>}    
 
         <hr style={{width: "80%", margin: "0 auto"}}/>
         <h4 className="d-flex justify-content-center col-9 m-auto mb-3 mt-3 row  text-center"><strong>Nouveau client ?</strong></h4>

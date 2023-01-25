@@ -1,0 +1,36 @@
+.adminsidebar_container {
+    width: 20vw;
+    height: 80vh;
+    padding-block-start: 10rem;
+}
+
+.link {
+    font-family: "Poppins";
+    color: rgb(83, 81, 81);
+    text-decoration: none;
+    display: inline-block;
+    position: relative;
+    font-size: 2rem;
+}
+
+.link:after {
+    content: '';
+    position: absolute;
+    left: 51%;
+    right: 51%;
+    bottom: 0;
+    background: rgb(0, 0, 0);
+    height: 0.3rem;
+    transition-property: left, right;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+}
+
+.link:hover {
+    color: black;
+}
+
+.link:hover::after {
+    left: 0;
+    right: 0;
+}

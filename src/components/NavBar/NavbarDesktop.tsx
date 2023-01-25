@@ -1,10 +1,13 @@
 import logo from "../../assets/images/512.png";
 import profil from "../../assets/images/48.png";
 import panier from "../../assets/images/47.png";
+import { MdSettings } from "react-icons/md";
 import "./navbar.css";
 import "./navbarScript";
 import { Container, Navbar, Offcanvas } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
+import isAdmin from "../../tools/isAdmin";
+
 
 const NavbarDesktop = ({ setLoginOpen, loginOpen, logged, setIsMenuUserOpen, isMenuUserOpen }: any) => {
   return (
@@ -41,7 +44,13 @@ const NavbarDesktop = ({ setLoginOpen, loginOpen, logged, setIsMenuUserOpen, isM
               {!logged && <Nav.Link className="nav-link mx-4 linkPage " onClick={() => setLoginOpen(!loginOpen)}>
                 Se connecter / S'inscrire
               </Nav.Link>}
-              {logged && <Nav.Link href="/panier" className="nav-link mx-4 my-auto linkIcon">
+              {isAdmin(localStorage.token) ? 
+              logged && 
+              <Nav.Link href="/admin" className="nav-link mx-4 my-auto linkIcon">
+                <MdSettings className="text-black settingsIcon"/> 
+              </Nav.Link>
+              : logged && 
+              <Nav.Link href="/panier" className="nav-link mx-4 my-auto linkIcon">
                 <img className="panierIcon" src={panier} alt="Panier" />
               </Nav.Link>}
             </Nav>

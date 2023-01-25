@@ -1,0 +1,23 @@
+.admin_container {
+    margin-block-start: 12rem;
+}
+
+.admin_container h1 {
+    font-size: 4rem;
+}
+
+.edit_icon {
+    color: rgb(48, 184, 48);
+}
+
+.delete_icon {
+    color: rgb(247, 36, 36);
+}
+
+.product_container,
+.customer_container,
+.category_container,
+.reservation_container {
+    width: 80vw;
+    padding-inline: 3rem;
+}
