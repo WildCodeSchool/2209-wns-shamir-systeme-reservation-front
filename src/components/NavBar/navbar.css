@@ -17,6 +17,9 @@
 .panierIcon {
   max-width: 35px;
 }
+.settingsIcon {
+  font-size: 35px;
+}
 .linkIcon,
 .linkIconMobile {
   transition: 0.3s !important;

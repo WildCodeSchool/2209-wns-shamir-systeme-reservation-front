@@ -5,9 +5,9 @@ const httpLink = createHttpLink({
   uri: "http://localhost:5000",
 });
 
-// Middleware pour intecepter
+// Middleware pour intercepter
 const authLink = setContext((_, { headers }) => {
-  // get token in localstore
+  // get token in localStore
   const token = localStorage.getItem("token");
 
   // stock token in headers
