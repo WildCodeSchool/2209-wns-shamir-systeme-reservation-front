@@ -136,7 +136,12 @@ function App() {
           <Route path="/panier" element={<Basket products={products} categories={categories}/>} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin/customers" element={<AdminCustomers />} />
-          <Route path="/admin/products" element={<AdminProducts products={products} categories={categories}/>} />
+          <Route
+            path="/admin/products"
+            element={
+              <AdminProducts products={products} categories={categories} />
+            }
+          />
           <Route path="/admin/categories" element={<AdminCategories />} />
           <Route path="/admin/reservations" element={<AdminReservations />} />
           <Route

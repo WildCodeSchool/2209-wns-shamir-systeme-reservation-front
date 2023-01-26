@@ -7,7 +7,6 @@ const isAdmin = (token) => {
 
     // Check if the token is valid
     if (decoded) {
-        console.log(decoded.role[0].name);
       return (decoded.role[0].name === "ADMIN");
     }
   } catch (err) {

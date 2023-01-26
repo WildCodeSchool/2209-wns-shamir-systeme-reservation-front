@@ -1,7 +1,8 @@
 .adminsidebar_container {
     width: 20vw;
     height: 80vh;
-    padding-block-start: 10rem;
+    padding-block-start: 15rem;
+    padding-inline-end: 2rem;
 }
 
 .link {
