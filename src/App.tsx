@@ -133,7 +133,8 @@ function App() {
           <Route path="/catalogue" element={<Catalog products={products} categories={categories} handleFindByDate={handleFindByDate} productsByDate={productsByDate} reloadAllProducts={reloadAllProducts} />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/profil" element={<Profile />} />
-          <Route path="/panier" element={<Basket products={products} categories={categories}/>} />          <Route path="/admin" element={<Admin />} />
+          <Route path="/panier" element={<Basket products={products} categories={categories}/>} />
+          <Route path="/admin" element={<Admin />} />
           <Route path="/admin/customers" element={<AdminCustomers />} />
           <Route path="/admin/products" element={<AdminProducts products={products} categories={categories}/>} />
           <Route path="/admin/categories" element={<AdminCategories />} />
