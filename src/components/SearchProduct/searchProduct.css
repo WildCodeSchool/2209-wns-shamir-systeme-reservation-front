@@ -4,6 +4,7 @@
   margin-left: 2rem;
 }
 
+
 .search_product_container label,
 .category_chackbox_title{
   text-transform: uppercase;
@@ -14,6 +15,7 @@
 .category_chackbox{
   display: flex;
   align-items: center;
+  margin: 0.6rem 0;
 }
 
 .category_chackbox label{
@@ -27,6 +29,17 @@
 .search_product_container select,
 .search_product_container button{
   height: 3rem;
+}
+
+.search_product_container .date,
+.search_product_container .searchTerm {
+  font-size: 1.7rem;
+}
+
+.search_product_container  .form-check-input{
+  height: 2rem;
+  width: 2rem;
+  margin-top: 0;
 }
 
 .search_product_container button{

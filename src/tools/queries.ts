@@ -40,4 +40,20 @@ query getAllCategories {
   }
 }`
 
-export { GET_ALL_PRODUCTS, GET_ALL_CATEGORIES, GET_HOME_PRODUCTS };
+const GET_PRODUCTS_BY_DATE = gql`
+query getProductsByDate($dateFrom: String!, $dateTo: String!) {
+  getProductsByDate(dateFrom: $dateFrom, dateTo: $dateTo) {
+    category {
+      name
+      id
+    }
+    description
+    id
+    image
+    name
+    price
+    quantity
+  }
+}`
+
+export { GET_ALL_PRODUCTS, GET_ALL_CATEGORIES, GET_HOME_PRODUCTS, GET_PRODUCTS_BY_DATE };

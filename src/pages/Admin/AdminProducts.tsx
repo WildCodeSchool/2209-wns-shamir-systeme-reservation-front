@@ -5,11 +5,11 @@ import {
 } from "react-icons/md";
 import AdminSidebar from "../../components/AdminSidebar/AdminSidebar";
 import Table from "react-bootstrap/Table";
-import ICatalogProps from "../../interfaces/ICatalogProps";
 import { useEffect, useState } from "react";
 import IProduct from "../../interfaces/IProduct";
+import IAdminProductProps from "../../interfaces/IAdminProductProps";
 
-const AdminProducts = ({ products, categories }: ICatalogProps) => {
+const AdminProducts = ({ products, categories }: IAdminProductProps) => {
   const [productsAdmin, setProductsAdmin] = useState<IProduct[]>([]);
 
   useEffect(() => {
