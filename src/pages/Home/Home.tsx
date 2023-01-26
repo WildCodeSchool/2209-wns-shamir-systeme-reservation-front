@@ -6,11 +6,12 @@ import fullSkieur from '../../assets/images/full_skieur.jpg';
 import mountainMan from '../../assets/images/mountain_man2.jpg';
 import IProduct from '../../interfaces/IProduct';
 import ProductCard from '../../components/ProductCard/ProductCard';
-import Login from '../../components/LogIn/Login';
-import { useState } from 'react';
+import IProductProps from '../../interfaces/IProductProps';
 import './home.css';
+import IHomeProps from '../../interfaces/IHomeProps';
 
-const Home = (products: IProduct[]) => {
+
+const Home = ({products, productsByDate}: IHomeProps) => {
 
   // transforme un objet qui contient une liste d'objects en tableau d'objets
   const productsArray = Object.values(products);
@@ -47,7 +48,7 @@ const Home = (products: IProduct[]) => {
             {
               productsArray.filter((product) => product.id < 5).map((product) => (
 
-                <ProductCard key={product.id} id={product.id} name={product.name} image={product.image} description={''} price={product.price} quantity={product.quantity} category={product.category} />
+                <ProductCard key={product.id} product={product} productsByDate={productsByDate} />
 
               ))
             }

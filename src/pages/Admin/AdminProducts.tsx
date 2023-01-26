@@ -6,14 +6,14 @@ import {
 } from "react-icons/md";
 import AdminSidebar from "../../components/AdminSidebar/AdminSidebar";
 import Table from "react-bootstrap/Table";
-import ICatalogProps from "../../interfaces/ICatalogProps";
 import { useEffect, useState } from "react";
 import IProduct from "../../interfaces/IProduct";
 import { Button } from "react-bootstrap";
 import AdminProductForm from "../../components/AdminProduct/AdminProductForm";
 import { FlashMessage } from "../../components/Alert/FlashMessage";
+import IAdminProductProps from "../../interfaces/IAdminProductProps";
 
-const AdminProducts = ({ products, categories }: ICatalogProps) => {
+const AdminProducts = ({ products, categories }: IAdminProductProps) => {
   const [productsAdmin, setProductsAdmin] = useState<IProduct[]>([]);
   
   useEffect(() => {
