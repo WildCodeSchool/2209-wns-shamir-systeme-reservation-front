@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
 import ProductBasket from '../../components/ProductBasket/ProductBasket';
-import ICatalogProps from '../../interfaces/ICatalogProps';
 import IProduct from '../../interfaces/IProduct';
 import "./Basket.css";
 
-function Basket({products}: ICatalogProps ) {
+function Basket({products, categories}: any ) {
   const [productsBasket, setProductsBasket] = useState<IProduct[]>([]);
   
   // On stock dans le state tous les produits au montage du composant

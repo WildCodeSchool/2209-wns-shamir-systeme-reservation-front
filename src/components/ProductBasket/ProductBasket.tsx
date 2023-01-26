@@ -35,7 +35,7 @@ export default function ProductBasket(product: IProduct) {
           <div className="qtyProduct">
             <Card.Text>
               <AiOutlinePlusCircle style={{color:"#9dbcd3", fontSize: "3rem"}} onClick={increment}/>
-              <Card.Text>{/* insertion de la quantité */}{" "}{total}{" "}</Card.Text>
+              {/* insertion de la quantité */}{" "}{total}{" "}
               <AiOutlineMinusCircle style={{color:"#9dbcd3", fontSize: "3rem"}} onClick={decrement}/>
             </Card.Text>
           </div>
