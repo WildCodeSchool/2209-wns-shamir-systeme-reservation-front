@@ -81,13 +81,13 @@ function App() {
         setLoginError(false);
         setLogged(true);
         setLoginOpen(false);
-
         const token = localStorage.getItem('token');
         getUser({variables: {token}}).then(({data}) => {
           setInfoUser(data.getUser);        
         }).catch(e => {
           console.log(e);
         });
+        window.location.href = '/';
       }).catch(error => {
         setLoginError(true);
     });
