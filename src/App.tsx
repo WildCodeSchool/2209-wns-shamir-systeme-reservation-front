@@ -47,6 +47,7 @@ function App() {
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [isEmailAlredyExist, setIsEmailAlredyExist] = useState<boolean>(false);
   const [isUserAdmin, setIsUserAdmin] = useState<boolean>(false);
+  console.log(isUserAdmin);
 
   const [infoUser, setInfoUser] = useState<IUser | null | undefined>();
 
@@ -198,6 +199,7 @@ function App() {
           setIsMenuUserOpen={setIsMenuUserOpen}
         />
         <NavbarDesktop
+          isUserAdmin={isUserAdmin}
           setLoginOpen={setLoginOpen}
           loginOpen={loginOpen}
           logged={logged}
