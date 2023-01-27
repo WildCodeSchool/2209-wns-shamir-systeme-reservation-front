@@ -12,7 +12,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+  }
+
+  p.card-text { /* retirer css par défaut Bootstrap */
+    margin: 0;
   }
 
   .imgProduct{
@@ -27,6 +31,8 @@
   .qtyProduct{
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    align-items: center;
   }
 
   .cardRight{
@@ -40,6 +46,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
   }
 
   .cardContainerDesktop{
@@ -63,12 +70,23 @@
     width: 50%;
   }
 
+  p.card-text { /* retirer css par défaut Bootstrap */
+    margin: 0;
+  }
+
   .imgProduct{
     width: 10rem;
     height: 10rem;
     border: solid #9dbcd3;
     border-radius: 50%;
     padding: 0.1rem;
+  }
+
+  .qtyProduct{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
   }
 
 }

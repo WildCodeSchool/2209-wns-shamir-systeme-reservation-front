@@ -33,9 +33,9 @@ export default function ProductBasket(product: IProduct) {
           />
           <Card.Text>Quantité</Card.Text>
           <div className="qtyProduct">
-            <Card.Text>
+            <Card.Text className="qtyProduct">
               <AiOutlinePlusCircle style={{color:"#9dbcd3", fontSize: "3rem"}} onClick={increment}/>
-              {/* insertion de la quantité */}{" "}{total}{" "}
+              <Card.Text style={{width: "3rem", textAlign:"center"}}>{/* insertion de la quantité */}{total}</Card.Text>
               <AiOutlineMinusCircle style={{color:"#9dbcd3", fontSize: "3rem"}} onClick={decrement}/>
             </Card.Text>
           </div>
@@ -60,24 +60,24 @@ export default function ProductBasket(product: IProduct) {
           src={product.image} 
         />
         <div>
-          <Card.Text><span className="fw-bold fs-2">Quantité</span></Card.Text>
-          <Card.Text>
+          <Card.Text style={{marginBottom:"1.5rem"}}><span className="fw-bold fs-2">Quantité</span></Card.Text>
+          <Card.Text className="qtyProduct">
             <AiOutlinePlusCircle style={{color:"#9dbcd3", fontSize: "3rem", cursor: "pointer"}} onClick={increment}/>
-            {/* insertion de la quantité */}{" "}{total}{" "}
+            <Card.Text style={{width: "3rem", textAlign:"center"}}>{/* insertion de la quantité */}{total}</Card.Text>
             <AiOutlineMinusCircle style={{color:"#9dbcd3", fontSize: "3rem", cursor: "pointer"}} onClick={decrement}/>
           </Card.Text>
         </div>
         <div>
-          <Card.Text><span className="fw-bold fs-2">Prix</span></Card.Text>
+          <Card.Text style={{marginBottom:"1.5rem"}}><span className="fw-bold fs-2">Prix</span></Card.Text>
           <Card.Text>{product.price} €</Card.Text>
         </div>
         <div>
-          <Card.Text><span className="fw-bold fs-2">Durée</span></Card.Text>
+          <Card.Text style={{marginBottom:"0.5rem"}}><span className="fw-bold fs-2">Durée</span></Card.Text>
           <Card.Text>du 25/01/2022</Card.Text>
           <Card.Text>au 27/01/2022</Card.Text>
         </div>
         <div>
-          <Card.Text><span className="fw-bold fs-2">Action</span></Card.Text>
+          <Card.Text style={{marginBottom:"1.5rem"}}><span className="fw-bold fs-2">Action</span></Card.Text>
           <RiDeleteBin6Line style={{color:"#9dbcd3", fontSize: "3rem"}}/>
         </div>
       </Card>
