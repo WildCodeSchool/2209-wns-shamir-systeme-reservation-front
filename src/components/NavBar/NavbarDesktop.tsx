@@ -5,10 +5,10 @@ import { MdSettings } from "react-icons/md";
 import "./navbar.css";
 import { Container, Navbar, Offcanvas } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
-import isAdmin from "../../tools/isAdmin";
 
 
 const NavbarDesktop = ({
+  isUserAdmin,
   setLoginOpen,
   loginOpen,
   logged,
@@ -49,7 +49,7 @@ const NavbarDesktop = ({
               {!logged && <Nav.Link className="nav-link mx-4 linkPage " onClick={() => setLoginOpen(!loginOpen)}>
                 Se connecter / S'inscrire
               </Nav.Link>}
-              {isAdmin(localStorage.token) ? 
+              {isUserAdmin ? 
               logged && 
               <Nav.Link href="/admin" className="nav-link mx-4 my-auto linkIcon">
                 <MdSettings className="text-black settingsIcon"/> 
