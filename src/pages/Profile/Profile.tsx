@@ -34,7 +34,7 @@ function Profile({infoUser, handleUpdateUser}: IProfileProps) {
         }
     
         if (firstname && lastname && phone) {
-          handleUpdateUser(infoUser.id, UserData);
+          handleUpdateUser(infoUser?.id, UserData);
           setShowUpdateUser(false);
         }
       } else {
