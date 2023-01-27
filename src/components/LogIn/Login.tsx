@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Nav } from "react-bootstrap";
-import "./login.css";
+import { Button, Nav } from "react-bootstrap";
+import './login.css';
 
 function Login({ handleLogin, loginError, setLoginError }: any) {
   const [password, setPassword] = useState<string>("");
@@ -32,13 +32,8 @@ function Login({ handleLogin, loginError, setLoginError }: any) {
   };
   return (
     <div className="login_container">
-      <form
-        className="login col-xl-2 col-lg-3 col-md-4 col-sm-10 col-11  shadow pt-5 pb-5 bg-white rounded search_product_container "
-        onSubmit={handleSubmit}
-      >
-        <h4 className="d-flex justify-content-center col-9 m-auto mb-3 row text-center">
-          <strong>Déjà client ?</strong>
-        </h4>
+      <form className="login col-xl-2 col-lg-3 col-md-4 col-sm-10 col-11  shadow pt-5 pb-3 bg-white rounded"   onSubmit={handleSubmit}>
+        <h4 className="d-flex justify-content-center col-9 m-auto mb-3 row text-center pt-3"><strong>Déjà client ?</strong></h4>
         <div className="col-9 m-auto mb-5 row">
           <label htmlFor="email">EMAIL</label>
           <input
@@ -57,38 +52,24 @@ function Login({ handleLogin, loginError, setLoginError }: any) {
             placeholder="Mot de Passe"
           />
         </div>
-        <div className="row">
-          <button type="submit" className="btn btn-primary mb-3 m-auto">
+        <div className="row justify-content-center">
+          <Button className="btnWild" type="submit">
             Se connecter
-          </button>
+          </Button>
         </div>
-        {errorMessage && (
-          <p
-            className="col-9 m-auto mb-2 mt-4 row text-center"
-            style={{ color: "red" }}
-          >
-            Saisissez un mail et un mot de passe
-          </p>
-        )}
-        {loginError && (
-          <p
-            className="col-9 m-auto mb-2 mt-4 row text-center"
-            style={{ color: "red" }}
-          >
-            Les données saisies ne sont pas correctes
-          </p>
-        )}
+        { errorMessage && <p  className="col-9 m-auto mb-2 mt-4 row text-center" style={{color: "red"}}>Saisissez un mail et un mot de passe</p>}
+        { loginError && <p className="col-9 m-auto mb-2 mt-4 row text-center" style={{color: "red"}}>Les donées saisies ne sont pas correctes</p>}    
 
         <hr style={{ width: "80%", margin: "0 auto" }} />
         <h4 className="d-flex justify-content-center col-9 m-auto mb-3 mt-3 row  text-center">
           <strong>Nouveau client ?</strong>
         </h4>
         <Nav>
-          <div className="row m-auto">
+         <div className="row m-auto">
             <Nav.Link href="/inscription">
-              <button type="button" className="btn btn-primary m-auto">
+              <Button className="btnWild" >
                 Créer mon compte
-              </button>
+              </Button>
             </Nav.Link>
           </div>
         </Nav>

@@ -3,13 +3,18 @@ import profil from "../../assets/images/48.png";
 import panier from "../../assets/images/47.png";
 import { MdSettings } from "react-icons/md";
 import "./navbar.css";
-import "./navbarScript";
 import { Container, Navbar, Offcanvas } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
 import isAdmin from "../../tools/isAdmin";
 
 
-const NavbarDesktop = ({ setLoginOpen, loginOpen, logged, setIsMenuUserOpen, isMenuUserOpen }: any) => {
+const NavbarDesktop = ({
+  setLoginOpen,
+  loginOpen,
+  logged,
+  setIsMenuUserOpen,
+  isMenuUserOpen,
+}: any) => {
   return (
     <Navbar expand="md" className="mb-3 fixed-top py-0" id="mainNav">
       <Container fluid>
@@ -62,4 +67,3 @@ const NavbarDesktop = ({ setLoginOpen, loginOpen, logged, setIsMenuUserOpen, isM
 };
 
 export default NavbarDesktop;
-

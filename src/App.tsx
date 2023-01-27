@@ -10,7 +10,7 @@ import NavbarMobile from "./components/NavBar/NavbarMobile";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
-import { GET_ALL_CATEGORIES, GET_ALL_PRODUCTS, GET_PRODUCTS_BY_DATE } from "./tools/queries";
+import { GET_ALL_CATEGORIES, GET_ALL_PRODUCTS, GET_PRODUCTS_BY_DATE, GET_USER } from "./tools/queries";
 import Home from './pages/Home/Home';
 import Catalog from './pages/Catalog/Catalog';
 import Contact from './pages/Contact/Contact';
@@ -19,7 +19,7 @@ import Basket from './pages/Basket/Basket';
 import IProduct from "./interfaces/IProduct";
 import Footer from "./components/Footer/Footer";
 import Login from "./components/LogIn/Login";
-import { GET_TOKEN, CREATE_USER } from "./tools/mutations";
+import { GET_TOKEN, CREATE_USER, UPDATE_USER } from "./tools/mutations";
 import Signin from "./pages/Signin/Signin";
 import MenuUser from "./components/MenuUser/MenuUser";
 import ICategory from "./interfaces/ICategory";
@@ -29,6 +29,7 @@ import AdminCustomers from "./pages/Admin/AdminCustomers";
 import AdminProducts from "./pages/Admin/AdminProducts";
 import AdminCategories from "./pages/Admin/AdminCategories";
 import AdminReservations from "./pages/Admin/AdminReservations";
+import IUser from "./interfaces/IUser";
 
 function App() {
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -39,24 +40,28 @@ function App() {
   const [logged, setLogged] = useState<boolean>(false);
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [isEmailAlredyExist, setIsEmailAlredyExist] = useState<boolean>(false);
-
+  const [infoUser, setInfoUser] = useState<IUser | null | undefined>();
+  
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       setLogged(true);
+      // get infoUser by token
+      getUser({variables: {token}}).then(({data}) => {
+        setInfoUser(data.getUser);        
+      }).catch(e => {
+        console.log(e);
+      });
     }
   }, []);
 
-  const {
-    loading: loadingCategory,
-    data: dataCategory,
-    error: errorCategory,
-  } = useQuery(GET_ALL_CATEGORIES, {
+  const [getUser, { data : dataUser }] = useLazyQuery(GET_USER);
+
+  const { loading : loadingCategory, data : dataCategory, error : errorCategory } = useQuery(GET_ALL_CATEGORIES, {
     onCompleted: (dataCategory) => {
       setCategories(dataCategory.getAllCategories);
     },
   });
-
 
   const { loading: loadingAllProducts, data: dataAllProducts, error: errorAllProducts } = useQuery(GET_ALL_PRODUCTS, {
     onCompleted: (dataAllProducts) => {
@@ -64,12 +69,10 @@ function App() {
     },
   });
 
-
   const [getProductsByDate, { data: dataProductsbyDate }] = useLazyQuery(GET_PRODUCTS_BY_DATE);
-
-
-  const [getToken, { data: dataToken }] = useMutation(GET_TOKEN);
-  const [createUser, { data: dataCreateUser }] = useMutation(CREATE_USER);
+  const [getToken, { data : dataToken }] = useMutation(GET_TOKEN);
+  const [createUser, { data : dataCreateUser }] = useMutation(CREATE_USER);
+  const [updateUser, { data : dataUpdateUser }] = useMutation(UPDATE_USER);
 
   const handleLogin = async (email: string, password: string): Promise<void> => {
     getToken({ variables: { password, email } })
@@ -78,18 +81,24 @@ function App() {
         setLoginError(false);
         setLogged(true);
         setLoginOpen(false);
-        window.location.href = "/";
-      })
-      .catch((error) => {
+
+        const token = localStorage.getItem('token');
+        getUser({variables: {token}}).then(({data}) => {
+          setInfoUser(data.getUser);        
+        }).catch(e => {
+          console.log(e);
+        });
+      }).catch(error => {
         setLoginError(true);
-      });
-  };
+    });
+  }
 
   const handleLogout = () => {
     setLogged(false);
     localStorage.removeItem("token");
     setIsMenuUserOpen(!isMenuUserOpen);
-  }
+    window.location.href = '/';
+  } 
 
   const handleRegister = (lastname: string, firstname: string, email: string, phone: string, password: string, passwordConfirm: string) => {
     createUser({ variables: { firstname, lastname, phone, email, password, passwordConfirm } })
@@ -109,30 +118,40 @@ function App() {
       console.log(error);
     });
   }
-
   const reloadAllProducts = () => {
     setProductsByDate([]);
   }
 
+  const handleUpdateUser = (idUser: number | undefined, userData: IUser) => {
+    updateUser({variables: {userId: idUser, userData: userData}})
+    .then(({data}) => {
+      // console.log('data : ', data.updateUser);
+      setInfoUser(data.updateUser);  
+    }).catch(error => {
+      console.log('erreur => ', error);   
+    });
+  };
 
   return (
     <div className="app">
-      {/* Les 2 navbar fixe top */}
-      <NavbarMobile setLoginOpen={setLoginOpen} loginOpen={loginOpen} logged={logged} handleLogout={handleLogout} isMenuUserOpen={isMenuUserOpen} setIsMenuUserOpen={setIsMenuUserOpen} />
-      <NavbarDesktop setLoginOpen={setLoginOpen} loginOpen={loginOpen} logged={logged} handleLogout={handleLogout} isMenuUserOpen={isMenuUserOpen} setIsMenuUserOpen={setIsMenuUserOpen} />
-
-      {/* navbar version mobile */}
-      <NavbarResponsive logged={logged} isMenuUserOpen={isMenuUserOpen} setIsMenuUserOpen={setIsMenuUserOpen} />
-
-      {loginOpen && <Login handleLogin={handleLogin} loginError={loginError} setLoginError={setLoginError} />}
-      {isMenuUserOpen && <MenuUser handleLogout={handleLogout} />}
-
       <Router>
+        {/* Les 2 navbar fixe top */}
+        <NavbarMobile setLoginOpen={setLoginOpen} loginOpen={loginOpen} logged={logged} handleLogout={handleLogout} isMenuUserOpen={isMenuUserOpen} setIsMenuUserOpen={setIsMenuUserOpen} />
+        <NavbarDesktop setLoginOpen={setLoginOpen} loginOpen={loginOpen} logged={logged} handleLogout={handleLogout} isMenuUserOpen={isMenuUserOpen} setIsMenuUserOpen={setIsMenuUserOpen} />
+
+        {/* navbar version mobile */}
+        <NavbarResponsive logged={logged} isMenuUserOpen={isMenuUserOpen} setIsMenuUserOpen={setIsMenuUserOpen} />
+
+        {loginOpen && <Login handleLogin={handleLogin} loginError={loginError} setLoginError={setLoginError} />}
+        {isMenuUserOpen && <MenuUser handleLogout={handleLogout} />}
+
         <Routes>
           <Route path="/" element={<Home products={products} productsByDate={productsByDate} />} />
           <Route path="/catalogue" element={<Catalog products={products} categories={categories} handleFindByDate={handleFindByDate} productsByDate={productsByDate} reloadAllProducts={reloadAllProducts} />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/profil" element={<Profile />} />
+          {infoUser && 
+            <Route path="/profil" element={<Profile infoUser={infoUser} handleUpdateUser={handleUpdateUser}/>} />
+          }
           <Route path="/panier" element={<Basket products={products} categories={categories}/>} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin/customers" element={<AdminCustomers />} />
@@ -154,8 +173,8 @@ function App() {
             }
           />
         </Routes>
+        {!isAdmin(localStorage.token) && <Footer />}
       </Router>
-      {!isAdmin(localStorage.token) && <Footer />}
     </div>
   );
 }

@@ -56,4 +56,17 @@ query getProductsByDate($dateFrom: String!, $dateTo: String!) {
   }
 }`
 
-export { GET_ALL_PRODUCTS, GET_ALL_CATEGORIES, GET_HOME_PRODUCTS, GET_PRODUCTS_BY_DATE };
+const GET_USER = gql`
+query getUser($token: String!) {
+  getUser(token: $token) {
+    firstname
+    lastname
+    id
+    email
+    phone
+  }
+}`
+
+export { GET_ALL_PRODUCTS, GET_ALL_CATEGORIES, GET_HOME_PRODUCTS, GET_PRODUCTS_BY_DATE, GET_USER };
+
+

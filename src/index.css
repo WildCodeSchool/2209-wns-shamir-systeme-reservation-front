@@ -98,3 +98,16 @@ header {
   background-color: #fff !important;
   color: #0d83ab !important;
 }
+.btnsecondary {
+  font-size: 16px !important;
+  background-color: #777777 !important;
+  color: #fff;
+  padding: 0.5em 1.8em !important;
+  border-radius: 4px !important;
+  border-color: #4c4c4c !important;
+  display: inline-block !important;
+}
+.btnsecondary:hover {
+  background-color: #fff !important;
+  color: #4c4c4c !important;
+}

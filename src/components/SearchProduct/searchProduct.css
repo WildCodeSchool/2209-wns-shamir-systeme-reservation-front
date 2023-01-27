@@ -1,33 +1,32 @@
-.search_product_container{
+.search_product_container {
   border: 1px solid rgb(181, 180, 180);
   height: fit-content;
-  margin-left: 2rem;
 }
 
 
 .search_product_container label,
-.category_chackbox_title{
+.category_chackbox_title {
   text-transform: uppercase;
   font-weight: 700;
   margin-bottom: 0.5rem;
 }
 
-.category_chackbox{
+.category_chackbox {
   display: flex;
   align-items: center;
   margin: 0.6rem 0;
 }
 
-.category_chackbox label{
- margin: 0;
- text-transform: capitalize;
- font-weight: 400;
- margin-left: 1rem;
+.category_chackbox label {
+  margin: 0;
+  text-transform: capitalize;
+  font-weight: 400;
+  margin-left: 1rem;
 }
 
 .search_product_container input,
 .search_product_container select,
-.search_product_container button{
+.search_product_container button {
   height: 3rem;
 }
 
@@ -46,12 +45,11 @@
   font-size: 1.5rem;
 }
 
-.search_product_container .row{
+.search_product_container .row {
   margin-bottom: 2rem;
 }
 
-.errorMessage{
+.errorMessage {
   color: red;
   text-align: center;
 }
-
