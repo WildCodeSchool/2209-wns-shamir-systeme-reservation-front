@@ -30,8 +30,9 @@
  }
 
  .menuUser{
-  position: fixed;
-  top: 5rem;
+   position: fixed;
+   top: 4rem;
+   box-shadow: 0px 5px 15px #aaaeb1;
  }
 
 @media (min-width: 700px) {

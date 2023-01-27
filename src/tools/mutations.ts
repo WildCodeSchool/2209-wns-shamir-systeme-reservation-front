@@ -12,3 +12,14 @@ mutation CreateUser($firstname: String!, $lastname: String!, $phone: String!, $e
 }
 `;
 
+export const UPDATE_USER = gql`
+mutation Mutation($userId: Float!, $userData: userType!) {
+  updateUser(userId: $userId, userData: $userData) {
+    firstname
+    id
+    lastname
+    phone
+    email
+  }
+}
+`;

@@ -40,4 +40,15 @@ query getAllCategories {
   }
 }`
 
-export { GET_ALL_PRODUCTS, GET_ALL_CATEGORIES, GET_HOME_PRODUCTS };
+const GET_USER = gql`
+query getUser($token: String!) {
+  getUser(token: $token) {
+    firstname
+    lastname
+    id
+    email
+    phone
+  }
+}`
+
+export { GET_ALL_PRODUCTS, GET_ALL_CATEGORIES, GET_HOME_PRODUCTS, GET_USER };

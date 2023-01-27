@@ -164,7 +164,7 @@ function Signin({ handleRegister, isEmailAlredyExist }: ISigninProps) {
           {isPhoneError && <p style={{ color: "red" }}>{phoneErrorMessage}</p>}
         </div>
         <div className="col-10 m-auto mb-5 row">
-          <label htmlFor="password" className='d-flex justify-content-start'>MOT DE PASSE * <img className="info_password ms-4" src={info} alt="closeEye" data-toggle="tooltip" data-placement="top" title="8 caractères minimum, au moins une lettre minuscule, une lettre majuscule un chiffre." /></label>
+          <label htmlFor="password" className='d-flex justify-content-start'>MOT DE PASSE * <img className="info_password ms-4" src={info} alt="closeEye" data-toggle="tooltip" data-placement="top" title="Minimum 12 caractères, minimum une lettre majuscule, une lettre minuscule, un chiffre et un caractere special" /></label>
           <input name="password" type={isShowPassword ? 'text' : 'password'} onChange={handlePassword} className={isPasswordError ? 'error form-control' : 'form-control'} />
           {!isShowPassword && <img className={isPasswordError ? ' eyeError ms-4' : 'eye ms-4'} src={closeEye} alt="closeEye" onClick={handleShowPassword} />}
           {isShowPassword && <img className={isPasswordError ? ' eyeError ms-4' : 'eye ms-4'} src={openEye} alt="openEye" onClick={handleShowPassword} />}
