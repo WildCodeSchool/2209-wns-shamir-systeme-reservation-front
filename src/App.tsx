@@ -10,12 +10,17 @@ import NavbarMobile from "./components/NavBar/NavbarMobile";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
-import { GET_ALL_CATEGORIES, GET_ALL_PRODUCTS, GET_PRODUCTS_BY_DATE } from "./tools/queries";
-import Home from './pages/Home/Home';
-import Catalog from './pages/Catalog/Catalog';
-import Contact from './pages/Contact/Contact';
-import Profile from './pages/Profile/Profile';
-import Basket from './pages/Basket/Basket';
+import {
+  GET_ALL_CATEGORIES,
+  GET_ALL_PRODUCTS,
+  GET_PRODUCTS_BY_DATE,
+  IS_ADMIN,
+} from "./tools/queries";
+import Home from "./pages/Home/Home";
+import Catalog from "./pages/Catalog/Catalog";
+import Contact from "./pages/Contact/Contact";
+import Profile from "./pages/Profile/Profile";
+import Basket from "./pages/Basket/Basket";
 import IProduct from "./interfaces/IProduct";
 import Footer from "./components/Footer/Footer";
 import Login from "./components/LogIn/Login";
@@ -24,11 +29,11 @@ import Signin from "./pages/Signin/Signin";
 import MenuUser from "./components/MenuUser/MenuUser";
 import ICategory from "./interfaces/ICategory";
 import Admin from "./pages/Admin/Admin";
-import isAdmin from "./tools/isAdmin";
 import AdminCustomers from "./pages/Admin/AdminCustomers";
 import AdminProducts from "./pages/Admin/AdminProducts";
 import AdminCategories from "./pages/Admin/AdminCategories";
 import AdminReservations from "./pages/Admin/AdminReservations";
+import { ProtectedRoute } from "./tools/ProtectedRoute";
 
 function App() {
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -39,11 +44,19 @@ function App() {
   const [logged, setLogged] = useState<boolean>(false);
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [isEmailAlredyExist, setIsEmailAlredyExist] = useState<boolean>(false);
+  const [isUserAdmin, setIsUserAdmin] = useState<boolean>(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       setLogged(true);
+      isAdmin({ variables: { token } })
+        .then(({ data }) => {
+          setIsUserAdmin(data.isAdmin);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   }, []);
 
@@ -57,21 +70,27 @@ function App() {
     },
   });
 
-
-  const { loading: loadingAllProducts, data: dataAllProducts, error: errorAllProducts } = useQuery(GET_ALL_PRODUCTS, {
+  const {
+    loading: loadingAllProducts,
+    data: dataAllProducts,
+    error: errorAllProducts,
+  } = useQuery(GET_ALL_PRODUCTS, {
     onCompleted: (dataAllProducts) => {
       setProducts(dataAllProducts.getAllProducts);
     },
   });
 
-
-  const [getProductsByDate, { data: dataProductsbyDate }] = useLazyQuery(GET_PRODUCTS_BY_DATE);
-
+  const [getProductsByDate, { data: dataProductsbyDate }] =
+    useLazyQuery(GET_PRODUCTS_BY_DATE);
+  const [isAdmin, { data: dataIsAdmin }] = useLazyQuery(IS_ADMIN);
 
   const [getToken, { data: dataToken }] = useMutation(GET_TOKEN);
   const [createUser, { data: dataCreateUser }] = useMutation(CREATE_USER);
 
-  const handleLogin = async (email: string, password: string): Promise<void> => {
+  const handleLogin = async (
+    email: string,
+    password: string
+  ): Promise<void> => {
     getToken({ variables: { password, email } })
       .then(({ data }) => {
         localStorage.setItem("token", data.getToken);
@@ -89,61 +108,127 @@ function App() {
     setLogged(false);
     localStorage.removeItem("token");
     setIsMenuUserOpen(!isMenuUserOpen);
-  }
+  };
 
-  const handleRegister = (lastname: string, firstname: string, email: string, phone: string, password: string, passwordConfirm: string) => {
-    createUser({ variables: { firstname, lastname, phone, email, password, passwordConfirm } })
+  const handleRegister = (
+    lastname: string,
+    firstname: string,
+    email: string,
+    phone: string,
+    password: string,
+    passwordConfirm: string
+  ) => {
+    createUser({
+      variables: {
+        firstname,
+        lastname,
+        phone,
+        email,
+        password,
+        passwordConfirm,
+      },
+    })
       .then(({ data }) => {
         handleLogin(email, password);
         setIsEmailAlredyExist(false);
-      }).catch(error => {
+      })
+      .catch((error) => {
         console.log(error);
         setIsEmailAlredyExist(true);
       });
-  }
+  };
 
   const handleFindByDate = (dateFrom: string, dateTo: string) => {
-    getProductsByDate({ variables: { dateFrom, dateTo } }).then(({ data }) => {
-      setProductsByDate(data.getProductsByDate)
-    }).catch(error => {
-      console.log(error);
-    });
-  }
+    getProductsByDate({ variables: { dateFrom, dateTo } })
+      .then(({ data }) => {
+        setProductsByDate(data.getProductsByDate);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const reloadAllProducts = () => {
     setProductsByDate([]);
-  }
-
+  };
 
   return (
     <div className="app">
       {/* Les 2 navbar fixe top */}
-      <NavbarMobile setLoginOpen={setLoginOpen} loginOpen={loginOpen} logged={logged} handleLogout={handleLogout} isMenuUserOpen={isMenuUserOpen} setIsMenuUserOpen={setIsMenuUserOpen} />
-      <NavbarDesktop setLoginOpen={setLoginOpen} loginOpen={loginOpen} logged={logged} handleLogout={handleLogout} isMenuUserOpen={isMenuUserOpen} setIsMenuUserOpen={setIsMenuUserOpen} />
+      <NavbarMobile
+        setLoginOpen={setLoginOpen}
+        loginOpen={loginOpen}
+        logged={logged}
+        handleLogout={handleLogout}
+        isMenuUserOpen={isMenuUserOpen}
+        setIsMenuUserOpen={setIsMenuUserOpen}
+      />
+      <NavbarDesktop
+        isUserAdmin={isUserAdmin}
+        setLoginOpen={setLoginOpen}
+        loginOpen={loginOpen}
+        logged={logged}
+        handleLogout={handleLogout}
+        isMenuUserOpen={isMenuUserOpen}
+        setIsMenuUserOpen={setIsMenuUserOpen}
+      />
 
       {/* navbar version mobile */}
-      <NavbarResponsive logged={logged} isMenuUserOpen={isMenuUserOpen} setIsMenuUserOpen={setIsMenuUserOpen} />
+      <NavbarResponsive
+        logged={logged}
+        isMenuUserOpen={isMenuUserOpen}
+        setIsMenuUserOpen={setIsMenuUserOpen}
+      />
 
-      {loginOpen && <Login handleLogin={handleLogin} loginError={loginError} setLoginError={setLoginError} />}
+      {loginOpen && (
+        <Login
+          handleLogin={handleLogin}
+          loginError={loginError}
+          setLoginError={setLoginError}
+        />
+      )}
       {isMenuUserOpen && <MenuUser handleLogout={handleLogout} />}
 
       <Router>
         <Routes>
-          <Route path="/" element={<Home products={products} productsByDate={productsByDate} />} />
-          <Route path="/catalogue" element={<Catalog products={products} categories={categories} handleFindByDate={handleFindByDate} productsByDate={productsByDate} reloadAllProducts={reloadAllProducts} />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/profil" element={<Profile />} />
-          <Route path="/panier" element={<Basket products={products} categories={categories}/>} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/admin/customers" element={<AdminCustomers />} />
           <Route
-            path="/admin/products"
+            path="/"
             element={
-              <AdminProducts products={products} categories={categories} />
+              <Home products={products} productsByDate={productsByDate} />
             }
           />
-          <Route path="/admin/categories" element={<AdminCategories />} />
-          <Route path="/admin/reservations" element={<AdminReservations />} />
+          <Route
+            path="/catalogue"
+            element={
+              <Catalog
+                products={products}
+                categories={categories}
+                handleFindByDate={handleFindByDate}
+                productsByDate={productsByDate}
+                reloadAllProducts={reloadAllProducts}
+              />
+            }
+          />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/profil" element={<Profile />} />
+          <Route
+            path="/panier"
+            element={<Basket products={products} categories={categories} />}
+          />
+          <Route element={<ProtectedRoute isUserAdmin={isUserAdmin} />}>
+            <Route path="/admin">
+              <Route index element={<Admin />} />
+              <Route path="customers" element={<AdminCustomers />} />
+              <Route
+                path="products"
+                element={
+                  <AdminProducts products={products} categories={categories} />
+                }
+              />
+              <Route path="categories" element={<AdminCategories />} />
+              <Route path="reservations" element={<AdminReservations />} />
+            </Route>
+          </Route>
           <Route
             path="/inscription"
             element={
@@ -155,7 +240,7 @@ function App() {
           />
         </Routes>
       </Router>
-      {!isAdmin(localStorage.token) && <Footer />}
+      {!isUserAdmin && <Footer />}
     </div>
   );
 }

@@ -6,10 +6,8 @@ import "./navbar.css";
 import "./navbarScript";
 import { Container, Navbar, Offcanvas } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
-import isAdmin from "../../tools/isAdmin";
 
-
-const NavbarDesktop = ({ setLoginOpen, loginOpen, logged, setIsMenuUserOpen, isMenuUserOpen }: any) => {
+const NavbarDesktop = ({ isUserAdmin, setLoginOpen, loginOpen, logged, setIsMenuUserOpen, isMenuUserOpen }: any) => {
   return (
     <Navbar expand="md" className="mb-3 fixed-top py-0" id="mainNav">
       <Container fluid>
@@ -44,7 +42,7 @@ const NavbarDesktop = ({ setLoginOpen, loginOpen, logged, setIsMenuUserOpen, isM
               {!logged && <Nav.Link className="nav-link mx-4 linkPage " onClick={() => setLoginOpen(!loginOpen)}>
                 Se connecter / S'inscrire
               </Nav.Link>}
-              {isAdmin(localStorage.token) ? 
+              {isUserAdmin ? 
               logged && 
               <Nav.Link href="/admin" className="nav-link mx-4 my-auto linkIcon">
                 <MdSettings className="text-black settingsIcon"/> 
