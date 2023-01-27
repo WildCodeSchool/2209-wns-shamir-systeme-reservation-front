@@ -2,11 +2,10 @@ import boutique from "../../assets/images/boutique.png";
 import produit from "../../assets/images/produit.png";
 import profil from "../../assets/images/profil.png";
 import "./navbar.css";
-import "./navbarScript";
 import { Container, Navbar } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
 
-const NavbarResponse = ({ logged, setIsMenuUserOpen, isMenuUserOpen}: any) => {
+const NavbarResponse = ({ logged, setIsMenuUserOpen, isMenuUserOpen }: any) => {
   return (
     <Navbar expand="md" className="fixed-bottom py-0" id="mainNavResponsive">
       <Container fluid className="justify-content-center">
@@ -16,18 +15,26 @@ const NavbarResponse = ({ logged, setIsMenuUserOpen, isMenuUserOpen}: any) => {
             <br />
             Accueil
           </Nav.Link>
-          <Nav.Link href="/catalogue" className="my-auto linkIconResponsive text-center">
+          <Nav.Link
+            href="/catalogue"
+            className="my-auto linkIconResponsive text-center"
+          >
             <img className="produitIcon" src={produit} alt="Profil" />
             <br />
             Produits
           </Nav.Link>
-          { logged && 
-          <Nav.Link className="my-auto linkIconResponsive text-center">
-            <img className="produitIcon" src={profil} alt="Profil" onClick={() => setIsMenuUserOpen(!isMenuUserOpen)}/>
-            <br />
-            Profil
-          </Nav.Link>
-          }
+          {logged && (
+            <Nav.Link className="my-auto linkIconResponsive text-center">
+              <img
+                className="produitIcon"
+                src={profil}
+                alt="Profil"
+                onClick={() => setIsMenuUserOpen(!isMenuUserOpen)}
+              />
+              <br />
+              Profil
+            </Nav.Link>
+          )}
         </Nav>
       </Container>
     </Navbar>
@@ -35,4 +42,3 @@ const NavbarResponse = ({ logged, setIsMenuUserOpen, isMenuUserOpen}: any) => {
 };
 
 export default NavbarResponse;
-

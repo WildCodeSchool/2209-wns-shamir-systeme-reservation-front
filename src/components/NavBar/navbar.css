@@ -9,7 +9,7 @@
 }
 
 #mainNav {
-  height: 11rem;
+  height: 9rem;
   transition: 0.3s;
   background-color: #9dbcd3;
 }
@@ -47,10 +47,7 @@
   box-shadow: 0 0 1px rgba(0, 0, 0, 0);
   position: relative;
   overflow: hidden;
-  padding: 43px 5px !important;
-}
-.navPadding {
-  padding: 28px 5px !important;
+  padding: 33px 5px !important;
 }
 .linkPage:before {
   content: "";

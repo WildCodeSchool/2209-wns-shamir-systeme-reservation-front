@@ -31,7 +31,8 @@
 
  .login{
   position: fixed;
-  top: 5rem;
+  top: 7rem;
+  box-shadow: 0px 5px 15px #aaaeb1;
  }
 
 

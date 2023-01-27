@@ -15,6 +15,7 @@ import {
   GET_ALL_PRODUCTS,
   GET_PRODUCTS_BY_DATE,
   IS_ADMIN,
+  GET_USER,
 } from "./tools/queries";
 import Home from "./pages/Home/Home";
 import Catalog from "./pages/Catalog/Catalog";
@@ -24,7 +25,7 @@ import Basket from "./pages/Basket/Basket";
 import IProduct from "./interfaces/IProduct";
 import Footer from "./components/Footer/Footer";
 import Login from "./components/LogIn/Login";
-import { GET_TOKEN, CREATE_USER } from "./tools/mutations";
+import { GET_TOKEN, CREATE_USER, UPDATE_USER } from "./tools/mutations";
 import Signin from "./pages/Signin/Signin";
 import MenuUser from "./components/MenuUser/MenuUser";
 import ICategory from "./interfaces/ICategory";
@@ -34,6 +35,7 @@ import AdminProducts from "./pages/Admin/AdminProducts";
 import AdminCategories from "./pages/Admin/AdminCategories";
 import AdminReservations from "./pages/Admin/AdminReservations";
 import { ProtectedRoute } from "./tools/ProtectedRoute";
+import IUser from "./interfaces/IUser";
 
 function App() {
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -46,6 +48,8 @@ function App() {
   const [isEmailAlredyExist, setIsEmailAlredyExist] = useState<boolean>(false);
   const [isUserAdmin, setIsUserAdmin] = useState<boolean>(false);
 
+  const [infoUser, setInfoUser] = useState<IUser | null | undefined>();
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -57,8 +61,18 @@ function App() {
         .catch((error) => {
           console.log(error);
         });
+      // get infoUser by token
+      getUser({ variables: { token } })
+        .then(({ data }) => {
+          setInfoUser(data.getUser);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     }
   }, []);
+
+  const [getUser, { data: dataUser }] = useLazyQuery(GET_USER);
 
   const {
     loading: loadingCategory,
@@ -80,12 +94,12 @@ function App() {
     },
   });
 
+  const [isAdmin, { data: dataIsAdmin }] = useLazyQuery(IS_ADMIN);
   const [getProductsByDate, { data: dataProductsbyDate }] =
     useLazyQuery(GET_PRODUCTS_BY_DATE);
-  const [isAdmin, { data: dataIsAdmin }] = useLazyQuery(IS_ADMIN);
-
   const [getToken, { data: dataToken }] = useMutation(GET_TOKEN);
   const [createUser, { data: dataCreateUser }] = useMutation(CREATE_USER);
+  const [updateUser, { data: dataUpdateUser }] = useMutation(UPDATE_USER);
 
   const handleLogin = async (
     email: string,
@@ -97,6 +111,14 @@ function App() {
         setLoginError(false);
         setLogged(true);
         setLoginOpen(false);
+        const token = localStorage.getItem("token");
+        getUser({ variables: { token } })
+          .then(({ data }) => {
+            setInfoUser(data.getUser);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
         window.location.href = "/";
       })
       .catch((error) => {
@@ -108,6 +130,7 @@ function App() {
     setLogged(false);
     localStorage.removeItem("token");
     setIsMenuUserOpen(!isMenuUserOpen);
+    window.location.href = "/";
   };
 
   const handleRegister = (
@@ -147,49 +170,58 @@ function App() {
         console.log(error);
       });
   };
-
   const reloadAllProducts = () => {
     setProductsByDate([]);
   };
 
+  const handleUpdateUser = (idUser: number | undefined, userData: IUser) => {
+    updateUser({ variables: { userId: idUser, userData: userData } })
+      .then(({ data }) => {
+        // console.log('data : ', data.updateUser);
+        setInfoUser(data.updateUser);
+      })
+      .catch((error) => {
+        console.log("erreur => ", error);
+      });
+  };
+
   return (
     <div className="app">
-      {/* Les 2 navbar fixe top */}
-      <NavbarMobile
-        setLoginOpen={setLoginOpen}
-        loginOpen={loginOpen}
-        logged={logged}
-        handleLogout={handleLogout}
-        isMenuUserOpen={isMenuUserOpen}
-        setIsMenuUserOpen={setIsMenuUserOpen}
-      />
-      <NavbarDesktop
-        isUserAdmin={isUserAdmin}
-        setLoginOpen={setLoginOpen}
-        loginOpen={loginOpen}
-        logged={logged}
-        handleLogout={handleLogout}
-        isMenuUserOpen={isMenuUserOpen}
-        setIsMenuUserOpen={setIsMenuUserOpen}
-      />
-
-      {/* navbar version mobile */}
-      <NavbarResponsive
-        logged={logged}
-        isMenuUserOpen={isMenuUserOpen}
-        setIsMenuUserOpen={setIsMenuUserOpen}
-      />
-
-      {loginOpen && (
-        <Login
-          handleLogin={handleLogin}
-          loginError={loginError}
-          setLoginError={setLoginError}
-        />
-      )}
-      {isMenuUserOpen && <MenuUser handleLogout={handleLogout} />}
-
       <Router>
+        {/* Les 2 navbar fixe top */}
+        <NavbarMobile
+          setLoginOpen={setLoginOpen}
+          loginOpen={loginOpen}
+          logged={logged}
+          handleLogout={handleLogout}
+          isMenuUserOpen={isMenuUserOpen}
+          setIsMenuUserOpen={setIsMenuUserOpen}
+        />
+        <NavbarDesktop
+          setLoginOpen={setLoginOpen}
+          loginOpen={loginOpen}
+          logged={logged}
+          handleLogout={handleLogout}
+          isMenuUserOpen={isMenuUserOpen}
+          setIsMenuUserOpen={setIsMenuUserOpen}
+        />
+
+        {/* navbar version mobile */}
+        <NavbarResponsive
+          logged={logged}
+          isMenuUserOpen={isMenuUserOpen}
+          setIsMenuUserOpen={setIsMenuUserOpen}
+        />
+
+        {loginOpen && (
+          <Login
+            handleLogin={handleLogin}
+            loginError={loginError}
+            setLoginError={setLoginError}
+          />
+        )}
+        {isMenuUserOpen && <MenuUser handleLogout={handleLogout} />}
+
         <Routes>
           <Route
             path="/"
@@ -210,7 +242,7 @@ function App() {
             }
           />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/profil" element={<Profile />} />
+          <Route path="/profil" element={<Profile infoUser={infoUser} handleUpdateUser={handleUpdateUser}/>} />
           <Route
             path="/panier"
             element={<Basket products={products} categories={categories} />}
@@ -239,8 +271,8 @@ function App() {
             }
           />
         </Routes>
+        {!isUserAdmin && <Footer />}
       </Router>
-      {!isUserAdmin && <Footer />}
     </div>
   );
 }
