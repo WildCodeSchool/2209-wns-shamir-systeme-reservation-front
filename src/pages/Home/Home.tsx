@@ -4,9 +4,7 @@ import service_rapide from '../../assets/images/foudre.png';
 import mountain from '../../assets/images/mountain.jpg';
 import fullSkieur from '../../assets/images/full_skieur.jpg';
 import mountainMan from '../../assets/images/mountain_man2.jpg';
-import IProduct from '../../interfaces/IProduct';
 import ProductCard from '../../components/ProductCard/ProductCard';
-import IProductProps from '../../interfaces/IProductProps';
 import './home.css';
 import IHomeProps from '../../interfaces/IHomeProps';
 

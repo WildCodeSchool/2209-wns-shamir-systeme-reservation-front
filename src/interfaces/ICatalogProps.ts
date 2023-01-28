@@ -7,4 +7,6 @@ export default interface ICatalogProps {
   handleFindByDate: (dateFrom: string, dateTo: string ) => void,
   productsByDate: IProduct[]
   reloadAllProducts: () => void
+  addToCart: (productId: number) => void
+  setCart: any
 }

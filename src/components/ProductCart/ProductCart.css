@@ -54,7 +54,7 @@
   }
 }
 
-@media screen and (min-width: 768px){ /* version desktop */
+@media screen and (min-width: 577px){ /* version tablette & desktop */
   .cardContainerMobile {
     display: none;
   }
@@ -67,7 +67,7 @@
     margin: 3rem auto 3rem auto;
     padding: 2rem;
     box-shadow: 5px 5px 5px #9dbcd3;
-    width: 50%;
+    width: 80%;
   }
 
   p.card-text { /* retirer css par défaut Bootstrap */
@@ -89,4 +89,10 @@
     align-items: center;
   }
 
+}
+
+@media screen and (min-width: 1024px){ /* version desktop */
+  .cardContainerDesktop{
+    width: 60%;
+  }
 }
