@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Button } from "react-bootstrap";
 import ICategory from "../../interfaces/ICategory";
 import ISearchTermProps from "../../interfaces/ISearchProductProps";
 import "./searchProduct.css";
@@ -162,9 +163,9 @@ function handleClickreloadProducts() {
           <label htmlFor="endDate">fin de location</label>
           <input className="form-control date" name="endDate" type="date" onChange={handleDateTo} value={dateTo} />
         </div>
-        <div className="row"><button type="submit" className="btn btn-primary col-5 m-auto" >Rechercher</button></div>
+        <div className="row"><Button type="submit" className="btn btn-primary col-7 m-auto btnWild d-flex align-items-center justify-content-center" >Rechercher</Button></div>
         {errorMessage ? <div className="row"><span className="errorMessage col-9 m-auto">{errorMessage}</span></div> : ''}
-        {isProductsByDate && <div className="row"><button type="button" className="btn btn-primary col-5 m-auto" onClick={handleClickreloadProducts}>Tous les produits</button></div>}
+        {isProductsByDate && <div className="row"><Button type="button" className="btn btn-primary col-7 m-auto btnWild d-flex align-items-center justify-content-center" onClick={handleClickreloadProducts}>Tous les produits</Button></div>}
       </form>
     </div>
   )
