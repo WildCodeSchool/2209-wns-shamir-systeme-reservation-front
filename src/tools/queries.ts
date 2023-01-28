@@ -45,6 +45,9 @@ const GET_ALL_CATEGORIES = gql`
     getAllCategories {
       id
       name
+      products {
+      id
+    }
     }
   }
 `;

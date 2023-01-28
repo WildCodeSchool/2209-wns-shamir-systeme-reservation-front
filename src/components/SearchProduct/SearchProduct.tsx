@@ -3,22 +3,28 @@ import ICategory from "../../interfaces/ICategory";
 import ISearchTermProps from "../../interfaces/ISearchProductProps";
 import "./searchProduct.css";
 
-function SearchProduct({ categories, findBySearchTerm, findByCategory, handleFindByDate, reloadAllProducts, productsByDate }: ISearchTermProps) {
+function SearchProduct({ categories, findBySearchTerm, findByCategory, handleFindByDate, reloadAllProducts, productsByDate ,resetProductsView }: ISearchTermProps) {
 
   // transforme un objet qui contient une liste d'objects en tableau d'objets
-  const categoriesArray = Object.values(categories);
+  const categoryList = Object.values(categories);
   const [dateFrom, setDateFrom] = useState<string>('');
   const [dateTo, setDateTo] = useState<string>('');
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [categoriesFiltered, setCategoriesFiltered] = useState<ICategory[]>([]);
+  const [isCategoriesFiltered, setIsCategoriesFiltered] = useState<boolean>(false);
   const [isProductsByDate, setIsProductsByDate] = useState<boolean>(false);
 
 
+
+  const categoriesArray = categoryList.filter((cat)=> {
+    return cat.products.length > 0
+  })
+
+  
   // On controle si on a des produits recherchés par dates et si c est le cas on affiche le boutton "Tous les produits"
   // sinon on le cache
   useEffect(() => {
-    console.log(productsByDate);
     if (productsByDate.length === 0) {
       setIsProductsByDate(false);
     } else {
@@ -30,6 +36,11 @@ function SearchProduct({ categories, findBySearchTerm, findByCategory, handleFin
   // Pour chaque categorie selectionnée ou deselectionnée on appelle une function pour trier les produits  
   useEffect(() => {
     findByCategory(categoriesFiltered);
+    if(categoriesFiltered.length > 0){
+      setIsCategoriesFiltered(true)
+    }else{
+      setIsCategoriesFiltered(false)
+    }
   }, [categoriesFiltered]);
 
   // Function qui returne un true ou false selon l'etat (selectionné ou pas) d'un checkbox categories 
@@ -50,6 +61,7 @@ function SearchProduct({ categories, findBySearchTerm, findByCategory, handleFin
       // Si il etait dejà coché, on le decoché en créant une nouvelle liste de categories selectionnées sans la categorié que on vient de traiter
       const newCategoriesToAdd: ICategory[] = categoriesFiltered.filter(categoryFiltred => categoryFiltred.name !== nameCategoryToAdd);
       setCategoriesFiltered(newCategoriesToAdd)
+      setSearchTerm('');
     } else {
       // Si il etait decoché, on le coche en créant une nouvelle categorie
       const newCategory: ICategory | undefined = categories.find((category) => category.name === nameCategoryToAdd);
@@ -57,15 +69,16 @@ function SearchProduct({ categories, findBySearchTerm, findByCategory, handleFin
         // On ajoute cette nouvelle categorie à la liste des filtres des produits "findByCategory(categoriesFiltered);"
         setCategoriesFiltered([...categoriesFiltered, newCategory]);
         setSearchTerm('');
+
       }
     }
   }
 
   const handleSearchTerm = (e: any): void => {
     setSearchTerm(e.target.value);
-    findBySearchTerm(e.target.value.toLowerCase());
+    findBySearchTerm(e.target.value.toLowerCase(), isCategoriesFiltered);
     if (categoriesFiltered.length) {
-      setCategoriesFiltered([]);
+ 
     }
   }
 
@@ -106,6 +119,7 @@ function handleClickreloadProducts() {
   setDateTo('');
   setCategoriesFiltered([]);
   setSearchTerm('');
+  resetProductsView();
 }
 
 
