@@ -105,7 +105,7 @@ const AdminProducts = ({ products, categories }: IAdminProductProps) => {
                     <td className="text-center">{product.quantity}</td>
                     <td>{product.category.name}</td>
                     <td className="d-flex justify-content-center align-items-center gap-2 flex-wrap">
-                      <MdOutlineModeEditOutline className="edit_icon fs-1" />{" "}
+                      <MdOutlineModeEditOutline className="edit_icon fs-1" />
                       <MdOutlineDeleteOutline
                         className="delete_icon fs-1"
                         onClick={() => handleDeleteProduct(product.id)}

@@ -52,6 +52,18 @@ const GET_ALL_CATEGORIES = gql`
   }
 `;
 
+const GET_ALL_CUSTOMERS = gql`
+  query getAllUsers {
+    getAllUsers {
+      id
+      lastname
+      firstname
+      email
+      phone
+    }
+  }
+`;
+
 const GET_PRODUCTS_BY_DATE = gql`
   query getProductsByDate($dateFrom: String!, $dateTo: String!) {
     getProductsByDate(dateFrom: $dateFrom, dateTo: $dateTo) {
@@ -84,6 +96,7 @@ const GET_USER = gql`
 export {
   GET_ALL_PRODUCTS,
   GET_ALL_CATEGORIES,
+  GET_ALL_CUSTOMERS,
   GET_HOME_PRODUCTS,
   GET_PRODUCTS_BY_DATE,
   GET_USER,
