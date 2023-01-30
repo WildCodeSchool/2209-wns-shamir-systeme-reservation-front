@@ -14,8 +14,22 @@
   display: none;
 }
 
-.home_search_prod_by_date {
+.search_home_container {
   display: none;
+}
+
+.home_search_prod_by_date input {
+text-align: center;
+}
+
+.home_search_prod_by_date p {
+  display: block;
+  margin-bottom: 0.1rem;
+  width: 100%;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-right: 7rem;
+  text-align: center;
 }
 
 .search_product {
@@ -139,6 +153,21 @@
     margin-top: 2rem;
   }
 
+  .search_home_container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 100%;
+  }
+
+  .search_home_container .home_error_message{
+    width: 40%;
+    margin-right: 30rem;
+    position: relative;
+    bottom: 2.5rem;
+    text-align: end;
+    color: red;
+  }
   .home_search_prod_by_date p {
     display: block;
     margin-bottom: 0.1rem;
@@ -154,6 +183,8 @@
     width: 90%;
     min-width: 650px;
     max-width: 800px;
+    min-height: 10rem;
+    max-height: 10rem;
     display: flex;
     justify-content: space-between;
     background-color: rgba(255, 255, 255, 0.722);
@@ -168,6 +199,12 @@
     border-radius: 20px;
   }
 
+  .home_search_prod_by_date .div_button {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+  }
+
   .home_search_prod_by_date input {
     width: 150px;
     border: 0;
@@ -175,7 +212,6 @@
     border: 1px solid #0D83AB;
     border-radius: 5px;
   }
-
   .home_search_prod_by_date div p {
     text-transform: uppercase;
     color: black;
@@ -185,9 +221,9 @@
 
   .home_search_prod_by_date button {
     padding: 0;
-    height: 4rem;
-    width: 100px;
-    align-self: flex-end;
+    height: 3.5rem;
+    width: 150px;
+    align-self: center;
     background-color: #0D83AB;
     color: white;
     font-weight: 700;

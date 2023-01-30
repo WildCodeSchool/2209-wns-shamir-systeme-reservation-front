@@ -6,16 +6,36 @@ import fullSkieur from '../../assets/images/full_skieur.jpg';
 import mountainMan from '../../assets/images/mountain_man2.jpg';
 import IProduct from '../../interfaces/IProduct';
 import ProductCard from '../../components/ProductCard/ProductCard';
-import IProductProps from '../../interfaces/IProductProps';
-import './home.css';
 import IHomeProps from '../../interfaces/IHomeProps';
+import SearchProductHome from '../../components/SearchProductHome/SearchProductHome';
+import { GET_PRODUCTS_BY_DATE } from '../../tools/queries';
+import { useLazyQuery } from '@apollo/client';
+import ICategory from '../../interfaces/ICategory';
+import { useState } from 'react';
+import './home.css';
+import { useNavigate } from 'react-router-dom';
 
-
-const Home = ({products, productsByDate}: IHomeProps) => {
+const Home = ({products, productsByDate, categories}: IHomeProps) => {
 
   // transforme un objet qui contient une liste d'objects en tableau d'objets
-  const productsArray = Object.values(products);
+  const productsArray = Object.values(products); 
 
+  const [getProductsByDate, { data: dataProductsbyDate }] = useLazyQuery(GET_PRODUCTS_BY_DATE);
+
+  const navigate = useNavigate();
+
+  const handleFindByDateFromHome = (dateFrom: string, dateTo: string, categories: ICategory[]) => {
+    getProductsByDate({ variables: { dateFrom, dateTo } })
+      .then(({ data }) => {
+        navigate("/catalogue", { state: { productByDate: data.getProductsByDate, categoriesFromHome: categories, isSearchFromHome : true, dateFrom :dateFrom, dateTo : dateTo  } });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  
+  
   return (
     <div>
       <header className='header_home' >
@@ -23,21 +43,7 @@ const Home = ({products, productsByDate}: IHomeProps) => {
         <button className="btn search_product">
           Rechercher un produit
         </button>
-        <div className='home_search_prod_by_date'>
-          <div>
-            <p>quel produit ?</p>
-            <input type="text" />
-          </div>
-          <div>
-            <p>debut de location</p>
-            <input type="date" />
-          </div>
-          <div>
-            <p>fin de location</p>
-            <input type="date" />
-          </div>
-          <button>Rechercher</button>
-        </div>
+      <SearchProductHome  categories={categories} handleFindByDateFromHome={handleFindByDateFromHome} />
         <p className='header_home_title2'>Trouver le meilleur matériel pour vos loisirs</p>
       </header>
 
