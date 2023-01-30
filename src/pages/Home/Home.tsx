@@ -56,22 +56,31 @@ const Home = ({products, productsByDate}: IHomeProps) => {
 
         </div>
 
-        <aside className='home_infos_one'>
-          <h2>Une expertise à votre service</h2>
-          <div>
-            <img src={hotline} alt="" />
-            <span>Hotline</span>
-            <p>06 70 45 65 72</p>
+        <div className="homeService">
+          <div className="row align-items-center bg-img-fixed pb-0">
+            <span></span>
+              <h3 className='text-white'>Une expertise à votre service</h3>
+            <div className="container">
+              <div className="row justify-content-between">
+                <div className="col-md-4 mt-15 mb-30 text-center" data-aos="fade-right">
+                  <img className="text-white my-3" src={hotline} alt="" />
+                  <h4 className="text-white">Hotline</h4>
+                  <p className="text-white">06 70 45 65 72</p>
+                </div>
+                <div className="col-md-4 mt-15 mb-30 text-center" data-aos="fade-up">
+                  <img className="text-white my-3" src={service_rapide} alt="" />
+                  <h4 className="text-white">Service <br />Rapide</h4>
+                  <p className="text-white">Retrait sous 1 heure</p>
+                </div>
+                <div className="col-md-4 mt-15 mb-30 text-center" data-aos="fade-left">
+                  <img className="text-white my-3" src={paiements_sec} alt="" />
+                  <h4 className="text-white">Paiements <br /> Sécurisés</h4>
+                  <p className="text-white">CB, Paypal, ApplePay</p>
+                </div>
+              </div>
+            </div>
           </div>
-          <div><img src={service_rapide} alt="" />
-            <span>Service <br />Rapide</span>
-            <p>Retrait sous 1 heure</p>
-          </div>
-          <div><img src={paiements_sec} alt="" />
-            <span>Paiements <br /> Sécurisés</span>
-            <p>CB, Paypal, ApplePay</p>
-          </div>
-        </aside>
+        </div>
 
         <aside className='home_infos_two'>
           <div className='home_infos_two_description1'>
