@@ -28,7 +28,7 @@ const AdminProductForm = ({
     try {
       const name: string = e.target.value;
       setNameProduct(name);
-      if(name.length > 255) {
+      if (name.length > 255) {
         setErrors({
           ...errors,
           name: "Le nom ne doit pas dépasser 255 caractères.",
@@ -58,7 +58,8 @@ const AdminProductForm = ({
       if (regexAlpha.test(e.target.value)) {
         setErrors({
           ...errors,
-          price: "Le prix doit être un nombre décimal. Pour séparer les euros des centimes privilégiez le point.",
+          price:
+            "Le prix doit être un nombre décimal. Pour séparer les euros des centimes privilégiez le point.",
         });
       } else {
         setErrors({
@@ -116,7 +117,7 @@ const AdminProductForm = ({
             price: priceProduct,
             quantity: quantityProduct,
             image: imageProduct,
-            category: categoryProduct,
+            category: { id: categoryProduct?.id, name: categoryProduct?.name },
           },
         },
       });
