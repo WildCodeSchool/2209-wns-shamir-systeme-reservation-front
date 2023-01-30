@@ -14,6 +14,10 @@
     color: rgb(247, 36, 36);
 }
 
+.edit_icon:hover, .delete_icon:hover {
+    cursor: pointer;
+}
+
 .product_container,
 .customer_container,
 .category_container,

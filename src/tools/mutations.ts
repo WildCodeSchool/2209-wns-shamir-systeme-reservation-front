@@ -42,14 +42,20 @@ export const CREATE_PRODUCT = gql`
   }
 `;
 
-export const UPDATE_USER = gql`
-mutation Mutation($userId: Float!, $userData: userType!) {
-  updateUser(userId: $userId, userData: $userData) {
-    firstname
-    id
-    lastname
-    phone
-    email
+export const DELETE_PRODUCT = gql`
+  mutation DeleteProduct($deleteProductId: Float!) {
+    deleteProduct(id: $deleteProductId)
   }
-}
+`;
+
+export const UPDATE_USER = gql`
+  mutation Mutation($userId: Float!, $userData: userType!) {
+    updateUser(userId: $userId, userData: $userData) {
+      firstname
+      id
+      lastname
+      phone
+      email
+    }
+  }
 `;
