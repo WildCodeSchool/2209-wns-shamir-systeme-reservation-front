@@ -42,6 +42,14 @@ export const CREATE_PRODUCT = gql`
   }
 `;
 
+export const UPDATE_PRODUCT = gql`
+  mutation UpdateProduct($product: ProductType!, $updateProductId: Float!) {
+    updateProduct(product: $product, id: $updateProductId) {
+      name
+    }
+  }
+`;
+
 export const DELETE_PRODUCT = gql`
   mutation DeleteProduct($deleteProductId: Float!) {
     deleteProduct(id: $deleteProductId)

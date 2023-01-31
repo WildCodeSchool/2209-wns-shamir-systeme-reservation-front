@@ -3,13 +3,14 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { Form } from "react-bootstrap";
 import ICategory from "../../interfaces/ICategory";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation } from "@apollo/client";
-import { CREATE_PRODUCT } from "../../tools/mutations";
+import { CREATE_PRODUCT, UPDATE_PRODUCT } from "../../tools/mutations";
 import { GET_ALL_PRODUCTS } from "../../tools/queries";
 import { regexAlpha, regexInput } from "../../tools/utils";
 
 const AdminProductForm = ({
+  productToEdit,
   show,
   categories,
   handleShow,
@@ -23,6 +24,17 @@ const AdminProductForm = ({
   const [categoryProduct, setCategoryProduct] = useState<ICategory>();
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+  useEffect(() => {
+    if (productToEdit) {
+      setNameProduct(productToEdit.name);
+      setDescriptionProduct(productToEdit.description);
+      setPriceProduct(productToEdit.price);
+      setQuantityProduct(productToEdit.quantity);
+      setImageProduct(productToEdit.image);
+      setCategoryProduct(productToEdit.category);
+    }
+  }, []);
 
   const handleNameProduct = (e: any) => {
     try {
@@ -101,44 +113,71 @@ const AdminProductForm = ({
     setCategoryProduct(cat);
   };
 
-  const [createProduct, { loading: loading, error: error, data: data }] =
-    useMutation(CREATE_PRODUCT, {
-      refetchQueries: [{ query: GET_ALL_PRODUCTS }, "getAllProducts"],
-    });
+  const [
+    createProduct,
+    { loading: loadingCreate, error: errorCreate, data: dataCreate },
+  ] = useMutation(CREATE_PRODUCT, {
+    refetchQueries: [{ query: GET_ALL_PRODUCTS }, "getAllProducts"],
+  });
 
-  const handleSubmitNewProduct = async (e: any) => {
+  const [
+    updateProduct,
+    { loading: loadingUpdate, error: errorUpdate, data: dataUpdate },
+  ] = useMutation(UPDATE_PRODUCT, {
+    refetchQueries: [{ query: GET_ALL_PRODUCTS }, "getAllProducts"],
+  });
+
+  const handleSubmitProduct = async (e: any) => {
     e.preventDefault();
-    try {
-      const newProduct = await createProduct({
-        variables: {
-          product: {
-            name: nameProduct.trim().replace(regexInput, ""),
-            description: descriptionProduct.trim().replace(regexInput, ""),
-            price: priceProduct,
-            quantity: quantityProduct,
-            image: imageProduct,
-            category: { id: categoryProduct?.id, name: categoryProduct?.name },
+    const productToSubmit = {
+      name: nameProduct.trim().replace(regexInput, ""),
+      description: descriptionProduct.trim().replace(regexInput, ""),
+      price: priceProduct,
+      quantity: quantityProduct,
+      image: imageProduct,
+      category: { id: categoryProduct?.id, name: categoryProduct?.name },
+    };
+    if (productToEdit) {
+      try {
+        const editProduct = await updateProduct({
+          variables: {
+            updateProductId: productToEdit.id,
+            product: productToSubmit,
           },
-        },
-      });
-      handleShow();
-      handleFlashMessage("success", "Produit enregistré !");
-    } catch (error) {}
+        });
+        handleShow();
+        handleFlashMessage("success", "Produit modifié !");
+      } catch (error) {}
+    } else {
+      try {
+        const newProduct = await createProduct({
+          variables: {
+            product: productToSubmit,
+          },
+        });
+        console.log(show, productToEdit);
+        handleShow();
+        handleFlashMessage("success", "Produit enregistré !");
+      } catch (error) {}
+    }
   };
 
   return (
     <Modal show={show} onHide={handleShow} size="lg">
       <Modal.Header closeButton>
-        <Modal.Title className="fs-1">Nouveau produit</Modal.Title>
+        <Modal.Title className="fs-1">
+          {productToEdit ? "Produit à modifier" : "Nouveau produit"}
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form onSubmit={handleSubmitNewProduct}>
+        <Form onSubmit={handleSubmitProduct}>
           <Form.Group className="mb-3" controlId="productForm.name">
             <Form.Label size="lg">Nom du produit</Form.Label>
             <Form.Control
               size="lg"
               type="text"
               name="name"
+              value={nameProduct}
               onChange={handleNameProduct}
               autoFocus
               required
@@ -155,6 +194,7 @@ const AdminProductForm = ({
               as="textarea"
               rows={4}
               name="description"
+              value={descriptionProduct}
               required
               onChange={handleDescriptionProduct}
             />
@@ -166,6 +206,7 @@ const AdminProductForm = ({
               size="lg"
               type="text"
               name="price"
+              value={priceProduct}
               autoFocus
               required
               onChange={handlePriceProduct}
@@ -181,6 +222,7 @@ const AdminProductForm = ({
               size="lg"
               type="text"
               name="quantity"
+              value={quantityProduct}
               autoFocus
               required
               onChange={handleQuantityProduct}
@@ -196,6 +238,7 @@ const AdminProductForm = ({
               size="lg"
               type="text"
               name="image"
+              value={imageProduct}
               autoFocus
               required
               onChange={handleImageProduct}
@@ -207,8 +250,9 @@ const AdminProductForm = ({
             size="lg"
             className="mb-3"
             onChange={handleCategoryProduct}
+            defaultValue={productToEdit && productToEdit.category.id}
           >
-            <option value="0">Choisir une catégorie</option>
+            {!productToEdit && <option value="">Choisir une catégorie</option>}
             {categories &&
               categories.map((category: ICategory) => (
                 <option key={category.id} value={category.id}>
@@ -217,7 +261,7 @@ const AdminProductForm = ({
               ))}
           </Form.Select>
           <Button className="btnWild justify-self-end" type="submit">
-            Ajouter
+            {productToEdit ? "Modifier" : "Ajouter"}
           </Button>
         </Form>
       </Modal.Body>
