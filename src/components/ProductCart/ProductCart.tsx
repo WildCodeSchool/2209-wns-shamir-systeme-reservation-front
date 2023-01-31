@@ -1,4 +1,3 @@
-// import { useState } from 'react';
 import "./ProductCart.css";
 import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -7,8 +6,6 @@ import IProductCartProps from "../../interfaces/IProductCartProps";
 
 export default function ProductCart({cartItem, cart, setCart}: IProductCartProps) {
 
-  // const [subtotal, setSubtotal] = useState<number>(0);
-
   // ajoute au panier sur bouton +
   const addToCart = () => {
     const newQtyInCart = cartItem.qtyInCart + 1;
@@ -16,7 +13,6 @@ export default function ProductCart({cartItem, cart, setCart}: IProductCartProps
     const updatedProduct = {...cartItem, qtyInCart: newQtyInCart, subtotal: newProductPrice};
     let updatedCart = cart.filter(product => product.id !== cartItem.id);
     setCart([...updatedCart, updatedProduct]);
-    updatePriceProductInCart(cartItem.id, newQtyInCart, newProductPrice);
   };
   
   // retire du panier sur bouton -
@@ -29,7 +25,6 @@ export default function ProductCart({cartItem, cart, setCart}: IProductCartProps
       const updatedProduct = {...cartItem, qtyInCart: newQtyInCart, subtotal: newProductPrice};
       let updatedCart = cart.filter(product => product.id !== cartItem.id);
       setCart([...updatedCart, updatedProduct]);
-      updatePriceProductInCart(cartItem.id, newQtyInCart, newProductPrice);
     }
   };
 
@@ -42,7 +37,6 @@ export default function ProductCart({cartItem, cart, setCart}: IProductCartProps
       const updatedProduct = {...cartItem, qtyInCart: newQtyInCart, subtotal: newProductPrice};
       let updatedCart = cart.filter(product => product.id !== productId);
       newQtyInCart > 0 ? setCart([...updatedCart, updatedProduct]) : setCart([...updatedCart]);
-      updatePriceProductInCart(cartItem.id, newQtyInCart, newProductPrice);
     }
   };
 
@@ -55,20 +49,6 @@ export default function ProductCart({cartItem, cart, setCart}: IProductCartProps
       const updatedProduct = {...cartItem, qtyInCart: newQtyInCart, subtotal: newProductPrice};
       let updatedCart = cart.filter(product => product.id !== cartItem.id);
       setCart([...updatedCart, updatedProduct]);
-      updatePriceProductInCart(cartItem.id, newQtyInCart, newProductPrice);
-    }
-  };
-
-  // met à jour le prix du produit en multipliant la quantité par le prix du produit
-  const updatePriceProductInCart = (productId: number, value: number, price: number) => {
-    let selectedProduct = cart.find(product => product.id === productId);
-    if(selectedProduct && selectedProduct.qtyInCart){
-      const newQtyInCart = value;
-      const priceProduct = price;
-      const newSubtotal = newQtyInCart * priceProduct;
-      const updatedProduct = {...selectedProduct, qtyInCart: newQtyInCart, subtotal : newSubtotal};
-      let updatedCart = cart.filter(product => product.id !== productId);
-      newQtyInCart > 0 ? setCart([...updatedCart, updatedProduct]) : setCart([...updatedCart]);
     }
   };
 
@@ -93,7 +73,7 @@ export default function ProductCart({cartItem, cart, setCart}: IProductCartProps
         <div className="cardRight">
           <Card.Text>du 25/01/2022</Card.Text>
           <Card.Text>au 27/01/2022</Card.Text>
-          <hr style={{width:"13rem"}}/>
+          <hr style={{width:"11rem", marginTop: "0"}}/>
           <Card.Text>soit {/* calcul du nb de jour */}2 jour(s)</Card.Text>
           <br />
           <div className="priceProduct">

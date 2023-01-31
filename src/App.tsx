@@ -189,6 +189,21 @@ function App() {
   //gestion du panier
   const [cart, setCart] = useState<IProductCart[]>([]);
 
+  // useEffect(() => {
+  //   let cartStringified = JSON.stringify(cart);
+  //   localStorage.setItem("cart", cartStringified);
+  //   console.log("cartStringified", cartStringified)
+  // }, [cart]);
+
+  // useEffect(() => {
+  //   const storage = localStorage.getItem("cart");
+  //   console.log("storage ", storage);
+  //   if(storage){
+  //     let cartJSON = JSON.parse(storage);
+  //     setCart(cartJSON)
+  //   }
+  // }, [])
+
   return (
     <div className="app">
       <Router>
