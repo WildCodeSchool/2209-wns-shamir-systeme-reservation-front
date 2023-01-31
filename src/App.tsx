@@ -16,6 +16,7 @@ import {
   GET_PRODUCTS_BY_DATE,
   IS_ADMIN,
   GET_USER,
+  GET_LAST_FOUR_PRODUCTS,
 } from "./tools/queries";
 import Home from "./pages/Home/Home";
 import Catalog from "./pages/Catalog/Catalog";
@@ -39,6 +40,7 @@ import IUser from "./interfaces/IUser";
 
 function App() {
   const [products, setProducts] = useState<IProduct[]>([]);
+  const [lastFourProducts, setlastFourProducts ] = useState<IProduct[]>([]);
   const [productsByDate, setProductsByDate] = useState<IProduct[]>([]);
   const [searchCategoriesFromHome, setSearchCategoriesFromHome] = useState<ICategory[]>([]);
   const [loginOpen, setLoginOpen] = useState<boolean>(false);
@@ -50,6 +52,7 @@ function App() {
   const [isUserAdmin, setIsUserAdmin] = useState<boolean>(false);
   const [infoUser, setInfoUser] = useState<IUser | null | undefined>();
 
+console.log(lastFourProducts );
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -94,6 +97,18 @@ function App() {
       setProducts(dataAllProducts.getAllProducts);
     },
   });
+
+  const {
+    loading: loadingLastFourProducts,
+    data: dataLastFourProducts,
+    error: errorLastFourProducts,
+  } = useQuery(GET_LAST_FOUR_PRODUCTS, {
+    onCompleted: (dataLastFourProducts) => {
+      setlastFourProducts(dataLastFourProducts.getLastFourProducts);
+    },
+  });
+
+  
 
   const [isAdmin, { data: dataIsAdmin }] = useLazyQuery(IS_ADMIN);
   const [getProductsByDate, { data: dataProductsbyDate }] = useLazyQuery(GET_PRODUCTS_BY_DATE);
@@ -228,7 +243,7 @@ function App() {
           <Route
             path="/"
             element={
-              <Home products={products} productsByDate={productsByDate} categories={categories}  />
+              <Home products={products} productsByDate={productsByDate} categories={categories} lastFourProducts={lastFourProducts} />
             }
           />
           

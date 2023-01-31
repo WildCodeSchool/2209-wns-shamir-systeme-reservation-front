@@ -15,10 +15,8 @@ import { useState } from 'react';
 import './home.css';
 import { useNavigate } from 'react-router-dom';
 
-const Home = ({products, productsByDate, categories}: IHomeProps) => {
+const Home = ({products, productsByDate, categories, lastFourProducts}: IHomeProps) => {
 
-  // transforme un objet qui contient une liste d'objects en tableau d'objets
-  const productsArray = Object.values(products); 
 
   const [getProductsByDate, { data: dataProductsbyDate }] = useLazyQuery(GET_PRODUCTS_BY_DATE);
 
@@ -30,7 +28,7 @@ const Home = ({products, productsByDate, categories}: IHomeProps) => {
         navigate("/catalogue", { state: { productByDate: data.getProductsByDate, categoriesFromHome: categories, isSearchFromHome : true, dateFrom :dateFrom, dateTo : dateTo  } });
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error); 
       });
   };
 
@@ -52,7 +50,7 @@ const Home = ({products, productsByDate, categories}: IHomeProps) => {
           <h2>Derniers Produits Ajoutés</h2>
           <div className='row justify-content-center'>
             {
-              productsArray.filter((product) => product.id < 5).map((product) => (
+              lastFourProducts.map((product) => (
 
                 <ProductCard key={product.id} product={product} productsByDate={productsByDate} />
 
