@@ -23,7 +23,6 @@ import Contact from "./pages/Contact/Contact";
 import Profile from "./pages/Profile/Profile";
 import Cart from './pages/Cart/Cart';
 import IProduct from "./interfaces/IProduct";
-import ICartItem from "./interfaces/ICartItem";
 import Footer from "./components/Footer/Footer";
 import Login from "./components/LogIn/Login";
 import { GET_TOKEN, CREATE_USER, UPDATE_USER } from "./tools/mutations";
@@ -37,6 +36,7 @@ import AdminCategories from "./pages/Admin/AdminCategories";
 import AdminReservations from "./pages/Admin/AdminReservations";
 import { ProtectedRoute } from "./tools/ProtectedRoute";
 import IUser from "./interfaces/IUser";
+import IProductCart from "./interfaces/IProductCart";
 
 function App() {
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -187,65 +187,7 @@ function App() {
   };
 
   //gestion du panier
-  const [cart, setCart] = useState<ICartItem[]>([]);
-  const [subtotal, setSubtotal] = useState<number>(0);
-  
-  const addToCart = (productId: number) => {
-    setCart((prevCart: any) => {
-    const index = prevCart.findIndex((item: ICartItem)=> item.id === productId);
-    if (-1 !== index) {
-      return [...prevCart.slice(0, index), { ...prevCart[index], qty: prevCart[index].qty + 1 }, ...prevCart.slice(index + 1)];
-      } else {
-      return [...prevCart, { id: productId, qty: 1 }];
-    }
-    });
-    // updateSubtotal();
-  };
-
-  const removeFromCart = (productId: number) => {
-    setCart((prevCart: any) => {
-    const index = prevCart.findIndex((item: ICartItem) => item.id === productId);
-    if (-1 !== index) {
-      return [...prevCart.slice(0, index), { ...prevCart[index], qty: prevCart[index].qty - 1 }, ...prevCart.slice(index - 1)];
-      } else {
-      return [...prevCart, { id: productId, qty: - 1 }];
-    }
-    });
-    updateSubtotal();
-  };
-  
-  const updateQty = (productId: number, value: number) => {
-    setCart((prevCart: any) => {
-      const index = prevCart.findIndex((item: ICartItem) => item.id === productId);
-      if (-1 !== index) {
-        return [...prevCart.slice(0, index), { ...prevCart[index], qty: value }, ...prevCart.slice(index + 1)];
-        } else {
-        return prevCart;
-      }
-    });
-    updateSubtotal();
-  };
-  
-  const deleteItem = (productId: number) => {
-    const reallyDelete = window.confirm("Souhaitez-vous confirmer la suppression de ce produit ?");
-    if (reallyDelete) {
-      setCart(prevCart => prevCart.filter(item => item.id !== productId));
-      updateSubtotal();
-    }
-  };
-  
-  const updateSubtotal = () => {
-    setSubtotal(prevSubtotal => {
-      const newSubtotal = cart.reduce((acc, item) => {
-        const product = products.find(product => product.id === item.id);
-        if (product) acc += item.qty * product.price;
-        return acc;
-        }, 0);
-      return newSubtotal;
-    });
-  };
-
-  console.log('app', addToCart);
+  const [cart, setCart] = useState<IProductCart[]>([]);
 
   return (
     <div className="app">
@@ -258,6 +200,7 @@ function App() {
           handleLogout={handleLogout}
           isMenuUserOpen={isMenuUserOpen}
           setIsMenuUserOpen={setIsMenuUserOpen}
+          cart={cart}
         />
         <NavbarDesktop
           isUserAdmin={isUserAdmin}
@@ -267,6 +210,7 @@ function App() {
           handleLogout={handleLogout}
           isMenuUserOpen={isMenuUserOpen}
           setIsMenuUserOpen={setIsMenuUserOpen}
+          cart={cart}
         />
 
         {/* navbar version mobile */}
@@ -274,6 +218,7 @@ function App() {
           logged={logged}
           isMenuUserOpen={isMenuUserOpen}
           setIsMenuUserOpen={setIsMenuUserOpen}
+          cart={cart}
         />
 
         {loginOpen && (
@@ -286,13 +231,13 @@ function App() {
         {isMenuUserOpen && <MenuUser handleLogout={handleLogout} />}
 
         <Routes>
-          <Route path="/" element={<Home products={products} productsByDate={productsByDate} />} />
-          <Route path="/catalogue" element={<Catalog products={products} categories={categories} handleFindByDate={handleFindByDate} productsByDate={productsByDate} reloadAllProducts={reloadAllProducts} addToCart={addToCart} setCart={setCart} />} />
+          <Route path="/" element={<Home products={products} productsByDate={productsByDate} cart={cart} setCart={setCart} />} />
+          <Route path="/catalogue" element={<Catalog products={products} categories={categories} handleFindByDate={handleFindByDate} productsByDate={productsByDate} reloadAllProducts={reloadAllProducts} cart={cart} setCart={setCart} />} />
           <Route path="/contact" element={<Contact />} />
           {infoUser && 
             <Route path="/profil" element={<Profile infoUser={infoUser} handleUpdateUser={handleUpdateUser}/>} />
           }
-          <Route path="/panier" element={<Cart products={products} cart={cart} addToCart={addToCart} removeFromCart={removeFromCart} updateQty={updateQty} deleteItem={deleteItem} updateSubtotal={updateSubtotal} setCart={setCart} />} />
+          <Route path="/panier" element={<Cart products={products} cart={cart} setCart={setCart} />} />
 
           <Route element={<ProtectedRoute isUserAdmin={isUserAdmin} />}>
             <Route path="/admin">

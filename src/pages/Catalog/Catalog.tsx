@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import SearchProduct from '../../components/SearchProduct/SearchProduct';
 import Nav from "react-bootstrap/Nav";
@@ -6,10 +6,9 @@ import ICatalogProps from '../../interfaces/ICatalogProps';
 import IProduct from '../../interfaces/IProduct';
 import ICategory from '../../interfaces/ICategory';
 import "./catalog.css";
-import ICartItem from '../../interfaces/ICartItem';
 
-function Catalog({ products, categories, handleFindByDate, productsByDate, reloadAllProducts }: ICatalogProps, {addToCart}: ICartItem, setCart: any) {
-  console.log('catalogue :', addToCart);
+function Catalog({ products, categories, handleFindByDate, productsByDate, reloadAllProducts, cart, setCart }: ICatalogProps) {
+
   const [productsCatalog, setProductsCatalog] = useState<IProduct[]>([]);
 
   // On stock dans le state tous les produits au montage du composant
@@ -98,7 +97,7 @@ function Catalog({ products, categories, handleFindByDate, productsByDate, reloa
         <SearchProduct categories={categories} findBySearchTerm={findBySearchTerm} findByCategory={findByCategory} handleFindByDate={handleFindByDate} reloadAllProducts={reloadAllProducts} productsByDate={productsByDate} />
         <div className="col-lg-9 col-md-9 col-sm-10 row d-flex justify-content-center m-auto">
           {productsCatalog.map((product) => (
-            <ProductCard key={product.id} product={product} productsByDate={productsByDate} addToCart={addToCart} />
+            <ProductCard key={product.id} product={product} productsByDate={productsByDate} cart={cart} setCart={setCart} />
           ))}
         </div>
       </div>

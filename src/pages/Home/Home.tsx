@@ -8,8 +8,7 @@ import ProductCard from '../../components/ProductCard/ProductCard';
 import './home.css';
 import IHomeProps from '../../interfaces/IHomeProps';
 
-
-const Home = ({products, productsByDate}: IHomeProps) => {
+const Home = ({products, productsByDate, cart, setCart}: IHomeProps) => {
 
   // transforme un objet qui contient une liste d'objects en tableau d'objets
   const productsArray = Object.values(products);
@@ -45,9 +44,7 @@ const Home = ({products, productsByDate}: IHomeProps) => {
           <div className='row justify-content-center'>
             {
               productsArray.filter((product) => product.id < 5).map((product) => (
-
-                <ProductCard key={product.id} product={product} productsByDate={productsByDate} />
-
+                <ProductCard key={product.id} product={product} productsByDate={productsByDate} cart={cart} setCart={setCart} />
               ))
             }
           </div>

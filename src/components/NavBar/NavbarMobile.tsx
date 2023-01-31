@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import logo from "../../assets/images/512.png";
 import login from "../../assets/images/Login.png";
 import panier from "../../assets/images/47.png";
@@ -5,7 +6,10 @@ import "./navbar.css";
 import { Container, Navbar } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
 
-const NavbarMobile = ({ setLoginOpen, loginOpen, logged }: any) => {
+const NavbarMobile = ({ setLoginOpen, loginOpen, logged, cart }: any) => {
+
+  const navigate = useNavigate();
+
   return (
     <Navbar expand="md" className="fixed-top" id="mainNavMobile">
       <Container fluid className="justify-content-center">
@@ -25,7 +29,7 @@ const NavbarMobile = ({ setLoginOpen, loginOpen, logged }: any) => {
           </Nav.Link>
           {logged && (
             <Nav.Link
-              href="/panier"
+              onClick={() => navigate('/panier', { state: cart})}
               className="mx-4 my-auto linkIconMobile text-end"
             >
               <img className="panierIcon" src={panier} alt="Panier" />

@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import logo from "../../assets/images/512.png";
 import profil from "../../assets/images/48.png";
 import panier from "../../assets/images/47.png";
@@ -6,7 +7,6 @@ import "./navbar.css";
 import { Container, Navbar, Offcanvas } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
 
-
 const NavbarDesktop = ({
   isUserAdmin,
   setLoginOpen,
@@ -14,7 +14,11 @@ const NavbarDesktop = ({
   logged,
   setIsMenuUserOpen,
   isMenuUserOpen,
+  cart
 }: any) => {
+
+  const navigate = useNavigate();
+
   return (
     <Navbar expand="md" className="mb-3 fixed-top py-0" id="mainNav">
       <Container fluid>
@@ -55,8 +59,10 @@ const NavbarDesktop = ({
                 <MdSettings className="text-black settingsIcon"/> 
               </Nav.Link>
               : logged && 
-              <Nav.Link href="/panier" className="nav-link mx-4 my-auto linkIcon">
-                <img className="panierIcon" src={panier} alt="Panier" />
+              <Nav.Link 
+                onClick={() => navigate('/panier', { state: cart})}
+                className="nav-link mx-4 my-auto linkIcon">
+                  <img  className="panierIcon" src={panier} alt="Panier" />
               </Nav.Link>}
             </Nav>
           </Offcanvas.Body>
