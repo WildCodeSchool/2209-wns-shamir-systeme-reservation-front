@@ -6,4 +6,5 @@ export default interface IHomeProps {
  products: IProduct[],
  productsByDate: IProduct[],
  categories: ICategory[],
+ lastFourProducts: IProduct[]
 }
