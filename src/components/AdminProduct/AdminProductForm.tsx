@@ -8,6 +8,7 @@ import { useMutation } from "@apollo/client";
 import { CREATE_PRODUCT, UPDATE_PRODUCT } from "../../tools/mutations";
 import { GET_ALL_PRODUCTS } from "../../tools/queries";
 import { regexAlpha, regexInput } from "../../tools/utils";
+import IAdminProductFormProps from "../../interfaces/IAdminProductFormProps";
 
 const AdminProductForm = ({
   productToEdit,
@@ -15,7 +16,7 @@ const AdminProductForm = ({
   categories,
   handleShow,
   handleFlashMessage,
-}: any) => {
+}: IAdminProductFormProps) => {
   const [nameProduct, setNameProduct] = useState<string>("");
   const [descriptionProduct, setDescriptionProduct] = useState<string>("");
   const [priceProduct, setPriceProduct] = useState<number>();
