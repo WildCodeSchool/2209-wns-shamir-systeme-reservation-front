@@ -14,6 +14,7 @@ function Catalog({
   handleFindByDate,
   productsByDate,
   reloadAllProducts,
+  searchCategoriesFromHome,
   cart,
   setCart
 

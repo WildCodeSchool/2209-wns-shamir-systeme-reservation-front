@@ -8,7 +8,7 @@ import NavbarDesktop from "./components/NavBar/NavbarDesktop";
 import NavbarResponsive from "./components/NavBar/NavBarResponsive";
 import NavbarMobile from "./components/NavBar/NavbarMobile";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useState, useEffect, createContext } from "react";
+import { useState, useEffect } from "react";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import {
   GET_ALL_CATEGORIES,
@@ -206,21 +206,6 @@ console.log(lastFourProducts );
   //gestion du panier
   const [cart, setCart] = useState<IProductCart[]>([]);
 
-  // useEffect(() => {
-  //   let cartStringified = JSON.stringify(cart);
-  //   localStorage.setItem("cart", cartStringified);
-  //   console.log("cartStringified", cartStringified)
-  // }, [cart]);
-
-  // useEffect(() => {
-  //   const storage = localStorage.getItem("cart");
-  //   console.log("storage ", storage);
-  //   if(storage){
-  //     let cartJSON = JSON.parse(storage);
-  //     setCart(cartJSON)
-  //   }
-  // }, [])
-
   return (
     <div className="app">
       <Router>
@@ -280,6 +265,8 @@ console.log(lastFourProducts );
                 productsByDate={productsByDate}
                 reloadAllProducts={reloadAllProducts}
                 searchCategoriesFromHome={searchCategoriesFromHome}
+                cart={cart}
+                setCart={setCart}
               />
             }
           />

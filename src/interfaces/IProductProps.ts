@@ -3,7 +3,8 @@ import IProductCart from "./IProductCart";
 
 export default interface IProductProps {
  product: IProduct,
- isSearchFromHome?: boolean
+ isSearchFromHome?: boolean,
+ productsByDate: IProduct[],
  cart: IProductCart[],
  setCart: (cart: IProductCart[]) => void,
 }
