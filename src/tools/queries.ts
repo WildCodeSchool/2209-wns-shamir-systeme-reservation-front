@@ -60,6 +60,29 @@ const GET_ALL_CUSTOMERS = gql`
   }
 `;
 
+const GET_ALL_RESERVATIONS = gql`
+  query getAllReservations {
+    getAllReservations {
+      id
+      start
+      end
+      price
+      status
+      product {
+        id
+        name
+      }
+      order {
+        id
+        user {
+          id
+          email
+        }
+      }
+    }
+  }
+`;
+
 const GET_PRODUCTS_BY_DATE = gql`
   query getProductsByDate($dateFrom: String!, $dateTo: String!) {
     getProductsByDate(dateFrom: $dateFrom, dateTo: $dateTo) {
@@ -93,6 +116,7 @@ export {
   GET_ALL_PRODUCTS,
   GET_ALL_CATEGORIES,
   GET_ALL_CUSTOMERS,
+  GET_ALL_RESERVATIONS,
   GET_LAST_FOUR_PRODUCTS,
   GET_PRODUCTS_BY_DATE,
   GET_USER,
