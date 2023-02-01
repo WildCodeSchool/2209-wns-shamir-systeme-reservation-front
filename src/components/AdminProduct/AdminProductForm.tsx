@@ -155,7 +155,6 @@ const AdminProductForm = ({
             product: productToSubmit,
           },
         });
-        console.log(show, productToEdit);
         handleShow();
         handleFlashMessage("success", "Produit enregistré !");
       } catch (error) {}
