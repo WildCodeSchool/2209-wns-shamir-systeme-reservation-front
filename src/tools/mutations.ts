@@ -56,6 +56,12 @@ export const DELETE_PRODUCT = gql`
   }
 `;
 
+export const DELETE_CATEGORY = gql`
+  mutation DeleteCategory($deleteCategoryId: Float!) {
+    deleteCategory(id: $deleteCategoryId)
+  }
+`;
+
 export const UPDATE_USER = gql`
   mutation Mutation($userId: Float!, $userData: userType!) {
     updateUser(userId: $userId, userData: $userData) {
