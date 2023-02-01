@@ -3,6 +3,7 @@
   color: white;
   padding: 3rem 2rem;
 }
+
 .footer div p{
   margin: 0;
  }
@@ -18,13 +19,15 @@
 .footer h4 {
   color: white;
   font-weight: 700;
+  margin-bottom: 1rem;
 }
 
 .footer a{
   color:rgb(185, 185, 185);
+  text-decoration: none;
 }
 
-@media (min-width: 765px) {
+@media (min-width: 765px) { /* version tablette & desktop */
   .footer{
     display: flex;
     flex-wrap: wrap;
@@ -41,6 +44,7 @@
 
   .copyright{
     display: inline-block;
+    text-align: center;
     width: 300px;
     margin-top: 2rem;
   }

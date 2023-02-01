@@ -22,7 +22,7 @@ import Home from "./pages/Home/Home";
 import Catalog from "./pages/Catalog/Catalog";
 import Contact from "./pages/Contact/Contact";
 import Profile from "./pages/Profile/Profile";
-import Basket from "./pages/Basket/Basket";
+import Cart from './pages/Cart/Cart';
 import IProduct from "./interfaces/IProduct";
 import Footer from "./components/Footer/Footer";
 import Login from "./components/LogIn/Login";
@@ -37,6 +37,7 @@ import AdminCategories from "./pages/Admin/AdminCategories";
 import AdminReservations from "./pages/Admin/AdminReservations";
 import { ProtectedRoute } from "./tools/ProtectedRoute";
 import IUser from "./interfaces/IUser";
+import IProductCart from "./interfaces/IProductCart";
 
 function App() {
   const [products, setProducts] = useState<IProduct[]>([]);
@@ -50,6 +51,7 @@ function App() {
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [isEmailAlredyExist, setIsEmailAlredyExist] = useState<boolean>(false);
   const [isUserAdmin, setIsUserAdmin] = useState<boolean>(false);
+ 
   const [infoUser, setInfoUser] = useState<IUser | null | undefined>();
 
 console.log(lastFourProducts );
@@ -201,6 +203,24 @@ console.log(lastFourProducts );
       });
   };
 
+  //gestion du panier
+  const [cart, setCart] = useState<IProductCart[]>([]);
+
+  // useEffect(() => {
+  //   let cartStringified = JSON.stringify(cart);
+  //   localStorage.setItem("cart", cartStringified);
+  //   console.log("cartStringified", cartStringified)
+  // }, [cart]);
+
+  // useEffect(() => {
+  //   const storage = localStorage.getItem("cart");
+  //   console.log("storage ", storage);
+  //   if(storage){
+  //     let cartJSON = JSON.parse(storage);
+  //     setCart(cartJSON)
+  //   }
+  // }, [])
+
   return (
     <div className="app">
       <Router>
@@ -212,6 +232,7 @@ console.log(lastFourProducts );
           handleLogout={handleLogout}
           isMenuUserOpen={isMenuUserOpen}
           setIsMenuUserOpen={setIsMenuUserOpen}
+          cart={cart}
         />
         <NavbarDesktop
           isUserAdmin={isUserAdmin}
@@ -221,6 +242,7 @@ console.log(lastFourProducts );
           handleLogout={handleLogout}
           isMenuUserOpen={isMenuUserOpen}
           setIsMenuUserOpen={setIsMenuUserOpen}
+          cart={cart}
         />
 
         {/* navbar version mobile */}
@@ -228,6 +250,7 @@ console.log(lastFourProducts );
           logged={logged}
           isMenuUserOpen={isMenuUserOpen}
           setIsMenuUserOpen={setIsMenuUserOpen}
+          cart={cart}
         />
 
         {loginOpen && (
@@ -243,7 +266,7 @@ console.log(lastFourProducts );
           <Route
             path="/"
             element={
-              <Home products={products} productsByDate={productsByDate} categories={categories} lastFourProducts={lastFourProducts} />
+              <Home products={products} productsByDate={productsByDate} categories={categories} lastFourProducts={lastFourProducts} cart={cart} setCart={setCart}  />
             }
           />
           
@@ -262,11 +285,11 @@ console.log(lastFourProducts );
           />
        
           <Route path="/contact" element={<Contact />} />
-          <Route path="/profil" element={<Profile infoUser={infoUser} handleUpdateUser={handleUpdateUser}/>} />
-          <Route
-            path="/panier"
-            element={<Basket products={products} categories={categories} />}
-          />
+          {infoUser && 
+            <Route path="/profil" element={<Profile infoUser={infoUser} handleUpdateUser={handleUpdateUser}/>} />
+          }
+          <Route path="/panier" element={<Cart products={products} cart={cart} setCart={setCart} />} />
+
           <Route element={<ProtectedRoute isUserAdmin={isUserAdmin} />}>
             <Route path="/admin">
               <Route index element={<Admin />} />

@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import boutique from "../../assets/images/boutique.png";
 import produit from "../../assets/images/produit.png";
 import profil from "../../assets/images/profil.png";
@@ -5,7 +6,10 @@ import "./navbar.css";
 import { Container, Navbar } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
 
-const NavbarResponse = ({ logged, setIsMenuUserOpen, isMenuUserOpen }: any) => {
+const NavbarResponse = ({ logged, setIsMenuUserOpen, isMenuUserOpen, cart }: any) => {
+
+  const navigate = useNavigate();
+
   return (
     <Navbar expand="md" className="fixed-bottom py-0" id="mainNavResponsive">
       <Container fluid className="justify-content-center">

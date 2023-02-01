@@ -4,7 +4,6 @@ import service_rapide from '../../assets/images/foudre.png';
 import mountain from '../../assets/images/mountain.jpg';
 import fullSkieur from '../../assets/images/full_skieur.jpg';
 import mountainMan from '../../assets/images/mountain_man2.jpg';
-import IProduct from '../../interfaces/IProduct';
 import ProductCard from '../../components/ProductCard/ProductCard';
 import IHomeProps from '../../interfaces/IHomeProps';
 import SearchProductHome from '../../components/SearchProductHome/SearchProductHome';
@@ -15,8 +14,7 @@ import { useState } from 'react';
 import './home.css';
 import { useNavigate } from 'react-router-dom';
 
-const Home = ({products, productsByDate, categories, lastFourProducts}: IHomeProps) => {
-
+const Home = ({products, productsByDate, categories, lastFourProducts, cart, setCart}: IHomeProps) => {
 
   const [getProductsByDate, { data: dataProductsbyDate }] = useLazyQuery(GET_PRODUCTS_BY_DATE);
 
@@ -32,8 +30,6 @@ const Home = ({products, productsByDate, categories, lastFourProducts}: IHomePro
       });
   };
 
-  
-  
   return (
     <div>
       <header className='header_home' >
@@ -52,8 +48,7 @@ const Home = ({products, productsByDate, categories, lastFourProducts}: IHomePro
             {
               lastFourProducts.map((product) => (
 
-                <ProductCard key={product.id} product={product} productsByDate={productsByDate} />
-
+                <ProductCard key={product.id} product={product} productsByDate={productsByDate} cart={cart} setCart={setCart} />
               ))
             }
           </div>

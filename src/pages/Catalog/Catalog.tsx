@@ -14,6 +14,8 @@ function Catalog({
   handleFindByDate,
   productsByDate,
   reloadAllProducts,
+  cart,
+  setCart
 
 }: ICatalogProps) {
   const [productsCatalog, setProductsCatalog] = useState<IProduct[]>([]);
@@ -225,6 +227,8 @@ function Catalog({
                 product={product}
                 productsByDate={productsByDate}
                 isSearchFromHome={isSearchFromHome}
+                cart={cart} 
+                setCart={setCart}
               />
             ))}
         </div>

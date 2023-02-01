@@ -28,7 +28,7 @@
     padding: 0.1rem;
   }
 
-  .qtyProduct{
+  .qtyInCartProduct{
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -49,13 +49,23 @@
     align-items: center;
   }
 
-  .cardContainerDesktop{
+  .cardContainerDesktop, .cardContainerTotalDesktop{
     display: none;
+  }
+
+  .cardContainerTotalMobile {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 3rem;
+    padding: 2rem;
+    box-shadow: 5px 5px 5px #9dbcd3;
+    width: 100%;
   }
 }
 
-@media screen and (min-width: 768px){ /* version desktop */
-  .cardContainerMobile {
+@media screen and (min-width: 577px){ /* version tablette & desktop */
+  .cardContainerMobile, .cardContainerTotalMobile {
     display: none;
   }
 
@@ -67,7 +77,7 @@
     margin: 3rem auto 3rem auto;
     padding: 2rem;
     box-shadow: 5px 5px 5px #9dbcd3;
-    width: 50%;
+    width: 80%;
   }
 
   p.card-text { /* retirer css par défaut Bootstrap */
@@ -82,11 +92,27 @@
     padding: 0.1rem;
   }
 
-  .qtyProduct{
+  .qtyInCartProduct{
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
   }
 
+  .cardContainerTotalDesktop{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: center;
+    margin: 3rem auto 3rem auto;
+    padding: 2rem;
+    box-shadow: 5px 5px 5px #9dbcd3;
+    width: 80%;
+  }
+}
+
+@media screen and (min-width: 1024px){ /* version desktop */
+  .cardContainerDesktop, .cardContainerTotalDesktop{
+    width: 60%;
+  }
 }
