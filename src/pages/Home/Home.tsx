@@ -5,13 +5,30 @@ import mountain from '../../assets/images/mountain.jpg';
 import fullSkieur from '../../assets/images/full_skieur.jpg';
 import mountainMan from '../../assets/images/mountain_man2.jpg';
 import ProductCard from '../../components/ProductCard/ProductCard';
-import './home.css';
 import IHomeProps from '../../interfaces/IHomeProps';
+import SearchProductHome from '../../components/SearchProductHome/SearchProductHome';
+import { GET_PRODUCTS_BY_DATE } from '../../tools/queries';
+import { useLazyQuery } from '@apollo/client';
+import ICategory from '../../interfaces/ICategory';
+import { useState } from 'react';
+import './home.css';
+import { useNavigate } from 'react-router-dom';
 
-const Home = ({products, productsByDate, cart, setCart}: IHomeProps) => {
+const Home = ({products, productsByDate, categories, lastFourProducts, cart, setCart}: IHomeProps) => {
 
-  // transforme un objet qui contient une liste d'objects en tableau d'objets
-  const productsArray = Object.values(products);
+  const [getProductsByDate, { data: dataProductsbyDate }] = useLazyQuery(GET_PRODUCTS_BY_DATE);
+
+  const navigate = useNavigate();
+
+  const handleFindByDateFromHome = (dateFrom: string, dateTo: string, categories: ICategory[]) => {
+    getProductsByDate({ variables: { dateFrom, dateTo } })
+      .then(({ data }) => {
+        navigate("/catalogue", { state: { productByDate: data.getProductsByDate, categoriesFromHome: categories, isSearchFromHome : true, dateFrom :dateFrom, dateTo : dateTo  } });
+      })
+      .catch((error) => {
+        console.log(error); 
+      });
+  };
 
   return (
     <div>
@@ -20,21 +37,7 @@ const Home = ({products, productsByDate, cart, setCart}: IHomeProps) => {
         <button className="btn search_product">
           Rechercher un produit
         </button>
-        <div className='home_search_prod_by_date'>
-          <div>
-            <p>quel produit ?</p>
-            <input type="text" />
-          </div>
-          <div>
-            <p>debut de location</p>
-            <input type="date" />
-          </div>
-          <div>
-            <p>fin de location</p>
-            <input type="date" />
-          </div>
-          <button>Rechercher</button>
-        </div>
+      <SearchProductHome  categories={categories} handleFindByDateFromHome={handleFindByDateFromHome} />
         <p className='header_home_title2'>Trouver le meilleur matériel pour vos loisirs</p>
       </header>
 
@@ -43,7 +46,8 @@ const Home = ({products, productsByDate, cart, setCart}: IHomeProps) => {
           <h2>Derniers Produits Ajoutés</h2>
           <div className='row justify-content-center'>
             {
-              productsArray.filter((product) => product.id < 5).map((product) => (
+              lastFourProducts.map((product) => (
+
                 <ProductCard key={product.id} product={product} productsByDate={productsByDate} cart={cart} setCart={setCart} />
               ))
             }
@@ -51,22 +55,31 @@ const Home = ({products, productsByDate, cart, setCart}: IHomeProps) => {
 
         </div>
 
-        <aside className='home_infos_one'>
-          <h2>Une expertise à votre service</h2>
-          <div>
-            <img src={hotline} alt="" />
-            <span>Hotline</span>
-            <p>06 70 45 65 72</p>
+        <div className="homeService">
+          <div className="row align-items-center bg-img-fixed pb-0">
+            <span></span>
+              <h3 className='text-white'>Une expertise à votre service</h3>
+            <div className="container">
+              <div className="row justify-content-between">
+                <div className="col-md-4 mt-15 mb-30 text-center" data-aos="fade-right">
+                  <img className="text-white my-3" src={hotline} alt="" />
+                  <h4 className="text-white">Hotline</h4>
+                  <p className="text-white">06 70 45 65 72</p>
+                </div>
+                <div className="col-md-4 mt-15 mb-30 text-center" data-aos="fade-up">
+                  <img className="text-white my-3" src={service_rapide} alt="" />
+                  <h4 className="text-white">Service <br />Rapide</h4>
+                  <p className="text-white">Retrait sous 1 heure</p>
+                </div>
+                <div className="col-md-4 mt-15 mb-30 text-center" data-aos="fade-left">
+                  <img className="text-white my-3" src={paiements_sec} alt="" />
+                  <h4 className="text-white">Paiements <br /> Sécurisés</h4>
+                  <p className="text-white">CB, Paypal, ApplePay</p>
+                </div>
+              </div>
+            </div>
           </div>
-          <div><img src={service_rapide} alt="" />
-            <span>Service <br />Rapide</span>
-            <p>Retrait sous 1 heure</p>
-          </div>
-          <div><img src={paiements_sec} alt="" />
-            <span>Paiements <br /> Sécurisés</span>
-            <p>CB, Paypal, ApplePay</p>
-          </div>
-        </aside>
+        </div>
 
         <aside className='home_infos_two'>
           <div className='home_infos_two_description1'>

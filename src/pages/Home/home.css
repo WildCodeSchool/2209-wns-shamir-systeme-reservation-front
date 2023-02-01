@@ -14,8 +14,22 @@
   display: none;
 }
 
-.home_search_prod_by_date {
+.search_home_container {
   display: none;
+}
+
+.home_search_prod_by_date input {
+text-align: center;
+}
+
+.home_search_prod_by_date p {
+  display: block;
+  margin-bottom: 0.1rem;
+  width: 100%;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-right: 7rem;
+  text-align: center;
 }
 
 .search_product {
@@ -139,6 +153,21 @@
     margin-top: 2rem;
   }
 
+  .search_home_container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 100%;
+  }
+
+  .search_home_container .home_error_message{
+    width: 40%;
+    margin-right: 30rem;
+    position: relative;
+    bottom: 2.5rem;
+    text-align: end;
+    color: red;
+  }
   .home_search_prod_by_date p {
     display: block;
     margin-bottom: 0.1rem;
@@ -154,6 +183,8 @@
     width: 90%;
     min-width: 650px;
     max-width: 800px;
+    min-height: 10rem;
+    max-height: 10rem;
     display: flex;
     justify-content: space-between;
     background-color: rgba(255, 255, 255, 0.722);
@@ -168,6 +199,12 @@
     border-radius: 20px;
   }
 
+  .home_search_prod_by_date .div_button {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+  }
+
   .home_search_prod_by_date input {
     width: 150px;
     border: 0;
@@ -175,7 +212,6 @@
     border: 1px solid #0D83AB;
     border-radius: 5px;
   }
-
   .home_search_prod_by_date div p {
     text-transform: uppercase;
     color: black;
@@ -185,9 +221,9 @@
 
   .home_search_prod_by_date button {
     padding: 0;
-    height: 4rem;
-    width: 100px;
-    align-self: flex-end;
+    height: 3.5rem;
+    width: 150px;
+    align-self: center;
     background-color: #0D83AB;
     color: white;
     font-weight: 700;
@@ -213,39 +249,48 @@
     padding: 1rem;
   }
 
-  .home_infos_one h2 {
-    width: 100%;
-    font-size: 3rem;
-  }
-
-  .home_infos_one {
-    background-image: url('../../assets/images/ski.png');
-    display: flex;
-    flex-direction: row;
-    height: 100%;
-    margin-bottom: 3rem;
-    min-height: 0;
-  }
-
-  .home_infos_one div {
-    width: 30%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    color: white;
-    font-size: 2.5rem;
-    text-align: center;
-  }
-
-  .home_infos_one span {
-    font-size: 1.8rem;
-    font-weight: bold;
-  }
-
-  .home_infos_one div img {
-    width: 150px;
-  }
+  /* ----- SECTION SERVICE -----  */
+.homeService{
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+}
+.homeService .container, .homeService h3{
+  z-index: 10;
+}
+.bg-img-fixed{
+  height: 40rem;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-image: url('../../assets/images/ski2.png');
+  background-attachment: fixed;
+  position: relative;
+}
+.homeService h3 {
+  font-size: 3rem;
+  font-weight: 700;
+  text-align: center;
+}
+.homeService h4{
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+.bg-img-fixed span{
+  content: '';
+  position: absolute;
+  background-color: #081b2f;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 40rem;
+  overflow: hidden;
+  opacity: .5;
+}
+.homeService img{
+    width: 10rem;
+    margin-bottom: 2rem !important;
+}
+/* ------------------ */
 
   .full_skieur {
     display: block;

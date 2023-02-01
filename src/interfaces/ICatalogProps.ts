@@ -5,6 +5,7 @@ import IProductCart from "./IProductCart";
 export default interface ICatalogProps {
   products: IProduct[],
   categories: ICategory[]
+  searchCategoriesFromHome: ICategory[]
   handleFindByDate: (dateFrom: string, dateTo: string ) => void,
   productsByDate: IProduct[]
   reloadAllProducts: () => void

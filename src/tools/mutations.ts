@@ -42,14 +42,34 @@ export const CREATE_PRODUCT = gql`
   }
 `;
 
-export const UPDATE_USER = gql`
-mutation Mutation($userId: Float!, $userData: userType!) {
-  updateUser(userId: $userId, userData: $userData) {
-    firstname
-    id
-    lastname
-    phone
-    email
+export const UPDATE_PRODUCT = gql`
+  mutation UpdateProduct($product: ProductType!, $updateProductId: Float!) {
+    updateProduct(product: $product, id: $updateProductId) {
+      name
+    }
   }
-}
+`;
+
+export const DELETE_PRODUCT = gql`
+  mutation DeleteProduct($deleteProductId: Float!) {
+    deleteProduct(id: $deleteProductId)
+  }
+`;
+
+export const DELETE_CATEGORY = gql`
+  mutation DeleteCategory($deleteCategoryId: Float!) {
+    deleteCategory(id: $deleteCategoryId)
+  }
+`;
+
+export const UPDATE_USER = gql`
+  mutation Mutation($userId: Float!, $userData: userType!) {
+    updateUser(userId: $userId, userData: $userData) {
+      firstname
+      id
+      lastname
+      phone
+      email
+    }
+  }
 `;

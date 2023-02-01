@@ -23,17 +23,13 @@ const GET_ALL_PRODUCTS = gql`
   }
 `;
 
-const GET_HOME_PRODUCTS = gql`
-  query getHomeProducts {
-    getHomeProducts {
-      category {
-        name
-        id
-      }
-      description
+const GET_LAST_FOUR_PRODUCTS = gql`
+  query getLastFourProducts {
+    getLastFourProducts {
       id
-      image
+      description
       name
+      image
       price
       quantity
     }
@@ -45,6 +41,44 @@ const GET_ALL_CATEGORIES = gql`
     getAllCategories {
       id
       name
+      products {
+        id
+      }
+    }
+  }
+`;
+
+const GET_ALL_CUSTOMERS = gql`
+  query getAllUsers {
+    getAllUsers {
+      id
+      lastname
+      firstname
+      email
+      phone
+    }
+  }
+`;
+
+const GET_ALL_RESERVATIONS = gql`
+  query getAllReservations {
+    getAllReservations {
+      id
+      start
+      end
+      price
+      status
+      product {
+        id
+        name
+      }
+      order {
+        id
+        user {
+          id
+          email
+        }
+      }
     }
   }
 `;
@@ -81,7 +115,9 @@ const GET_USER = gql`
 export {
   GET_ALL_PRODUCTS,
   GET_ALL_CATEGORIES,
-  GET_HOME_PRODUCTS,
+  GET_ALL_CUSTOMERS,
+  GET_ALL_RESERVATIONS,
+  GET_LAST_FOUR_PRODUCTS,
   GET_PRODUCTS_BY_DATE,
   GET_USER,
   IS_ADMIN,

@@ -8,7 +8,7 @@ import NavbarDesktop from "./components/NavBar/NavbarDesktop";
 import NavbarResponsive from "./components/NavBar/NavBarResponsive";
 import NavbarMobile from "./components/NavBar/NavbarMobile";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, createContext } from "react";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import {
   GET_ALL_CATEGORIES,
@@ -16,6 +16,7 @@ import {
   GET_PRODUCTS_BY_DATE,
   IS_ADMIN,
   GET_USER,
+  GET_LAST_FOUR_PRODUCTS,
 } from "./tools/queries";
 import Home from "./pages/Home/Home";
 import Catalog from "./pages/Catalog/Catalog";
@@ -40,7 +41,9 @@ import IProductCart from "./interfaces/IProductCart";
 
 function App() {
   const [products, setProducts] = useState<IProduct[]>([]);
+  const [lastFourProducts, setlastFourProducts ] = useState<IProduct[]>([]);
   const [productsByDate, setProductsByDate] = useState<IProduct[]>([]);
+  const [searchCategoriesFromHome, setSearchCategoriesFromHome] = useState<ICategory[]>([]);
   const [loginOpen, setLoginOpen] = useState<boolean>(false);
   const [isMenuUserOpen, setIsMenuUserOpen] = useState<boolean>(false);
   const [loginError, setLoginError] = useState<boolean>(false);
@@ -48,8 +51,10 @@ function App() {
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [isEmailAlredyExist, setIsEmailAlredyExist] = useState<boolean>(false);
   const [isUserAdmin, setIsUserAdmin] = useState<boolean>(false);
-
+ 
   const [infoUser, setInfoUser] = useState<IUser | null | undefined>();
+
+console.log(lastFourProducts );
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -95,9 +100,20 @@ function App() {
     },
   });
 
+  const {
+    loading: loadingLastFourProducts,
+    data: dataLastFourProducts,
+    error: errorLastFourProducts,
+  } = useQuery(GET_LAST_FOUR_PRODUCTS, {
+    onCompleted: (dataLastFourProducts) => {
+      setlastFourProducts(dataLastFourProducts.getLastFourProducts);
+    },
+  });
+
+  
+
   const [isAdmin, { data: dataIsAdmin }] = useLazyQuery(IS_ADMIN);
-  const [getProductsByDate, { data: dataProductsbyDate }] =
-    useLazyQuery(GET_PRODUCTS_BY_DATE);
+  const [getProductsByDate, { data: dataProductsbyDate }] = useLazyQuery(GET_PRODUCTS_BY_DATE);
   const [getToken, { data: dataToken }] = useMutation(GET_TOKEN);
   const [createUser, { data: dataCreateUser }] = useMutation(CREATE_USER);
   const [updateUser, { data: dataUpdateUser }] = useMutation(UPDATE_USER);
@@ -171,6 +187,7 @@ function App() {
         console.log(error);
       });
   };
+  
   const reloadAllProducts = () => {
     setProductsByDate([]);
   };
@@ -246,8 +263,27 @@ function App() {
         {isMenuUserOpen && <MenuUser handleLogout={handleLogout} />}
 
         <Routes>
-          <Route path="/" element={<Home products={products} productsByDate={productsByDate} cart={cart} setCart={setCart} />} />
-          <Route path="/catalogue" element={<Catalog products={products} categories={categories} handleFindByDate={handleFindByDate} productsByDate={productsByDate} reloadAllProducts={reloadAllProducts} cart={cart} setCart={setCart} />} />
+          <Route
+            path="/"
+            element={
+              <Home products={products} productsByDate={productsByDate} categories={categories} lastFourProducts={lastFourProducts} cart={cart} setCart={setCart}  />
+            }
+          />
+          
+        <Route
+            path="/catalogue"
+            element={
+              <Catalog
+                products={products}
+                categories={categories}
+                handleFindByDate={handleFindByDate}
+                productsByDate={productsByDate}
+                reloadAllProducts={reloadAllProducts}
+                searchCategoriesFromHome={searchCategoriesFromHome}
+              />
+            }
+          />
+       
           <Route path="/contact" element={<Contact />} />
           {infoUser && 
             <Route path="/profil" element={<Profile infoUser={infoUser} handleUpdateUser={handleUpdateUser}/>} />

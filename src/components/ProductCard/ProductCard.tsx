@@ -5,7 +5,7 @@ import IProductProps from "../../interfaces/IProductProps";
 import IProductCart from "../../interfaces/IProductCart";
 import { useLocation } from 'react-router-dom';
 
-function ProductCard({product, productsByDate, cart, setCart}: IProductProps) {
+function ProductCard({product, productsByDate, isSearchFromHome, cart, setCart}: IProductProps) {
 
   const location = useLocation();
 
@@ -34,7 +34,7 @@ function ProductCard({product, productsByDate, cart, setCart}: IProductProps) {
       <Card.Text className="mt-4">Prix / Jour : <span className="fw-bold fs-2">{product.price} €</span></Card.Text>
     </Card.Body>
     {
-     productsByDate.length ? (<Button className="fs-2 p-3 col-7 m-auto" onClick={handleAddToCart}>Ajouter au panier</Button>) : ""
+     (isSearchFromHome || productsByDate.length ) ? (<Button className="fs-2 p-3 col-7 m-auto" onClick={handleAddToCart}>Ajouter au panier</Button>) : ""
     }
   </Card>
   )
