@@ -1,7 +1,5 @@
-import { useLazyQuery } from "@apollo/client";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { GET_USER } from "./queries";
 
 export default function ScrollToTop() {
   const { pathname } = useLocation();
