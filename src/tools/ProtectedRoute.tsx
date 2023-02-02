@@ -1,14 +1,9 @@
-import { Outlet, Navigate } from "react-router-dom";
-export type ProtectedRouteProps = {
-  isUserAdmin: boolean;
-};
+import { useSelector } from "react-redux";
+import { Outlet } from "react-router-dom";
+import { RootState } from "../store";
 
-export const ProtectedRoute = ({
-  isUserAdmin,
-}: ProtectedRouteProps) => {
-  return (
-    <div>
-      {isUserAdmin && <Outlet/> }
-    </div>
-  )
-}
+export const ProtectedRoute = () => {
+  const userAdminStore = useSelector((state: RootState) => state.user.isAdmin);
+
+  return <div>{userAdminStore && <Outlet /> }</div>;
+};

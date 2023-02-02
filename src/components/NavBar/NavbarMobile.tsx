@@ -6,7 +6,7 @@ import "./navbar.css";
 import { Container, Navbar } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
 
-const NavbarMobile = ({ setLoginOpen, loginOpen, logged, cart }: any) => {
+const NavbarMobile = ({ setLoginOpen, loginOpen }: any) => {
 
   const navigate = useNavigate();
 
@@ -18,23 +18,23 @@ const NavbarMobile = ({ setLoginOpen, loginOpen, logged, cart }: any) => {
         </Navbar.Brand>
         <Nav className="justify-content-end flex-grow-1 pe-3">
           <Nav.Link className="mx-4 my-auto linkIconMobile text-end">
-            {!logged && (
+            {/* {!logged && ( */}
               <img
                 className="loginIcon"
                 src={login}
                 alt="Profil"
                 onClick={() => setLoginOpen(!loginOpen)}
               />
-            )}
+            {/* )} */}
           </Nav.Link>
-          {logged && (
+          {/* {logged && ( */}
             <Nav.Link
-              onClick={() => navigate('/panier', { state: cart})}
+              onClick={() => navigate('/panier')}
               className="mx-4 my-auto linkIconMobile text-end"
             >
               <img className="panierIcon" src={panier} alt="Panier" />
             </Nav.Link>
-          )}
+          {/* )} */}
         </Nav>
       </Container>
     </Navbar>

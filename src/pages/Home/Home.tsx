@@ -5,18 +5,22 @@ import mountain from '../../assets/images/mountain.jpg';
 import fullSkieur from '../../assets/images/full_skieur.jpg';
 import mountainMan from '../../assets/images/mountain_man2.jpg';
 import ProductCard from '../../components/ProductCard/ProductCard';
-import IHomeProps from '../../interfaces/IHomeProps';
 import SearchProductHome from '../../components/SearchProductHome/SearchProductHome';
 import { GET_PRODUCTS_BY_DATE } from '../../tools/queries';
 import { useLazyQuery } from '@apollo/client';
 import ICategory from '../../interfaces/ICategory';
-import { useState } from 'react';
 import './home.css';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 
-const Home = ({products, productsByDate, categories, lastFourProducts, cart, setCart}: IHomeProps) => {
+const Home = () => {
+  const productsStore = useSelector((state: RootState) => state.products.products);
+  const categoriesStore = useSelector((state: RootState) => state.products.categories);
 
   const [getProductsByDate, { data: dataProductsbyDate }] = useLazyQuery(GET_PRODUCTS_BY_DATE);
+
+  const lastFourProducts = [...productsStore].sort((a,b) => b.id - a.id).slice(0, 4);
 
   const navigate = useNavigate();
 
@@ -37,7 +41,7 @@ const Home = ({products, productsByDate, categories, lastFourProducts, cart, set
         <button className="btn search_product">
           Rechercher un produit
         </button>
-      <SearchProductHome  categories={categories} handleFindByDateFromHome={handleFindByDateFromHome} />
+      <SearchProductHome  categories={categoriesStore} handleFindByDateFromHome={handleFindByDateFromHome} />
         <p className='header_home_title2'>Trouver le meilleur matériel pour vos loisirs</p>
       </header>
 
@@ -48,7 +52,7 @@ const Home = ({products, productsByDate, categories, lastFourProducts, cart, set
             {
               lastFourProducts.map((product) => (
 
-                <ProductCard key={product.id} product={product} productsByDate={productsByDate} cart={cart} setCart={setCart} />
+                <ProductCard key={product.id} product={product} />
               ))
             }
           </div>

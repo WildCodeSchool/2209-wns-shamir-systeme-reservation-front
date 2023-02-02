@@ -6,7 +6,7 @@ import "./navbar.css";
 import { Container, Navbar } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
 
-const NavbarResponse = ({ logged, setIsMenuUserOpen, isMenuUserOpen, cart }: any) => {
+const NavbarResponse = ({ setIsMenuUserOpen, isMenuUserOpen}: any) => {
 
   const navigate = useNavigate();
 
@@ -27,7 +27,7 @@ const NavbarResponse = ({ logged, setIsMenuUserOpen, isMenuUserOpen, cart }: any
             <br />
             Produits
           </Nav.Link>
-          {logged && (
+          {/* {logged && ( */}
             <Nav.Link className="my-auto linkIconResponsive text-center">
               <img
                 className="produitIcon"
@@ -38,7 +38,7 @@ const NavbarResponse = ({ logged, setIsMenuUserOpen, isMenuUserOpen, cart }: any
               <br />
               Profil
             </Nav.Link>
-          )}
+          {/* )} */}
         </Nav>
       </Container>
     </Navbar>

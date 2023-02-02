@@ -5,11 +5,13 @@ import info from "../../assets/images/info.svg";
 
 import './signin.css';
 import ISigninProps from '../../interfaces/ISigninProps';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { useMutation } from '@apollo/client';
+import { CREATE_USER } from '../../tools/mutations';
 
-function Signin({ handleRegister, isEmailAlredyExist }: ISigninProps) {
+function SignIn({ handleLogin }: ISigninProps) {
 
   const [lastname, setLastname] = useState<string>('');
   const [isLastnameError, setIsLastnameError] = useState<boolean>(false);
@@ -28,6 +30,40 @@ function Signin({ handleRegister, isEmailAlredyExist }: ISigninProps) {
   const [isShowPasswordConfirm, setIsShowPasswordConfirm] = useState<boolean>(false);
   const [isPasswordConfirmError, setIsPasswordConfirmError] = useState<boolean>(false);
   const [passwordConfirmErrorMessage, setPasswordConfirmErrorMessage] = useState<string>('');
+
+  const [createUser, { data: dataCreateUser }] = useMutation(CREATE_USER);
+  const [isEmailAlreadyExist, setIsEmailAlreadyExist] = useState<boolean>(false);
+
+  const navigate = useNavigate();
+
+  const handleRegister = (
+    lastname: string,
+    firstname: string,
+    email: string,
+    phone: string,
+    password: string,
+    passwordConfirm: string
+  ) => {
+    createUser({
+      variables: {
+        firstname,
+        lastname,
+        phone,
+        email,
+        password,
+        passwordConfirm,
+      },
+    })
+      .then(({ data }) => {
+        handleLogin(email, password)
+        setIsEmailAlreadyExist(false);
+        navigate('/')
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsEmailAlreadyExist(true);
+      });
+  };
 
   const handleShowPassword = () => {
     setIsShowPassword(!isShowPassword);
@@ -86,7 +122,7 @@ function Signin({ handleRegister, isEmailAlredyExist }: ISigninProps) {
         setIsPhoneError(false);
       } else {
         setIsPhoneError(true);
-        setPhoneErrorMessage("Votre numero de telephone n'est pas correct");
+        setPhoneErrorMessage("Votre numero de téléphone n'est pas correct");
       }
     } else {
       setIsPhoneError(true);
@@ -155,7 +191,7 @@ function Signin({ handleRegister, isEmailAlredyExist }: ISigninProps) {
           <label htmlFor="email">EMAIL *</label>
           <input name="email" type="email" onChange={handleEmail} className={isEmailError ? 'error form-control' : 'form-control'} />
           {isEmailError && <p style={{ color: "red" }}>Saisissez votre adresse e-mail</p>}
-          {isEmailAlredyExist && <p style={{ color: "red" }}>Cette adresse mail est déjà enregistrée</p>}
+          {isEmailAlreadyExist && <p style={{ color: "red" }}>Cette adresse mail est déjà enregistrée</p>}
 
         </div>
         <div className="col-10 m-auto mb-5 row">
@@ -184,4 +220,4 @@ function Signin({ handleRegister, isEmailAlredyExist }: ISigninProps) {
   )
 }
 
-export default Signin;
+export default SignIn;

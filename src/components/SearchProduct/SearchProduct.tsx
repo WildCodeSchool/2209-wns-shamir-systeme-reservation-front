@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import ICategory from "../../interfaces/ICategory";
 import ISearchTermProps from "../../interfaces/ISearchProductProps";
+import { resetProductsByDate } from "../../store/features/productsSlice";
 import "./searchProduct.css";
 
 function SearchProduct({
@@ -9,15 +11,13 @@ function SearchProduct({
   findBySearchTerm,
   findByCategory,
   handleFindByDate,
-  reloadAllProducts,
   productsByDate,
   resetProductsView,
   categoriesFromHome,
   dateFromHome,
   dateToHome,
-  isSearchFromHome
+  isSearchFromHome,
 }: ISearchTermProps) {
-
   // transforme un objet qui contient une liste d'objects en tableau d'objets
   const categoryList = Object.values(categories);
 
@@ -30,20 +30,25 @@ function SearchProduct({
     useState<boolean>(false);
   const [isProductsByDate, setIsProductsByDate] = useState<boolean>(false);
 
+  const dispatch = useDispatch();
+  
+  const reloadAllProducts = () => {
+    dispatch(resetProductsByDate());
+  };
+
   // On recupere seulement les categories qui ont minimum un produit lié
   const categoriesArray = categoryList.filter((cat) => {
     return cat.products.length > 0;
   });
-      
+
   useEffect(() => {
     if (categoriesFromHome.length > 0) {
       setCategoriesFiltered(categoriesFromHome);
     }
-    if (dateFromHome !== '') {
-    
+    if (dateFromHome !== "") {
       setDateFrom(dateFromHome);
       setDateTo(dateToHome);
-      setIsProductsByDate(true)
+      setIsProductsByDate(true);
     }
   }, [isSearchFromHome]);
 
@@ -149,7 +154,7 @@ function SearchProduct({
     resetProductsView();
     reloadAllProducts();
   }
-  
+
   return (
     <div className="col-lg-2 col-md-3 col-sm-10 col-11 ms-5">
       <section className="col-12 m-auto shadow pt-5 pb-5 ml-5 mb-5 mt-4 bg-white rounded search_product_container">
