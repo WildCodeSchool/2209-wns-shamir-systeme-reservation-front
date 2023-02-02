@@ -31,7 +31,7 @@ function SignIn({ handleLogin }: ISigninProps) {
   const [isPasswordConfirmError, setIsPasswordConfirmError] = useState<boolean>(false);
   const [passwordConfirmErrorMessage, setPasswordConfirmErrorMessage] = useState<string>('');
 
-  const [createUser, { data: dataCreateUser }] = useMutation(CREATE_USER);
+  const [createUser] = useMutation(CREATE_USER);
   const [isEmailAlreadyExist, setIsEmailAlreadyExist] = useState<boolean>(false);
 
   const navigate = useNavigate();

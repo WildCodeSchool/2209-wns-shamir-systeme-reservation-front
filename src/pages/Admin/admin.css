@@ -1,4 +1,5 @@
 .admin_container {
+    display: flex;
     margin-block-start: 12rem;
 }
 

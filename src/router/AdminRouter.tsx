@@ -1,22 +1,24 @@
-import { Route } from "react-router-dom";
-import Admin from "../pages/Admin/Admin";
+import { Route, Routes } from "react-router-dom";
 import AdminCategories from "../pages/Admin/AdminCategories";
-import AdminCustomers from "../pages/Admin/AdminCustomers";
 import AdminProducts from "../pages/Admin/AdminProducts";
 import AdminReservations from "../pages/Admin/AdminReservations";
+import AdminCustomers from "../pages/Admin/AdminCustomers";
 import { ProtectedRoute } from "../tools/ProtectedRoute";
+import AdminLayout from "../pages/Admin/AdminLayout";
 
 function AdminRouter() {
   return (
-    <Route element={<ProtectedRoute />}>
-      <Route path="/admin">
-        <Route index element={<Admin />} />
-        <Route path="customers" element={<AdminCustomers />} />
-        <Route path="products" element={<AdminProducts />} />
-        <Route path="categories" element={<AdminCategories />} />
-        <Route path="reservations" element={<AdminReservations />} />
+    <Routes>
+      <Route element={<ProtectedRoute />}>
+        <Route element={<AdminLayout />}>
+          <Route index element={<AdminCustomers />} />
+          <Route path="clients" element={<AdminCustomers />} />
+          <Route path="produits" element={<AdminProducts />} />
+          <Route path="categories" element={<AdminCategories />} />
+          <Route path="reservations" element={<AdminReservations />} />
+        </Route>
       </Route>
-    </Route>
+    </Routes>
   );
 }
 
