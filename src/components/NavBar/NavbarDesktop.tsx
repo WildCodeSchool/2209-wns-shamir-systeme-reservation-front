@@ -6,18 +6,22 @@ import { MdSettings } from "react-icons/md";
 import "./navbar.css";
 import { Container, Navbar, Offcanvas } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 const NavbarDesktop = ({
-  isUserAdmin,
   setLoginOpen,
   loginOpen,
-  logged,
   setIsMenuUserOpen,
   isMenuUserOpen,
-  cart
 }: any) => {
 
   const navigate = useNavigate();
+
+  const userDataStore = useSelector((state: RootState) => state.user.user);
+  const userAdminStore = useSelector((state: RootState) => state.user.isAdmin);
+  const userTokenStore = useSelector((state: RootState) => state.user.token);
 
   return (
     <Navbar expand="md" className="mb-3 fixed-top py-0" id="mainNav">
@@ -38,32 +42,44 @@ const NavbarDesktop = ({
           </Offcanvas.Header>
           <Offcanvas.Body>
             <Nav className="justify-content-end flex-grow-1 pe-3">
-              <Nav.Link href="/" className="nav-link mx-4 linkPage">
-                Accueil
-              </Nav.Link>
-              <Nav.Link href="/catalogue" className="nav-link mx-4 linkPage">
-                Catalogue
-              </Nav.Link>
-              <Nav.Link href="/contact" className="nav-link mx-4 linkPage">
-                Contact
-              </Nav.Link>
-              {logged && <Nav.Link className="nav-link mx-4 my-auto linkIcon">
-                <img className="profilIcon" src={profil} alt="Profil" onClick={() => setIsMenuUserOpen(!isMenuUserOpen)} />
-              </Nav.Link>}
-              {!logged && <Nav.Link className="nav-link mx-4 linkPage " onClick={() => setLoginOpen(!loginOpen)}>
-                Se connecter / S'inscrire
-              </Nav.Link>}
-              {isUserAdmin ? 
-              logged && 
-              <Nav.Link href="/admin" className="nav-link mx-4 my-auto linkIcon">
-                <MdSettings className="text-black settingsIcon"/> 
-              </Nav.Link>
-              : logged && 
-              <Nav.Link 
-                onClick={() => navigate('/panier', { state: cart})}
-                className="nav-link mx-4 my-auto linkIcon">
-                  <img  className="panierIcon" src={panier} alt="Panier" />
-              </Nav.Link>}
+              <Link to="/" className="nav-link mx-4 linkPage">Accueil</Link>
+              <Link to="/catalogue" className="nav-link mx-4 linkPage">Catalogue</Link>
+              <Link to="/contact" className="nav-link mx-4 linkPage">Contact</Link>
+              {userDataStore.id !== 0 && (
+                <Nav.Link className="nav-link mx-4 my-auto linkIcon">
+                  <img
+                    className="profilIcon"
+                    src={profil}
+                    alt="Profil"
+                    onClick={() => setIsMenuUserOpen(!isMenuUserOpen)}
+                  />
+                </Nav.Link>
+              )}
+              {userDataStore.id === 0 && (
+                <Nav.Link
+                  className="nav-link mx-4 linkPage "
+                  onClick={() => setLoginOpen(!loginOpen)}
+                >
+                  Se connecter / S'inscrire
+                </Nav.Link>
+              )}
+              {userAdminStore
+                 && (
+                    <Link
+                      to="/admin"
+                      className="nav-link mx-4 my-auto linkIcon"
+                    >
+                      <MdSettings className="text-black settingsIcon" />
+                    </Link>
+                  )}
+                {!userAdminStore && userDataStore.id !== 0  && (
+                    <Link
+                      to="/panier"
+                      className="nav-link mx-4 my-auto linkIcon"
+                    >
+                      <img className="panierIcon" src={panier} alt="Panier" />
+                    </Link>
+                  )}
             </Nav>
           </Offcanvas.Body>
         </Navbar.Offcanvas>

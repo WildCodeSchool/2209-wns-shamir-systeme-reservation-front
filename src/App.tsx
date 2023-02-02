@@ -13,229 +13,135 @@ import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import {
   GET_ALL_CATEGORIES,
   GET_ALL_PRODUCTS,
-  GET_PRODUCTS_BY_DATE,
   IS_ADMIN,
   GET_USER,
-  GET_LAST_FOUR_PRODUCTS,
 } from "./tools/queries";
 import Home from "./pages/Home/Home";
 import Catalog from "./pages/Catalog/Catalog";
 import Contact from "./pages/Contact/Contact";
 import Profile from "./pages/Profile/Profile";
-import Cart from './pages/Cart/Cart';
-import IProduct from "./interfaces/IProduct";
+import Cart from "./pages/Cart/Cart";
 import Footer from "./components/Footer/Footer";
 import Login from "./components/LogIn/Login";
-import { GET_TOKEN, CREATE_USER, UPDATE_USER } from "./tools/mutations";
-import Signin from "./pages/Signin/Signin";
+import { GET_TOKEN } from "./tools/mutations";
+import SignIn from "./pages/Signin/SignIn";
 import MenuUser from "./components/MenuUser/MenuUser";
-import ICategory from "./interfaces/ICategory";
 import Admin from "./pages/Admin/Admin";
 import AdminCustomers from "./pages/Admin/AdminCustomers";
 import AdminProducts from "./pages/Admin/AdminProducts";
 import AdminCategories from "./pages/Admin/AdminCategories";
 import AdminReservations from "./pages/Admin/AdminReservations";
 import { ProtectedRoute } from "./tools/ProtectedRoute";
-import IUser from "./interfaces/IUser";
-import IProductCart from "./interfaces/IProductCart";
+import { RootState } from "./store";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import {
+  setIsAdmin,
+  setToken,
+  setUser,
+  reset,
+} from "./store/features/userSlice";
+import ScrollToTop from "./tools/helpers";
+import { setCategories, setProducts } from "./store/features/productsSlice";
 
 function App() {
-  const [products, setProducts] = useState<IProduct[]>([]);
-  const [lastFourProducts, setlastFourProducts ] = useState<IProduct[]>([]);
-  const [productsByDate, setProductsByDate] = useState<IProduct[]>([]);
-  const [searchCategoriesFromHome, setSearchCategoriesFromHome] = useState<ICategory[]>([]);
+  // USER LOGIN SIGNIN LOGOUT ************************************************************************
+
+  const [isAdmin] = useLazyQuery(IS_ADMIN);
+  const [getUser] = useLazyQuery(GET_USER);
+  const [getToken] = useMutation(GET_TOKEN);
+
   const [loginOpen, setLoginOpen] = useState<boolean>(false);
   const [isMenuUserOpen, setIsMenuUserOpen] = useState<boolean>(false);
   const [loginError, setLoginError] = useState<boolean>(false);
-  const [logged, setLogged] = useState<boolean>(false);
-  const [categories, setCategories] = useState<ICategory[]>([]);
-  const [isEmailAlredyExist, setIsEmailAlredyExist] = useState<boolean>(false);
-  const [isUserAdmin, setIsUserAdmin] = useState<boolean>(false);
- 
-  const [infoUser, setInfoUser] = useState<IUser | null | undefined>();
 
-console.log(lastFourProducts );
+  const userAdminStore = useSelector((state: RootState) => state.user.isAdmin);
+  const userDataStore = useSelector((state: RootState) => state.user.user);
+  const dispatch = useDispatch();
 
+  // avec le token on récupère le user et savoir s'il est admin
+  async function initUser(token: string) {
+    try {
+      const user = await getUser({ variables: { token } });
+      dispatch(setUser(user.data.getUser));
+      const isUserAdmin = await isAdmin({ variables: { token } });
+      dispatch(setIsAdmin(isUserAdmin.data.isAdmin));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // on montage on récupère le token dans localStorage et si présent on évite au user de se relogger
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      setLogged(true);
-      isAdmin({ variables: { token } })
-        .then(({ data }) => {
-          setIsUserAdmin(data.isAdmin);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      // get infoUser by token
-      getUser({ variables: { token } })
-        .then(({ data }) => {
-          setInfoUser(data.getUser);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+      initUser(token);
     }
   }, []);
-
-  const [getUser, { data: dataUser }] = useLazyQuery(GET_USER);
-
-  const {
-    loading: loadingCategory,
-    data: dataCategory,
-    error: errorCategory,
-  } = useQuery(GET_ALL_CATEGORIES, {
-    onCompleted: (dataCategory) => {
-      setCategories(dataCategory.getAllCategories);
-    },
-  });
-
-  const {
-    loading: loadingAllProducts,
-    data: dataAllProducts,
-    error: errorAllProducts,
-  } = useQuery(GET_ALL_PRODUCTS, {
-    onCompleted: (dataAllProducts) => {
-      setProducts(dataAllProducts.getAllProducts);
-    },
-  });
-
-  const {
-    loading: loadingLastFourProducts,
-    data: dataLastFourProducts,
-    error: errorLastFourProducts,
-  } = useQuery(GET_LAST_FOUR_PRODUCTS, {
-    onCompleted: (dataLastFourProducts) => {
-      setlastFourProducts(dataLastFourProducts.getLastFourProducts);
-    },
-  });
-
-  
-
-  const [isAdmin, { data: dataIsAdmin }] = useLazyQuery(IS_ADMIN);
-  const [getProductsByDate, { data: dataProductsbyDate }] = useLazyQuery(GET_PRODUCTS_BY_DATE);
-  const [getToken, { data: dataToken }] = useMutation(GET_TOKEN);
-  const [createUser, { data: dataCreateUser }] = useMutation(CREATE_USER);
-  const [updateUser, { data: dataUpdateUser }] = useMutation(UPDATE_USER);
 
   const handleLogin = async (
     email: string,
     password: string
   ): Promise<void> => {
-    getToken({ variables: { password, email } })
-      .then(({ data }) => {
-        localStorage.setItem("token", data.getToken);
-        setLoginError(false);
-        setLogged(true);
-        setLoginOpen(false);
-        const token = localStorage.getItem("token");
-        getUser({ variables: { token } })
-          .then(({ data }) => {
-            setInfoUser(data.getUser);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-        window.location.href = "/";
-      })
-      .catch((error) => {
-        setLoginError(true);
-      });
+    try {
+      // on récupère le token par requête au serveur
+      const token = await getToken({ variables: { password, email } });
+      localStorage.setItem("token", token.data.getToken);
+      dispatch(setToken(token.data.getToken));
+      setLoginError(false);
+      setLoginOpen(false);
+      // avec le token on récupère le user et on requête pour savoir s'il est admin
+      initUser(token.data.getToken);
+    } catch (error) {
+      setLoginError(true);
+    }
   };
 
   const handleLogout = () => {
-    setLogged(false);
-    localStorage.removeItem("token");
+    // on réinitialise redux + localStorage
+    dispatch(reset());
+    localStorage.clear();
     setIsMenuUserOpen(!isMenuUserOpen);
-    window.location.href = "/";
   };
 
-  const handleRegister = (
-    lastname: string,
-    firstname: string,
-    email: string,
-    phone: string,
-    password: string,
-    passwordConfirm: string
-  ) => {
-    createUser({
-      variables: {
-        firstname,
-        lastname,
-        phone,
-        email,
-        password,
-        passwordConfirm,
-      },
-    })
-      .then(({ data }) => {
-        handleLogin(email, password);
-        setIsEmailAlredyExist(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setIsEmailAlredyExist(true);
-      });
-  };
+  // PRODUCT ************************************************************************
 
-  const handleFindByDate = (dateFrom: string, dateTo: string) => {
-    getProductsByDate({ variables: { dateFrom, dateTo } })
-      .then(({ data }) => {
-        setProductsByDate(data.getProductsByDate);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  
-  const reloadAllProducts = () => {
-    setProductsByDate([]);
-  };
+  const {} = useQuery(GET_ALL_CATEGORIES, {
+    onCompleted: (dataCategory) => {
+      dispatch(setCategories(dataCategory.getAllCategories));
+    },
+  });
 
-  const handleUpdateUser = (idUser: number | undefined, userData: IUser) => {
-    updateUser({ variables: { userId: idUser, userData: userData } })
-      .then(({ data }) => {
-        // console.log('data : ', data.updateUser);
-        setInfoUser(data.updateUser);
-      })
-      .catch((error) => {
-        console.log("erreur => ", error);
-      });
-  };
-
-  //gestion du panier
-  const [cart, setCart] = useState<IProductCart[]>([]);
+  const {} = useQuery(GET_ALL_PRODUCTS, {
+    onCompleted: (dataAllProducts) => {
+      dispatch(setProducts(dataAllProducts.getAllProducts));
+    },
+  });
 
   return (
     <div className="app">
       <Router>
+        <ScrollToTop />
         {/* Les 2 navbar fixe top */}
         <NavbarMobile
           setLoginOpen={setLoginOpen}
           loginOpen={loginOpen}
-          logged={logged}
           handleLogout={handleLogout}
           isMenuUserOpen={isMenuUserOpen}
           setIsMenuUserOpen={setIsMenuUserOpen}
-          cart={cart}
         />
         <NavbarDesktop
-          isUserAdmin={isUserAdmin}
           setLoginOpen={setLoginOpen}
           loginOpen={loginOpen}
-          logged={logged}
           handleLogout={handleLogout}
           isMenuUserOpen={isMenuUserOpen}
           setIsMenuUserOpen={setIsMenuUserOpen}
-          cart={cart}
         />
 
         {/* navbar version mobile */}
         <NavbarResponsive
-          logged={logged}
           isMenuUserOpen={isMenuUserOpen}
           setIsMenuUserOpen={setIsMenuUserOpen}
-          cart={cart}
         />
 
         {loginOpen && (
@@ -245,63 +151,35 @@ console.log(lastFourProducts );
             setLoginError={setLoginError}
           />
         )}
-        {isMenuUserOpen && <MenuUser handleLogout={handleLogout} />}
+        {isMenuUserOpen && (
+          <MenuUser
+            handleLogout={handleLogout}
+            setIsMenuUserOpen={setIsMenuUserOpen}
+          />
+        )}
 
         <Routes>
-          <Route
-            path="/"
-            element={
-              <Home products={products} productsByDate={productsByDate} categories={categories} lastFourProducts={lastFourProducts} cart={cart} setCart={setCart}  />
-            }
-          />
-          
-        <Route
-            path="/catalogue"
-            element={
-              <Catalog
-                products={products}
-                categories={categories}
-                handleFindByDate={handleFindByDate}
-                productsByDate={productsByDate}
-                reloadAllProducts={reloadAllProducts}
-                searchCategoriesFromHome={searchCategoriesFromHome}
-                cart={cart}
-                setCart={setCart}
-              />
-            }
-          />
-       
+          <Route path="/" element={<Home />} />
+          <Route path="/catalogue" element={<Catalog />} />
           <Route path="/contact" element={<Contact />} />
-          {infoUser && 
-            <Route path="/profil" element={<Profile infoUser={infoUser} handleUpdateUser={handleUpdateUser}/>} />
-          }
-          <Route path="/panier" element={<Cart products={products} cart={cart} setCart={setCart} />} />
+          {userDataStore && <Route path="/profil" element={<Profile />} />}
+          <Route path="/panier" element={<Cart />} />
+          <Route
+            path="/inscription"
+            element={<SignIn handleLogin={handleLogin} />}
+          />
 
-          <Route element={<ProtectedRoute isUserAdmin={isUserAdmin} />}>
+          <Route element={<ProtectedRoute />}>
             <Route path="/admin">
               <Route index element={<Admin />} />
               <Route path="customers" element={<AdminCustomers />} />
-              <Route
-                path="products"
-                element={
-                  <AdminProducts products={products} categories={categories} />
-                }
-              />
+              <Route path="products" element={<AdminProducts />} />
               <Route path="categories" element={<AdminCategories />} />
               <Route path="reservations" element={<AdminReservations />} />
             </Route>
           </Route>
-          <Route
-            path="/inscription"
-            element={
-              <Signin
-                handleRegister={handleRegister}
-                isEmailAlredyExist={isEmailAlredyExist}
-              />
-            }
-          />
         </Routes>
-        {!isUserAdmin && <Footer />}
+        {!userAdminStore && <Footer />}
       </Router>
     </div>
   );

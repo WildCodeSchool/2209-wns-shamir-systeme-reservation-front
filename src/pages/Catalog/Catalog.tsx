@@ -1,24 +1,19 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import SearchProduct from "../../components/SearchProduct/SearchProduct";
 import Nav from "react-bootstrap/Nav";
-import ICatalogProps from "../../interfaces/ICatalogProps";
 import IProduct from "../../interfaces/IProduct";
 import ICategory from "../../interfaces/ICategory";
 import "./catalog.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
+import { useLazyQuery } from "@apollo/client";
+import { GET_PRODUCTS_BY_DATE } from "../../tools/queries";
+import { useDispatch } from "react-redux";
+import { setProductsByDate } from "../../store/features/productsSlice";
 
-function Catalog({
-  products,
-  categories,
-  handleFindByDate,
-  productsByDate,
-  reloadAllProducts,
-  searchCategoriesFromHome,
-  cart,
-  setCart
-
-}: ICatalogProps) {
+function Catalog() {
   const [productsCatalog, setProductsCatalog] = useState<IProduct[]>([]);
   const [productsByCat, setProductsByCat] = useState<IProduct[]>([]);
   const [productsByTerm, setProductsByTerm] = useState<IProduct[]>([]);
@@ -27,69 +22,98 @@ function Catalog({
   const [isShowProducts, setIsShowProduct] = useState<boolean>(true);
   const [isResetProducts, setIsResetProducts] = useState<boolean>(false);
   const [categoriesFromHome, setCategoriesFromHome] = useState<ICategory[]>([]);
-  const [dateFromHome, setDateFromHome] = useState<string>('');
-  const [dateToHome, setDateToHome] = useState<string>('');
+  const [dateFromHome, setDateFromHome] = useState<string>("");
+  const [dateToHome, setDateToHome] = useState<string>("");
   const [isSearchFromHome, setIsSearchFromHome] = useState<boolean>(false);
-  
-  
+
+  const productsStore = useSelector(
+    (state: RootState) => state.products.products
+  );
+  const categoriesStore = useSelector(
+    (state: RootState) => state.products.categories
+  );
+  const productsByDateStore = useSelector(
+    (state: RootState) => state.products.productsByDate
+  );
+  const dispatch = useDispatch();
+
   const location = useLocation();
 
+  const [getProductsByDate] = useLazyQuery(GET_PRODUCTS_BY_DATE);
+
+  const handleFindByDate = (dateFrom: string, dateTo: string) => {
+    getProductsByDate({ variables: { dateFrom, dateTo } })
+      .then(({ data }) => {
+        dispatch(setProductsByDate(data.getProductsByDate));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   useEffect(() => {
     if (location.state !== null) {
-      setDateFromHome(location.state.dateFrom)
-      setDateToHome(location.state.dateTo)
-      setIsSearchFromHome(location.state.isSearchFromHome)
+      setDateFromHome(location.state.dateFrom);
+      setDateToHome(location.state.dateTo);
+      setIsSearchFromHome(location.state.isSearchFromHome);
 
-      if (location.state.isSearchFromHome  && location.state.categoriesFromHome.length === 0 ) {
+      if (
+        location.state.isSearchFromHome &&
+        location.state.categoriesFromHome.length === 0
+      ) {
         setProductsByCat([]);
         setProductsByCatTerm([]);
         setProductsByTerm([]);
         setProductsCatalog(location.state.productByDate);
         setProductsToShow(productsCatalog);
-        setIsShowProduct(true)
-      }else if (location.state.isSearchFromHome && location.state.categoriesFromHome.length > 0) {
-        setCategoriesFromHome(location.state.categoriesFromHome)
+        setIsShowProduct(true);
+      } else if (
+        location.state.isSearchFromHome &&
+        location.state.categoriesFromHome.length > 0
+      ) {
+        setCategoriesFromHome(location.state.categoriesFromHome);
         setProductsByCat([]);
         setProductsByCatTerm([]);
         setProductsByTerm([]);
         setProductsCatalog(location.state.productByDate);
         setProductsToShow(productsCatalog);
         findByCategory(location.state.categoriesFromHome);
-        setIsShowProduct(true)
-       
+        setIsShowProduct(true);
       }
     }
   }, []);
 
-
   // On stock dans le state tous les produits au montage du composant
   useEffect(() => {
     if (location.state === null) {
-      if (productsByDate.length) {
+      if (productsByDateStore.length) {
         setProductsByCat([]);
         setProductsByCatTerm([]);
         setProductsByTerm([]);
-        setProductsCatalog(productsByDate);
+        setProductsCatalog(productsByDateStore);
         setProductsToShow(productsCatalog);
-        setIsShowProduct(true)
+        setIsShowProduct(true);
       } else {
         // sonon on stoque la totalité des produits
         setProductsByCat([]);
         setProductsByCatTerm([]);
         setProductsByTerm([]);
-        setProductsCatalog(products);
+        setProductsCatalog(productsStore);
         setProductsToShow(productsCatalog);
         setIsShowProduct(true);
       }
-    
     }
-  }, [products, productsByDate, isResetProducts, productsCatalog, isSearchFromHome]);
+  }, [
+    productsStore,
+    productsByDateStore,
+    isResetProducts,
+    productsCatalog,
+    isSearchFromHome,
+  ]);
 
-
-  // On decide quelle liste de produits afficher 
+  // On decide quelle liste de produits afficher
   useEffect(() => {
-    if (productsByCatTerm.length > 0) {      
+    if (productsByCatTerm.length > 0) {
       setProductsToShow(productsByCatTerm);
     } else if (productsByCat.length > 0) {
       setProductsToShow(productsByCat);
@@ -98,22 +122,27 @@ function Catalog({
     } else {
       setProductsToShow(productsCatalog);
     }
-  }, [productsByCat, productsByTerm, productsByCatTerm, productsCatalog, isSearchFromHome]);
+  }, [
+    productsByCat,
+    productsByTerm,
+    productsByCatTerm,
+    productsCatalog,
+    isSearchFromHome,
+  ]);
 
   // On gére la réinitialisation des produis à afficher
   const resetProductsView = (): void => {
     setIsResetProducts(!isShowProducts);
-    setIsSearchFromHome(false)
-    setDateFromHome('');
-    setDateToHome('');
-    setProductsByCat([])
+    setIsSearchFromHome(false);
+    setDateFromHome("");
+    setDateToHome("");
+    setProductsByCat([]);
     setCategoriesFromHome([]);
     setProductsByTerm([]);
     setProductsByCatTerm([]);
     location.state = null;
   };
- 
-  
+
   // On récupere le terme de recherche de l'utilisateur
   const findBySearchTerm = (
     searchTerm: string,
@@ -140,7 +169,7 @@ function Catalog({
           setProductsByTerm([]);
           setIsShowProduct(true);
         }
-        // Sinon on recherche dans les produit du catalogue qui n'ont pas encore été filtrés par categorie 
+        // Sinon on recherche dans les produit du catalogue qui n'ont pas encore été filtrés par categorie
       } else {
         let productsFiltered = productsCatalog.filter((product) =>
           product.name.toLowerCase().includes(searchTerm)
@@ -157,7 +186,6 @@ function Catalog({
           setProductsByCatTerm([]);
           setIsShowProduct(true);
         }
-      
       }
       // Si le caracteres saisis sont inferieurs de 3 on affiche tous les produits
     } else {
@@ -176,10 +204,9 @@ function Catalog({
     // On controle si il y a au moins une categorie selectionnée
     if (categories.length) {
       const productsByCategories: IProduct[] = [];
-  
+
       // On controle si le nom de la categorie de chaque produit correspond aux categories selectionnées
       productsCatalog.forEach((product) => {
-        
         categories.forEach((category) => {
           if (category.name === product.category.name) {
             // Si c'est le cas, on stock les produis dans un tableau
@@ -199,7 +226,6 @@ function Catalog({
     }
   };
 
-    
   return (
     <div className="catalog_container">
       <h1 className="text-center mb-5">Catalogue des produits</h1>
@@ -208,12 +234,11 @@ function Catalog({
       </Nav.Link>
       <div className="row">
         <SearchProduct
-          categories={categories}
+          categories={categoriesStore}
           findBySearchTerm={findBySearchTerm}
           findByCategory={findByCategory}
           handleFindByDate={handleFindByDate}
-          reloadAllProducts={reloadAllProducts}
-          productsByDate={productsByDate}
+          productsByDate={productsByDateStore}
           resetProductsView={resetProductsView}
           categoriesFromHome={categoriesFromHome}
           dateFromHome={dateFromHome}
@@ -226,10 +251,7 @@ function Catalog({
               <ProductCard
                 key={product.id}
                 product={product}
-                productsByDate={productsByDate}
                 isSearchFromHome={isSearchFromHome}
-                cart={cart} 
-                setCart={setCart}
               />
             ))}
         </div>

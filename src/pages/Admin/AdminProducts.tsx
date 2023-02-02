@@ -11,18 +11,17 @@ import IProduct from "../../interfaces/IProduct";
 import { Button } from "react-bootstrap";
 import AdminProductForm from "../../components/AdminProduct/AdminProductForm";
 import { FlashMessage } from "../../components/Alert/FlashMessage";
-import IAdminProductProps from "../../interfaces/IAdminProductProps";
 import { DELETE_PRODUCT } from "../../tools/mutations";
 import { useMutation } from "@apollo/client";
 import { GET_ALL_PRODUCTS } from "../../tools/queries";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
-const AdminProducts = ({ products, categories }: IAdminProductProps) => {
-  const [productsAdmin, setProductsAdmin] = useState<IProduct[]>([]);
+const AdminProducts = () => {
+  const productsStore = useSelector((state: RootState) => state.products.products);
+  const categoriesStore = useSelector((state: RootState) => state.products.categories);
+  
   const [productToEdit, setProductToEdit] = useState<IProduct>();
-
-  useEffect(() => {
-    setProductsAdmin(products);
-  }, [products]);
 
   // Modal productForm
   const [show, setShow] = useState(false);
@@ -85,7 +84,7 @@ const AdminProducts = ({ products, categories }: IAdminProductProps) => {
       {show && (
         <AdminProductForm
           productToEdit={productToEdit}
-          categories={categories}
+          categories={categoriesStore}
           show={show}
           handleShow={handleShow}
           handleFlashMessage={handleFlashMessage}
@@ -113,8 +112,8 @@ const AdminProducts = ({ products, categories }: IAdminProductProps) => {
               </tr>
             </thead>
             <tbody>
-              {productsAdmin &&
-                productsAdmin.map((product) => (
+              {productsStore &&
+                productsStore.map((product) => (
                   <tr key={product.id}>
                     <td className="text-center">{product.id}</td>
                     <td>{product.name}</td>
