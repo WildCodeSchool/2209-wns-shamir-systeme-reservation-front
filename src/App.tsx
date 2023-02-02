@@ -24,14 +24,7 @@ import Cart from "./pages/Cart/Cart";
 import Footer from "./components/Footer/Footer";
 import Login from "./components/LogIn/Login";
 import { GET_TOKEN } from "./tools/mutations";
-import SignIn from "./pages/Signin/SignIn";
 import MenuUser from "./components/MenuUser/MenuUser";
-import Admin from "./pages/Admin/Admin";
-import AdminCustomers from "./pages/Admin/AdminCustomers";
-import AdminProducts from "./pages/Admin/AdminProducts";
-import AdminCategories from "./pages/Admin/AdminCategories";
-import AdminReservations from "./pages/Admin/AdminReservations";
-import { ProtectedRoute } from "./tools/ProtectedRoute";
 import { RootState } from "./store";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -43,6 +36,8 @@ import {
 } from "./store/features/userSlice";
 import ScrollToTop from "./tools/helpers";
 import { setCategories, setProducts } from "./store/features/productsSlice";
+import SignIn from "./pages/SignIn/SignIn";
+import AdminRouter from "./router/AdminRouter";
 
 function App() {
   // USER LOGIN SIGNIN LOGOUT ************************************************************************
@@ -168,16 +163,7 @@ function App() {
             path="/inscription"
             element={<SignIn handleLogin={handleLogin} />}
           />
-
-          <Route element={<ProtectedRoute />}>
-            <Route path="/admin">
-              <Route index element={<Admin />} />
-              <Route path="customers" element={<AdminCustomers />} />
-              <Route path="products" element={<AdminProducts />} />
-              <Route path="categories" element={<AdminCategories />} />
-              <Route path="reservations" element={<AdminReservations />} />
-            </Route>
-          </Route>
+          <Route  path="/admin/*" element={<AdminRouter />} />
         </Routes>
         {!userAdminStore && <Footer />}
       </Router>

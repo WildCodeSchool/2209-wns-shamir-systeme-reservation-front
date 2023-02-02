@@ -1,5 +1,4 @@
 import "./admin.css";
-import AdminSidebar from "../../components/AdminSidebar/AdminSidebar";
 import {
   MdOutlineAddTask,
   MdOutlineDeleteOutline,
@@ -16,25 +15,14 @@ import { DELETE_CATEGORY } from "../../tools/mutations";
 const AdminCategories = () => {
   const [categoriesAdmin, setCategoriesAdmin] = useState<ICategory[]>([]);
 
-  const {
-    loading: loadingAllCategories,
-    data: dataAllCategories,
-    error: errorAllCategories,
-  } = useQuery(GET_ALL_CATEGORIES, {
+  const {} = useQuery(GET_ALL_CATEGORIES, {
     onCompleted: (dataAllCategories) => {
       setCategoriesAdmin(dataAllCategories.getAllCategories);
     },
   });
 
   // Delete category
-  const [
-    deleteCategory,
-    {
-      loading: loadingDeleteCategory,
-      error: errorDeleteCategory,
-      data: dataDeleteCategory,
-    },
-  ] = useMutation(DELETE_CATEGORY, {
+  const [deleteCategory, {}] = useMutation(DELETE_CATEGORY, {
     refetchQueries: [{ query: GET_ALL_CATEGORIES }, "getAllCategories"],
   });
 
@@ -75,46 +63,43 @@ const AdminCategories = () => {
   }, [flashMessageMessage]);
 
   return (
-    <div className="admin_container">
+    <div className="">
       {showMessage && (
         <FlashMessage type={flashMessageType} message={flashMessageMessage} />
       )}
-      <div className="d-flex">
-        <AdminSidebar />
-        <div className="product_container d-flex flex-column align-items-center">
-          <h1 className="my-5">Catégories</h1>
+      <div className="product_container d-flex flex-column align-items-center">
+        <h1 className="my-5">Catégories</h1>
 
-          <Button className="align-self-end btnWild mb-5 disabled">
-            <MdOutlineAddTask className="fs-1 me-2" />{" "}
-            <span>Ajouter une catégorie</span>
-          </Button>
-          <div className="w-50">
-            <Table striped hover>
-              <thead>
-                <tr>
-                  <th className="text-center">#</th>
-                  <th>Nom</th>
-                  <th className="text-center">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {categoriesAdmin &&
-                  categoriesAdmin.map((category) => (
-                    <tr key={category.id}>
-                      <td className="text-center">{category.id}</td>
-                      <td>{category.name}</td>
-                      <td className="d-flex justify-content-center align-items-center gap-2 flex-wrap">
-                        <MdOutlineModeEditOutline className="edit_icon fs-1" />
-                        <MdOutlineDeleteOutline
-                          className="delete_icon fs-1"
-                          onClick={() => handleDeleteCategory(category.id)}
-                        />
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </Table>
-          </div>
+        <Button className="align-self-end btnWild mb-5 disabled">
+          <MdOutlineAddTask className="fs-1 me-2" />{" "}
+          <span>Ajouter une catégorie</span>
+        </Button>
+        <div className="w-50">
+          <Table striped hover>
+            <thead>
+              <tr>
+                <th className="text-center">#</th>
+                <th>Nom</th>
+                <th className="text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {categoriesAdmin &&
+                categoriesAdmin.map((category) => (
+                  <tr key={category.id}>
+                    <td className="text-center">{category.id}</td>
+                    <td>{category.name}</td>
+                    <td className="d-flex justify-content-center align-items-center gap-2 flex-wrap">
+                      <MdOutlineModeEditOutline className="edit_icon fs-1" />
+                      <MdOutlineDeleteOutline
+                        className="delete_icon fs-1"
+                        onClick={() => handleDeleteCategory(category.id)}
+                      />
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </Table>
         </div>
       </div>
     </div>

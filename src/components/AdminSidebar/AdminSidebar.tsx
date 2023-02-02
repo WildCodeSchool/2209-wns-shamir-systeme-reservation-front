@@ -6,13 +6,13 @@ const AdminSidebar = () => {
   return (
     <div className="adminsidebar_container d-flex flex-column align-items-end gap-4">
           <NavLink
-            to="/admin/customers"
+            to="/admin/clients"
             className="link"
           >
             CLIENTS
           </NavLink>
           <NavLink
-            to="/admin/products"
+            to="/admin/produits"
             className="link"
           >
             PRODUITS
