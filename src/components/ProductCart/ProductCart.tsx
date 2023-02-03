@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { useDispatch } from "react-redux";
 import { setCart } from "../../store/features/cartSlice";
-import { readableDate } from "../../tools/utils";
+import { getPeriod, readableDate } from "../../tools/utils";
 
 export default function ProductCart({ cartItem }: IProductCartProps) {
   const cartStore = useSelector((state: RootState) => state.cart.cart);
@@ -70,7 +70,9 @@ export default function ProductCart({ cartItem }: IProductCartProps) {
       "Souhaitez-vous confirmer la suppression de ce produit ?"
     );
     if (reallyDelete) {
-      let updatedCart = cartStore.filter((product) => product.id !== cartItem.id);
+      let updatedCart = cartStore.filter(
+        (product) => product.id !== cartItem.id
+      );
       dispatch(setCart([...updatedCart]));
     }
   };
@@ -112,7 +114,10 @@ export default function ProductCart({ cartItem }: IProductCartProps) {
           <Card.Text>du {readableDate(cartItem.dateFrom)}</Card.Text>
           <Card.Text>au {readableDate(cartItem.dateTo)}</Card.Text>
           <hr style={{ width: "11rem", marginTop: "0" }} />
-          <Card.Text>soit {/* calcul du nb de jour */}2 jour(s)</Card.Text>
+          <Card.Text>
+            soit {getPeriod(cartItem.dateFrom, cartItem.dateTo)}{" "}
+            jour(s)
+          </Card.Text>
           <br />
           <div className="priceProduct">
             <RiDeleteBin6Line
