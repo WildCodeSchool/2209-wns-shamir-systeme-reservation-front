@@ -9,7 +9,7 @@ import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { useLazyQuery } from "@apollo/client";
-import { GET_PRODUCTS_BY_DATE } from "../../tools/queries";
+import { GET_PRODUCTS_BY_DATE } from "../../graphql/queries";
 import { useDispatch } from "react-redux";
 import { setProductsByDate } from "../../store/features/productsSlice";
 
@@ -28,9 +28,6 @@ function Catalog() {
 
   const productsStore = useSelector(
     (state: RootState) => state.products.products
-  );
-  const categoriesStore = useSelector(
-    (state: RootState) => state.products.categories
   );
   const productsByDateStore = useSelector(
     (state: RootState) => state.products.productsByDate
@@ -234,11 +231,9 @@ function Catalog() {
       </Nav.Link>
       <div className="row">
         <SearchProduct
-          categories={categoriesStore}
           findBySearchTerm={findBySearchTerm}
           findByCategory={findByCategory}
           handleFindByDate={handleFindByDate}
-          productsByDate={productsByDateStore}
           resetProductsView={resetProductsView}
           categoriesFromHome={categoriesFromHome}
           dateFromHome={dateFromHome}

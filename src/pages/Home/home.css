@@ -349,9 +349,13 @@ text-align: center;
 
   }
 
-  .home_infos_two_description2_left .img_mountain_info {
-    width: 60%;
+  .home_infos_two_description2_left {
+    width: 40%;
     height: 90%;
+  }
+  .img_mountain_info img{
+    max-height: 50vh;
+    object-fit: cover;
   }
 
   .home_infos_two_description2_right {

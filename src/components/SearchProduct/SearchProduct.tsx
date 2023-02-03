@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import ICategory from "../../interfaces/ICategory";
 import ISearchTermProps from "../../interfaces/ISearchProductProps";
+import { RootState } from "../../store";
 import { resetProductsByDate } from "../../store/features/productsSlice";
 import "./searchProduct.css";
 
 function SearchProduct({
-  categories,
   findBySearchTerm,
   findByCategory,
   handleFindByDate,
-  productsByDate,
   resetProductsView,
   categoriesFromHome,
   dateFromHome,
@@ -19,7 +19,8 @@ function SearchProduct({
   isSearchFromHome,
 }: ISearchTermProps) {
   // transforme un objet qui contient une liste d'objects en tableau d'objets
-  const categoryList = Object.values(categories);
+  const categoriesStore = useSelector((state: RootState) => state.products.categories);
+  const productsByDateStore = useSelector((state: RootState) => state.products.productsByDate);
 
   const [dateFrom, setDateFrom] = useState<string>("");
   const [dateTo, setDateTo] = useState<string>("");
@@ -36,8 +37,8 @@ function SearchProduct({
     dispatch(resetProductsByDate());
   };
 
-  // On recupere seulement les categories qui ont minimum un produit lié
-  const categoriesArray = categoryList.filter((cat) => {
+  // On récupère seulement les categories qui ont minimum un produit lié
+  const categoriesArray = categoriesStore.filter((cat) => {
     return cat.products.length > 0;
   });
 
@@ -52,15 +53,15 @@ function SearchProduct({
     }
   }, [isSearchFromHome]);
 
-  // On controle si on a des produits recherchés par dates et si c est le cas on affiche le boutton "Réinitialiser"
+  // On contrôle si on a des produits recherchés par dates et si c est le cas on affiche le bouton "Réinitialiser"
   // sinon on le cache
   useEffect(() => {
-    if (productsByDate.length === 0) {
+    if (productsByDateStore.length === 0) {
       setIsProductsByDate(false);
     } else {
       setIsProductsByDate(true);
     }
-  }, [productsByDate]);
+  }, [productsByDateStore]);
 
   // Pour chaque categorie selectionnée ou deselectionnée on appelle une function pour trier les produits
   useEffect(() => {
@@ -99,7 +100,7 @@ function SearchProduct({
       setSearchTerm("");
     } else {
       // Si il etait decoché, on le coche en créant une nouvelle categorie
-      const newCategory: ICategory | undefined = categories.find(
+      const newCategory: ICategory | undefined = categoriesStore.find(
         (category) => category.name === nameCategoryToAdd
       );
       if (newCategory) {

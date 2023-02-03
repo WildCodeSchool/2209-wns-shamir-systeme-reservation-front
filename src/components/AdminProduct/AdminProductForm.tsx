@@ -5,8 +5,8 @@ import { Form } from "react-bootstrap";
 import ICategory from "../../interfaces/ICategory";
 import { useEffect, useState } from "react";
 import { useMutation } from "@apollo/client";
-import { CREATE_PRODUCT, UPDATE_PRODUCT } from "../../tools/mutations";
-import { GET_ALL_PRODUCTS } from "../../tools/queries";
+import { CREATE_PRODUCT, UPDATE_PRODUCT } from "../../graphql/mutations";
+import { GET_ALL_PRODUCTS } from "../../graphql/queries";
 import { regexAlpha, regexInput } from "../../tools/utils";
 import IAdminProductFormProps from "../../interfaces/IAdminProductFormProps";
 

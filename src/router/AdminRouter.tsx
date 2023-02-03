@@ -3,7 +3,7 @@ import AdminCategories from "../pages/Admin/AdminCategories";
 import AdminProducts from "../pages/Admin/AdminProducts";
 import AdminReservations from "../pages/Admin/AdminReservations";
 import AdminCustomers from "../pages/Admin/AdminCustomers";
-import { ProtectedRoute } from "../tools/ProtectedRoute";
+import { ProtectedRoute } from "./ProtectedRoute";
 import AdminLayout from "../pages/Admin/AdminLayout";
 
 function AdminRouter() {
