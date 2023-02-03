@@ -10,9 +10,9 @@ import IProduct from "../../interfaces/IProduct";
 import { Button } from "react-bootstrap";
 import AdminProductForm from "../../components/AdminProduct/AdminProductForm";
 import { FlashMessage } from "../../components/Alert/FlashMessage";
-import { DELETE_PRODUCT } from "../../tools/mutations";
+import { DELETE_PRODUCT } from "../../graphql/mutations";
 import { useMutation } from "@apollo/client";
-import { GET_ALL_PRODUCTS } from "../../tools/queries";
+import { GET_ALL_PRODUCTS } from "../../graphql/queries";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 

@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import IUser from "../../interfaces/IUser";
 import { RootState } from "../../store";
 import { setUser } from "../../store/features/userSlice";
-import { UPDATE_USER } from "../../tools/mutations";
+import { UPDATE_USER } from "../../graphql/mutations";
 import "./profile.css";
 
 function Profile() {

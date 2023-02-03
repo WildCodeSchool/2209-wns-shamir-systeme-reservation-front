@@ -26,7 +26,7 @@ const Footer = () => (
         CGV
       </Link>
       <Link to="*">
-        CUG
+        CGU
       </Link>
     </div>
     <div className='copyright'><p>© Copyright WildBooking 2023</p></div>

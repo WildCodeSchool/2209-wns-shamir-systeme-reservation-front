@@ -5,7 +5,7 @@ import {
   MdOutlineModeEditOutline,
 } from "react-icons/md";
 import { useEffect, useState } from "react";
-import { GET_ALL_CUSTOMERS } from "../../tools/queries";
+import { GET_ALL_CUSTOMERS } from "../../graphql/queries";
 import IUser from "../../interfaces/IUser";
 import { Button, Table } from "react-bootstrap";
 import { FlashMessage } from "../../components/Alert/FlashMessage";

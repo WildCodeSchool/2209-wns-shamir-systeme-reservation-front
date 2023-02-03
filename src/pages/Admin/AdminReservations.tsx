@@ -2,7 +2,7 @@ import "./admin.css";
 import { useState } from "react";
 import IReservation from "../../interfaces/IReservation";
 import { useQuery } from "@apollo/client";
-import { GET_ALL_RESERVATIONS } from "../../tools/queries";
+import { GET_ALL_RESERVATIONS } from "../../graphql/queries";
 import { Table } from "react-bootstrap";
 import { readableDate } from "../../tools/utils";
 

@@ -6,11 +6,11 @@ import {
 } from "react-icons/md";
 import ICategory from "../../interfaces/ICategory";
 import { useEffect, useState } from "react";
-import { GET_ALL_CATEGORIES } from "../../tools/queries";
+import { GET_ALL_CATEGORIES } from "../../graphql/queries";
 import { useMutation, useQuery } from "@apollo/client";
 import { FlashMessage } from "../../components/Alert/FlashMessage";
 import { Button, Table } from "react-bootstrap";
-import { DELETE_CATEGORY } from "../../tools/mutations";
+import { DELETE_CATEGORY } from "../../graphql/mutations";
 
 const AdminCategories = () => {
   const [categoriesAdmin, setCategoriesAdmin] = useState<ICategory[]>([]);

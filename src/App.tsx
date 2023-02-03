@@ -15,7 +15,7 @@ import {
   GET_ALL_PRODUCTS,
   IS_ADMIN,
   GET_USER,
-} from "./tools/queries";
+} from "./graphql/queries";
 import Home from "./pages/Home/Home";
 import Catalog from "./pages/Catalog/Catalog";
 import Contact from "./pages/Contact/Contact";
@@ -23,18 +23,13 @@ import Profile from "./pages/Profile/Profile";
 import Cart from "./pages/Cart/Cart";
 import Footer from "./components/Footer/Footer";
 import Login from "./components/LogIn/Login";
-import { GET_TOKEN } from "./tools/mutations";
+import { GET_TOKEN } from "./graphql/mutations";
 import MenuUser from "./components/MenuUser/MenuUser";
 import { RootState } from "./store";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import {
-  setIsAdmin,
-  setToken,
-  setUser,
-  reset,
-} from "./store/features/userSlice";
-import ScrollToTop from "./tools/helpers";
+import { setIsAdmin, setToken, setUser } from "./store/features/userSlice";
+import ScrollToTop from "./tools/utils";
 import { setCategories, setProducts } from "./store/features/productsSlice";
 import SignIn from "./pages/SignIn/SignIn";
 import AdminRouter from "./router/AdminRouter";
@@ -46,8 +41,6 @@ function App() {
   const [getUser] = useLazyQuery(GET_USER);
   const [getToken] = useMutation(GET_TOKEN);
 
-  const [loginOpen, setLoginOpen] = useState<boolean>(false);
-  const [isMenuUserOpen, setIsMenuUserOpen] = useState<boolean>(false);
   const [loginError, setLoginError] = useState<boolean>(false);
 
   const userAdminStore = useSelector((state: RootState) => state.user.isAdmin);
@@ -84,19 +77,14 @@ function App() {
       localStorage.setItem("token", token.data.getToken);
       dispatch(setToken(token.data.getToken));
       setLoginError(false);
-      setLoginOpen(false);
       // avec le token on récupère le user et on requête pour savoir s'il est admin
       initUser(token.data.getToken);
+      const menuLogin = document.querySelector("#loginId");
+      menuLogin?.classList.remove("d-block");
+      menuLogin?.classList.add("d-none");
     } catch (error) {
       setLoginError(true);
     }
-  };
-
-  const handleLogout = () => {
-    // on réinitialise redux + localStorage
-    dispatch(reset());
-    localStorage.clear();
-    setIsMenuUserOpen(!isMenuUserOpen);
   };
 
   // PRODUCT ************************************************************************
@@ -118,40 +106,18 @@ function App() {
       <Router>
         <ScrollToTop />
         {/* Les 2 navbar fixe top */}
-        <NavbarMobile
-          setLoginOpen={setLoginOpen}
-          loginOpen={loginOpen}
-          handleLogout={handleLogout}
-          isMenuUserOpen={isMenuUserOpen}
-          setIsMenuUserOpen={setIsMenuUserOpen}
-        />
-        <NavbarDesktop
-          setLoginOpen={setLoginOpen}
-          loginOpen={loginOpen}
-          handleLogout={handleLogout}
-          isMenuUserOpen={isMenuUserOpen}
-          setIsMenuUserOpen={setIsMenuUserOpen}
-        />
+        <NavbarMobile />
+        <NavbarDesktop />
 
         {/* navbar version mobile */}
-        <NavbarResponsive
-          isMenuUserOpen={isMenuUserOpen}
-          setIsMenuUserOpen={setIsMenuUserOpen}
-        />
+        <NavbarResponsive />
 
-        {loginOpen && (
-          <Login
-            handleLogin={handleLogin}
-            loginError={loginError}
-            setLoginError={setLoginError}
-          />
-        )}
-        {isMenuUserOpen && (
-          <MenuUser
-            handleLogout={handleLogout}
-            setIsMenuUserOpen={setIsMenuUserOpen}
-          />
-        )}
+        <Login
+          handleLogin={handleLogin}
+          loginError={loginError}
+          setLoginError={setLoginError}
+        />
+        <MenuUser />
 
         <Routes>
           <Route path="/" element={<Home />} />
@@ -163,7 +129,7 @@ function App() {
             path="/inscription"
             element={<SignIn handleLogin={handleLogin} />}
           />
-          <Route  path="/admin/*" element={<AdminRouter />} />
+          <Route path="/admin/*" element={<AdminRouter />} />
         </Routes>
         {!userAdminStore && <Footer />}
       </Router>

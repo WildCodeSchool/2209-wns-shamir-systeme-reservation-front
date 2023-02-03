@@ -1,20 +1,22 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import ICategory from "../../interfaces/ICategory";
 import ISearchProductHomeProps from "../../interfaces/ISearchProductHomeProps";
+import { RootState } from "../../store";
 import "./searchProductHome.css";
 
-const SearchProductHome = ({categories, handleFindByDateFromHome}: ISearchProductHomeProps ) => {
+const SearchProductHome = ({handleFindByDateFromHome}: ISearchProductHomeProps ) => {
   const [categoriesFiltered, setCategoriesFiltered] = useState<ICategory[]>([]);
   const [dateFrom, setDateFrom] = useState<string>("");
   const [dateTo, setDateTo] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [showCategories, setShowcategories] = useState(false);
 
-  const categoryList = Object.values(categories);
+  const categoriesStore = useSelector((state: RootState) => state.products.categories);
 
-  // Function qui returne un true ou false selon l'etat (selectionné ou pas) d'un checkbox categories
+  // Function qui retourne un true ou false selon l'etat (sélectionné ou pas) d'un checkbox catégories
   const isChecked = (categoryName: string): boolean => {
-    // On controle dans la liste des categories selectionnées si la catageorie passée en argument est presente
+    // On contrôle dans la liste des categories sélectionnées si la catégorie passée en argument est présente
     if (
       categoriesFiltered.find(
         (categoryFiltred) => categoryFiltred.name === categoryName
@@ -23,26 +25,26 @@ const SearchProductHome = ({categories, handleFindByDateFromHome}: ISearchProduc
       // Si c'est le cas la case checkbox sera cochée
       return true;
     }
-    // Sinon la case checkbox sera decochée
+    // Sinon la case checkbox sera décochée
     return false;
   };
 
-  // Function qui permet de stoker ou enlever du state les categories selectionnées dans les checkbox
+  // Function qui permet de stoker ou enlever du state les catégories sélectionnées dans les checkbox
   const handleCheckbox = (nameCategoryToAdd: string): void => {
-    // On controle l'état du checkbox
+    // On contrôle l'état du checkbox
     if (isChecked(nameCategoryToAdd)) {
-      // Si il etait dejà coché, on le decoché en créant une nouvelle liste de categories selectionnées sans la categorié que on vient de traiter
+      // Si il etait dejà coché, on le décoché en créant une nouvelle liste de categories sélectionnées sans la catégorie qu'on vient de traiter
       const newCategoriesToAdd: ICategory[] = categoriesFiltered.filter(
         (categoryFiltred) => categoryFiltred.name !== nameCategoryToAdd
       );
       setCategoriesFiltered(newCategoriesToAdd);
     } else {
-      // Si il etait decoché, on le coche en créant une nouvelle categorie
-      const newCategory: ICategory | undefined = categoryList.find(
+      // S'il était décoché, on le coche en créant une nouvelle catégorie
+      const newCategory: ICategory | undefined = categoriesStore.find(
         (category) => category.name === nameCategoryToAdd
       );
       if (newCategory) {
-        // On ajoute cette nouvelle categorie à la liste des filtres des produits "findByCategory(categoriesFiltered);"
+        // On ajoute cette nouvelle catégorie à la liste des filtres des produits "findByCategory(categoriesFiltered);"
         setCategoriesFiltered([...categoriesFiltered, newCategory]);
       }
     }
@@ -58,11 +60,11 @@ const SearchProductHome = ({categories, handleFindByDateFromHome}: ISearchProduc
   const handleSubmit = (e: any): void => {
     e.preventDefault();
 
-    // On controle si la date de debut et la date de fin on été selectionnées
+    // On contrôle si la date de debut et la date de fin on été sélectionnées
     if (dateFrom && dateTo) {
       const timestampFrom = new Date(dateFrom).getTime();
       const timestampTo = new Date(dateTo).getTime();
-      // On verifie si la date de debut est superieure à la date de fin
+      // On vérifie si la date de debut est supérieure à la date de fin
       if (timestampFrom > timestampTo) {
         // Si c'est le cas on affiche un message d'erreur
         setErrorMessage("Dates non conformes");
@@ -81,7 +83,7 @@ const SearchProductHome = ({categories, handleFindByDateFromHome}: ISearchProduc
     <div className="search_home_container">
       <form className="home_search_prod_by_date" onSubmit={handleSubmit}>
           <div>
-            <p>quelle activitée ?</p>
+            <p>quelle activité ?</p>
             <button type="button"
               className={
                 showCategories
@@ -94,7 +96,7 @@ const SearchProductHome = ({categories, handleFindByDateFromHome}: ISearchProduc
             </button>
             {showCategories && (
               <div className="check_category">
-                {categoryList.map((category: ICategory) => (
+                {categoriesStore.map((category: ICategory) => (
                   <div className="category_chackbox" key={category.id}>
                     <input
                       className="form-check-input"
