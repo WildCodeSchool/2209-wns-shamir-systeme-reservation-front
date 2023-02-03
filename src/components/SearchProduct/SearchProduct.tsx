@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import ICategory from "../../interfaces/ICategory";
 import ISearchTermProps from "../../interfaces/ISearchProductProps";
 import { RootState } from "../../store";
-import { resetProductsByDate } from "../../store/features/productsSlice";
+import { resetFilter, resetProductsByDate, setFilterPeriod } from "../../store/features/productsSlice";
 import "./searchProduct.css";
 
 function SearchProduct({
@@ -21,9 +21,10 @@ function SearchProduct({
   // transforme un objet qui contient une liste d'objects en tableau d'objets
   const categoriesStore = useSelector((state: RootState) => state.products.categories);
   const productsByDateStore = useSelector((state: RootState) => state.products.productsByDate);
+  const productFilterStore = useSelector((state: RootState) => state.products.filter)
 
-  const [dateFrom, setDateFrom] = useState<string>("");
-  const [dateTo, setDateTo] = useState<string>("");
+  // const [dateFrom, setDateFrom] = useState<string>("");
+  // const [dateTo, setDateTo] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [categoriesFiltered, setCategoriesFiltered] = useState<ICategory[]>([]);
@@ -47,8 +48,9 @@ function SearchProduct({
       setCategoriesFiltered(categoriesFromHome);
     }
     if (dateFromHome !== "") {
-      setDateFrom(dateFromHome);
-      setDateTo(dateToHome);
+      dispatch(setFilterPeriod({dateFrom: dateFromHome, dateTo: dateToHome}))
+      // setDateFrom(dateFromHome);
+      // setDateTo(dateToHome);
       setIsProductsByDate(true);
     }
   }, [isSearchFromHome]);
@@ -116,42 +118,33 @@ function SearchProduct({
     findBySearchTerm(e.target.value.toLowerCase(), isCategoriesFiltered);
   };
 
-  const handleDateFrom = (e: any): void => {
-    setDateFrom(e.target.value);
-  };
-  const handleDateTo = (e: any): void => {
-    setDateTo(e.target.value);
-  };
-
   const handleSubmit = (e: any): void => {
     e.preventDefault();
 
-    // On controle si la date de debut et la date de fin on été selectionnées
-    if (dateFrom && dateTo) {
-      const timestampFrom = new Date(dateFrom).getTime();
-      const timestampTo = new Date(dateTo).getTime();
+    // On contrôle si la date de debut et la date de fin on été sélectionnées
+    if (productFilterStore.period) {
+      const timestampFrom = new Date(productFilterStore.period.dateFrom).getTime();
+      const timestampTo = new Date(productFilterStore.period.dateTo).getTime();
+      const now = new Date().getTime();
       // On verifie si la date de debut est superieure à la date de fin
-      if (timestampFrom > timestampTo) {
+      if (timestampFrom > timestampTo || timestampFrom < now) {
         // Si c'est le cas on affiche un message d'erreur
-        setErrorMessage("Dates non conformes");
+        setErrorMessage("La date de début doit être supérieure ou égale à la date du jour et inférieure à la date de fin.");
       } else {
         setErrorMessage("");
-        handleFindByDate(dateFrom, dateTo);
+        handleFindByDate(productFilterStore.period.dateFrom, productFilterStore.period.dateTo);
         setCategoriesFiltered([]);
         setSearchTerm("");
       }
     } else {
       // Si c'est pas le cas on affiche un message d'erreur
-      setErrorMessage("Sélectionner deux dates");
+      setErrorMessage("Sélectionnez deux dates");
     }
   };
 
-  // On gére la réinitialisation des produis à afficher
+  // On gère la réinitialisation des produis à afficher
   function handleClickreloadProducts() {
-    setDateFrom("");
-    setDateTo("");
-    setCategoriesFiltered([]);
-    setSearchTerm("");
+    resetFilter();
     resetProductsView();
     reloadAllProducts();
   }
@@ -198,8 +191,8 @@ function SearchProduct({
             className="form-control date"
             name="startDate"
             type="date"
-            onChange={handleDateFrom}
-            value={dateFrom}
+            onChange={(e)=>dispatch(setFilterPeriod({dateFrom: e.target.value, dateTo: productFilterStore.period.dateTo}))}
+            value={productFilterStore.period.dateFrom}
           />
         </div>
         <div className="col-9 m-auto mb-5 row">
@@ -208,8 +201,8 @@ function SearchProduct({
             className="form-control date"
             name="endDate"
             type="date"
-            onChange={handleDateTo}
-            value={dateTo}
+            onChange={(e)=>dispatch(setFilterPeriod({dateFrom: productFilterStore.period.dateFrom, dateTo: e.target.value}))}
+            value={productFilterStore.period.dateTo}
           />
         </div>
         <div className="row">
