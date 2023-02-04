@@ -28,22 +28,11 @@ function MenuUser() {
 
   return (
     <div className="menuUser_container">
-      <div
-        id="menuUserId"
-        className="menuUser d-none col-xl-2 col-lg-3 col-md-4 col-sm-10 col-11 d-flex flex-column  align-items-center bg-white"
-      >
-        <Link
-          to="/profil"
-          onClick={handleCloseDiv}
-          className="col-12 d-flex justify-content-center"
-        >
+      <div id="menuUserId" className="menuUser d-none col-xl-2 col-lg-3 col-md-4 col-sm-10 col-11 d-flex flex-column align-items-center bg-white">
+        <Link to="/profil" onClick={handleCloseDiv} className="col-12 d-flex justify-content-center pb-3">
           Mon compte
         </Link>
-        <Link
-          to="/"
-          className="col-12 d-flex justify-content-center"
-          onClick={handleLogout}
-        >
+        <Link to="/" className="col-12 d-flex justify-content-center pb-3 pt-3" onClick={handleLogout}>
           Déconnexion
         </Link>
       </div>

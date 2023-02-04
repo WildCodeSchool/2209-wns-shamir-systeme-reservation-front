@@ -1,4 +1,4 @@
-.container > .mainProfil{
+.container-sm > .mainProfil{
     margin-top: 15rem;
     margin-bottom: 15rem;
 }
@@ -16,7 +16,7 @@
 }
 .card-profil h4{
     font-weight: 700;
-    font-size: 32px;
+    font-size: 3.2rem;
     color: #000;
 }
 .card-profil{
@@ -40,4 +40,28 @@
     color: #fff;
     background-color: #707070;
     border-color: #707070;
+}
+
+@media (max-width: 768px) {
+    .card-profil p,
+    .card-profil .table td {
+        font-size: 1.4rem !important;
+    }
+    .card-profil h4 {
+        font-size: 2.5rem;
+    }
+    .rounded-circle{
+        max-width: 15rem;
+        border: .8rem solid #0d83ab;
+    }
+}
+@media (max-width: 576px) {
+    .card-profil .table p,
+    .card-profil .table td {
+        font-size: 1.2rem !important;
+    }
+    .rounded-circle{
+        max-width: 12rem;
+        border: .6rem solid #0d83ab;
+    }
 }

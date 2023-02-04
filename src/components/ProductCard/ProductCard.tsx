@@ -50,6 +50,14 @@ function ProductCard({ product, isSearchFromHome }: IProductProps) {
     );
     const newCart = [...updatedCart, productCartUpdated];
     dispatch(setCart(newCart));
+    const pillCart = document.querySelector(".pillCart");
+    const pillCart2 = document.querySelector(".pillCartMobile");
+    pillCart?.classList.add("pillCartSub");
+    pillCart2?.classList.add("pillCartSub");
+    setTimeout(() => {
+      pillCart?.classList.remove("pillCartSub");
+      pillCart2?.classList.remove("pillCartSub");
+    }, 1000)
   };
 
   return (

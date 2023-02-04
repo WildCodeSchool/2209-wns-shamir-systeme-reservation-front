@@ -59,7 +59,7 @@ const Home = () => {
         <p className="header_home_title">
           Renting Skis has never been easier before !
         </p>
-        <button className="btn search_product">Rechercher un produit</button>
+        <button className="search_product">Rechercher un produit</button>
         <SearchProductHome
           handleFindByDateFromHome={handleFindByDateFromHome}
         />

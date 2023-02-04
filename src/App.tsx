@@ -5,8 +5,6 @@ import "bootstrap/dist/js/bootstrap.bundle.js";
 import "bootstrap/js/dist/collapse";
 import "bootstrap/js/src/collapse.js";
 import NavbarDesktop from "./components/NavBar/NavbarDesktop";
-import NavbarResponsive from "./components/NavBar/NavBarResponsive";
-import NavbarMobile from "./components/NavBar/NavbarMobile";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
@@ -105,13 +103,7 @@ function App() {
     <div className="app">
       <Router>
         <ScrollToTop />
-        {/* Les 2 navbar fixe top */}
-        <NavbarMobile />
         <NavbarDesktop />
-
-        {/* navbar version mobile */}
-        <NavbarResponsive />
-
         <Login
           handleLogin={handleLogin}
           loginError={loginError}

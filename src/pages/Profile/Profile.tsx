@@ -70,10 +70,10 @@ function Profile() {
   };
 
   return (
-    <div className="container">
+    <div className="container-sm">
       <main role="main" className="mainProfil">
         <div className="row justify-content-center mt-10">
-          <div className="col-md-3">
+          <div className="col-md-4 col-lg-3">
             <div className="card-profil p-4 rounded">
               <p className="mb-3 text-center mb-3">
                 <strong>
@@ -102,11 +102,11 @@ function Profile() {
             </div>
           </div>
 
-          <div className="col">
+          <div className="col-md-8">
             <div className="card-profil p-4 rounded">
-              <h4>Mes commandes</h4>
+              <h4 className="text-center">Mes commandes</h4>
               <hr />
-              <div className="row">
+              <div className="row overflow-auto">
                 {/* si pas de commande */}
                 <p className="text-center mt-4">
                   Vous n'avez pas passer de commande pour le moment
@@ -125,7 +125,7 @@ function Profile() {
                         <br />
                         <p>
                           <Badge pill bg="dark">
-                            en cours de préparation
+                            en préparation
                           </Badge>
                         </p>
                       </td>

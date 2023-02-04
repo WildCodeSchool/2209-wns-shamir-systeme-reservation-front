@@ -34,12 +34,19 @@ text-align: center;
 
 .search_product {
   width: 220px;
-  background-color: rgba(255, 255, 255, 0);
+  background-color: rgba(66, 65, 65, 0.44);
   color: white;
   padding: 1rem;
   border: 2px solid white;
   border-radius: 5px;
   font-weight: 700;
+  font-size: 16px; 
+  transition: 0.3s;
+}
+.search_product:hover {
+  background-color: rgba(237, 235, 235, 0.652) !important;
+  color: rgba(66, 65, 65) !important;
+  border: 2px solid rgba(252, 252, 252, 0.512) !important;
 }
 
 .img_home_mobile {

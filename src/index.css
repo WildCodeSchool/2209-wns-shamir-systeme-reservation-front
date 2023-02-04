@@ -18,7 +18,7 @@ html {
   outline: none;
 }
 
-body {
+body, .btnWild {
   /* min-height: 100vh; */
   font-size: 1.6rem !important;
   text-rendering: optimizeSpeed;
@@ -86,7 +86,7 @@ header {
 }
 
 .btnWild {
-  font-size: 16px !important;
+  /* font-size: 16px !important; */
   background-color: #0d83ab !important;
   color: #fff;
   padding: 0.5em 1.8em !important;
@@ -110,4 +110,11 @@ header {
 .btnsecondary:hover {
   background-color: #fff !important;
   color: #4c4c4c !important;
+}
+
+@media (max-width: 768px) {
+  .btnWild {
+    padding: 0.3em 1.2em !important;
+    border-radius: 4px !important;
+  }
 }

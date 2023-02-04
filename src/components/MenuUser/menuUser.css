@@ -7,26 +7,23 @@
   z-index: 100;
   font-size: 2rem;
 }
-.menuUser_container a:nth-child(1),
-.menuUser_container div:first-child {
-  border-bottom: 2px solid #9dbcd3;
-  padding: 2rem;
+.menuUser_container a:nth-child(1) {
+  border-bottom: 2px solid #8da9be;
+}
+
+.menuUser_container a,
+.menuUser_container div {
   color: #9dbcd3 ;
 }
 
-.menuUser_container a:nth-child(2){
-  padding: 2rem;
-  color:  #9dbcd3;
-}
-
 .menuUser_container a:hover{
-  background-color: #9dbcd3;
+  background-color: #8da9be;
   color: white;
   cursor: pointer;
 }
 
 .menuUser a:first-child {
-  padding-top: 8rem;
+  padding-top: 7rem;
  }
 
  .menuUser{

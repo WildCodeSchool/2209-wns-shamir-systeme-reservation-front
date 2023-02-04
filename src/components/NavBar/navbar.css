@@ -17,6 +17,32 @@
 .panierIcon {
   max-width: 35px;
 }
+.pillCart, .pillCartMobile{
+  width: 2.2rem;
+  height: 2.2rem;
+  background-color: red;
+  color: #fff;
+  font-size: 1rem;
+  text-align: center;
+  padding: 0.4rem;
+  border-radius: 5rem;
+  font-weight: 700;
+  position: absolute;
+  content: "";
+  top: 2rem;
+  right: 3rem;
+  z-index: 10;
+}
+.pillCartSub{
+  animation-name: scalePill;
+  animation-duration: 1s;
+  transform: scale(1.1);
+  transition: all 300ms linear 0ms;
+}
+@keyframes scalePill {
+  40% { transform: scale(1.2); }
+  80% { transform: scale(1); }
+}
 .settingsIcon {
   font-size: 35px;
 }
@@ -29,6 +55,8 @@
   transition: 0.3s !important;
   font-family: "Poppins";
   font-weight: 500;
+  color: #5e717e;
+  font-size: 1.2rem;
 }
 .logOut {
   padding: 43px 5px !important;
@@ -103,31 +131,42 @@
   .linkPage {
     padding: 10px 5px !important;
   }
+  .pillCartMobile{
+    top: 2.4rem;
+    right: 2.4rem;
+  }
 }
 /* -------------- NAVBAR RESPONSIVE ------------- */
 .loginIcon {
   max-width: 5rem;
 }
 #mainNavResponsive {
-  height: 11rem;
+  height: 8rem;
   transition: 0.3s;
   background-color: #9dbcd3;
   display: none;
 }
 .boutiqueIcon,
 .produitIcon {
-  max-width: 5rem;
+  max-width: 3.5rem;
 }
-.linkIconResponsive:hover {
+.iconListMobile {
+  display: contents;
+}
+.linkIconResponsive:hover, linkIconResponsive > a:hover {
   transform: scale(1.05);
   transition: all 300ms linear 0ms;
   opacity: 70%;
+  color: #5e717e;
 }
 @media screen and (max-width: 576px) {
   #mainNavResponsive {
     display: flex;
     align-items: center;
     transition: 0.3s;
+  }
+  .profilIcon {
+    opacity: .45;
   }
 }
 @media screen and (max-width: 400px) {
@@ -137,7 +176,7 @@
 }
 /* -------------- NAVBAR MOBILE ------------- */
 #mainNavMobile {
-  height: 11rem;
+  height: 9rem;
   transition: 0.3s;
   background-color: #9dbcd3;
 }
