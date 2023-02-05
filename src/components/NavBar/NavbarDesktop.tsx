@@ -15,14 +15,17 @@ import { RootState } from "../../store";
 const NavbarDesktop = () => {
   const userDataStore = useSelector((state: RootState) => state.user.user);
   const userAdminStore = useSelector((state: RootState) => state.user.isAdmin);
+  
   const getTokenInLocal = localStorage.getItem("token");
   const cartStore = useSelector((state: RootState) => state.cart.cart);
-
+  
   let totalQtyInCart = 0;
   cartStore.forEach((element) => (totalQtyInCart += element.qtyInCart));
-
+  
+  const menuUser = document.querySelector("#menuUserId");
+  const menuLogin = document.querySelector("#loginId");
+  
   const toggleMenuUser = () => {
-    const menuUser = document.querySelector("#menuUserId");
     if (menuUser?.classList.contains("d-block")) {
       menuUser.classList.remove("d-block");
       menuUser.classList.add("d-none");
@@ -33,7 +36,6 @@ const NavbarDesktop = () => {
   };
 
   const toggleLogin = () => {
-    const menuLogin = document.querySelector("#loginId");
     if (menuLogin?.classList.contains("d-block")) {
       menuLogin.classList.remove("d-block");
       menuLogin.classList.add("d-none");
@@ -42,6 +44,19 @@ const NavbarDesktop = () => {
       menuLogin?.classList.add("d-block");
     }
   };
+
+  window.addEventListener("click", (e) => {
+    const el = e.target ? (e.target as HTMLElement) : null;
+    if ((!el?.classList.contains('profilIcon')) && menuUser?.classList.contains("d-block")){
+      menuUser.classList.remove("d-block");
+      menuUser.classList.add("d-none");
+    };
+    if ((!el?.classList.contains('loginMenu')) && menuLogin?.classList.contains("d-block")){
+      menuLogin.classList.remove("d-block");
+      menuLogin.classList.add("d-none");
+    };
+  });
+
 
   return (
     <>
@@ -84,7 +99,7 @@ const NavbarDesktop = () => {
                 )}
                 {userDataStore.id === 0 && (
                   <Nav.Link
-                    className="nav-link mx-4 linkPage "
+                    className="loginMenu nav-link mx-4 linkPage "
                     onClick={toggleLogin}
                   >
                     Se connecter / S'inscrire

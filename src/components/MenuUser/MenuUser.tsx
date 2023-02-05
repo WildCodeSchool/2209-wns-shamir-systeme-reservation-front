@@ -5,18 +5,17 @@ import "./menuUser.css";
 
 function MenuUser() {
   const dispatch = useDispatch();
+  const menuUser = document.querySelector("#menuUserId");
 
   const handleLogout = () => {
     // on réinitialise redux + localStorage
     dispatch(reset());
     localStorage.clear();
-    const menuUser = document.querySelector("#menuUserId");
     menuUser?.classList.remove("d-block");
     menuUser?.classList.add("d-none");
   };
 
   const handleCloseDiv = () => {
-    const menuUser = document.querySelector("#menuUserId");
     if (menuUser?.classList.contains("d-block")) {
       menuUser.classList.remove("d-block");
       menuUser.classList.add("d-none");

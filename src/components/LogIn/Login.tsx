@@ -31,10 +31,10 @@ function Login({ handleLogin, loginError, setLoginError }: any) {
     }
   };
   return (
-    <div className="login_container">
+    <div className="login_container loginMenu">
       <form
         id="loginId"
-        className="d-none login col-xl-2 col-lg-3 col-md-4 col-sm-10 col-11  shadow pt-5 pb-3 bg-white rounded"
+        className="d-none loginMenu login col-xl-2 col-lg-3 col-md-4 col-sm-10 col-11  shadow pt-5 pb-3 bg-white rounded"
         onSubmit={handleSubmit}
       >
         <h4 className="d-flex justify-content-center col-9 m-auto mb-3 row text-center pt-3">
@@ -43,6 +43,7 @@ function Login({ handleLogin, loginError, setLoginError }: any) {
         <div className="col-9 m-auto mb-5 row">
           <label htmlFor="email">EMAIL</label>
           <input
+            className="loginMenu"
             name="email"
             type="email"
             onChange={handleEmail}
@@ -52,6 +53,7 @@ function Login({ handleLogin, loginError, setLoginError }: any) {
         <div className="col-9 m-auto mb-5 row">
           <label htmlFor="password">MOT DE PASSE</label>
           <input
+            className="loginMenu"
             name="password"
             type="password"
             onChange={handlePassword}
