@@ -1,0 +1,61 @@
+.check_category input {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.check_category {
+  position: relative;
+  width: 100%;
+  padding: 1rem;
+  border-radius: 0 0 5px 5px !important;
+  background-color: #0d83ab;
+  color: white;
+  border-left: 1px solid black;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+}
+
+.check_category .form-check-input:checked {
+  background-color: #0d83ab;
+  border-color: #ffffff;
+}
+
+.home_search_prod_by_date_select {
+  background-color: white !important;
+  color: black !important;
+  height: 3rem !important;
+  width: 150px !important;
+  border-radius: 5px !important;
+  font-weight: 400 !important;
+  border: 1px solid black !important;
+  text-transform: capitalize !important;
+}
+
+.home_search_prod_by_date_select:hover {
+  cursor: pointer;
+  background-color: #0d83ab !important;
+  color: white !important;
+}
+
+.home_search_prod_by_date_select--selected {
+  background-color: #0d83ab;
+  color: white !important;
+  height: 3rem !important;
+  width: 150px !important;
+  border-radius: 5px 5px 0 0 !important;
+  font-weight: 400 !important;
+  border-top: 1px solid black !important;
+  border-left: 1px solid black !important;
+  border-right: 1px solid black !important;
+  text-transform: capitalize !important;
+ 
+}
+
+.home_search_prod_by_date_select--selected:hover {
+  cursor: pointer;
+}
+
+.home_search_prod_by_date_select:hover {
+  background-color: white;
+
+}

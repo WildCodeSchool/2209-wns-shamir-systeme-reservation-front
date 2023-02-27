@@ -1,0 +1,194 @@
+/* ---------- NAVBAR ------------ */
+
+.logo {
+  max-width: 10rem;
+}
+.navbar-toggler {
+  border: none;
+  font-size: 2rem;
+}
+
+#mainNav {
+  height: 9rem;
+  transition: 0.3s;
+  background-color: #9dbcd3;
+}
+.profilIcon,
+.panierIcon {
+  max-width: 35px;
+}
+.pillCart, .pillCartMobile{
+  width: 2.2rem;
+  height: 2.2rem;
+  background-color: red;
+  color: #fff;
+  font-size: 1rem;
+  text-align: center;
+  padding: 0.4rem;
+  border-radius: 5rem;
+  font-weight: 700;
+  position: absolute;
+  content: "";
+  top: 2rem;
+  right: 3rem;
+  z-index: 10;
+}
+.pillCartSub{
+  animation-name: scalePill;
+  animation-duration: 1s;
+  transform: scale(1.1);
+  transition: all 300ms linear 0ms;
+}
+@keyframes scalePill {
+  40% { transform: scale(1.2); }
+  80% { transform: scale(1); }
+}
+.settingsIcon {
+  font-size: 35px;
+}
+.linkIcon,
+.linkIconMobile {
+  transition: 0.3s !important;
+}
+.linkIconResponsive {
+  margin: 0 4rem;
+  transition: 0.3s !important;
+  font-family: "Poppins";
+  font-weight: 500;
+  color: #5e717e;
+  font-size: 1.2rem;
+}
+.logOut {
+  padding: 43px 5px !important;
+  color: #000;
+  font-size: 2rem;
+}
+.navbar-shrink {
+  background-color: #f8f8f8af;
+  height: 8rem !important;
+}
+.linkPage {
+  font-family: "Poppins";
+  display: inline-block;
+  vertical-align: middle;
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  position: relative;
+  overflow: hidden;
+  padding: 33px 5px !important;
+}
+.linkPage:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 51%;
+  right: 51%;
+  bottom: 0;
+  background: #fff;
+  height: 0.3rem;
+  transition-property: left, right;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-out;
+}
+.linkPage:hover:before,
+.linkPage:focus:before,
+.linkPage:active:before {
+  left: 0;
+  right: 0;
+}
+.linkPage:hover,
+.linkPage:focus,
+.linkPage:active {
+  color: #000;
+}
+.linkIcon:hover {
+  transform: scale(1.05);
+  transition: all 300ms linear 0ms;
+  opacity: 70%;
+}
+
+.bar {
+  display: block;
+  width: 2.5rem;
+  height: 0.2rem;
+  margin: 0.6rem 0;
+  content: "";
+  background: rgb(131, 131, 131);
+}
+.transition {
+  transition: all 0.3s ease-in-out;
+}
+.navbar-toggler.hov:hover .bar {
+  margin: 0.7rem 0;
+}
+@media screen and (max-width: 576px) {
+  #mainNav {
+    display: none;
+    transition: 0.3s;
+  }
+}
+@media screen and (max-width: 768px) {
+  .linkPage {
+    padding: 10px 5px !important;
+  }
+  .pillCartMobile{
+    top: 2.4rem;
+    right: 2.4rem;
+  }
+}
+/* -------------- NAVBAR RESPONSIVE ------------- */
+.loginIcon {
+  max-width: 5rem;
+}
+#mainNavResponsive {
+  height: 8rem;
+  transition: 0.3s;
+  background-color: #9dbcd3;
+  display: none;
+}
+.boutiqueIcon,
+.produitIcon {
+  max-width: 3.5rem;
+}
+.iconListMobile {
+  display: contents;
+}
+.linkIconResponsive:hover, linkIconResponsive > a:hover {
+  transform: scale(1.05);
+  transition: all 300ms linear 0ms;
+  opacity: 70%;
+  color: #5e717e;
+}
+@media screen and (max-width: 576px) {
+  #mainNavResponsive {
+    display: flex;
+    align-items: center;
+    transition: 0.3s;
+  }
+  .profilIcon {
+    opacity: .45;
+  }
+}
+@media screen and (max-width: 400px) {
+  .linkIconResponsive {
+    margin: 0 2rem;
+  }
+}
+/* -------------- NAVBAR MOBILE ------------- */
+#mainNavMobile {
+  height: 9rem;
+  transition: 0.3s;
+  background-color: #9dbcd3;
+}
+@media screen and (max-width: 576px) {
+  #mainNavMobile {
+    display: flex;
+    transition: 0.3s;
+  }
+}
+@media screen and (min-width: 577px) {
+  #mainNavMobile {
+    display: none;
+    transition: 0.3s;
+  }
+}

@@ -1,0 +1,49 @@
+.menuUser_container{
+  width: 100%;
+  display: flex;
+  position: absolute;
+  justify-content: center;
+  margin-top: 10rem;
+  z-index: 100;
+  font-size: 2rem;
+}
+.menuUser_container a:nth-child(1) {
+  border-bottom: 2px solid #8da9be;
+}
+
+.menuUser_container a,
+.menuUser_container div {
+  color: #9dbcd3 ;
+}
+
+.menuUser_container a:hover{
+  background-color: #8da9be;
+  color: white;
+  cursor: pointer;
+}
+
+.menuUser a:first-child {
+  padding-top: 7rem;
+ }
+
+ .menuUser{
+   position: fixed;
+   top: 3rem;
+   box-shadow: 0px 5px 15px #aaaeb1;
+ }
+
+ a {
+  color:  #9dbcd3;
+  text-decoration: none;
+ }
+
+
+@media (min-width: 700px) {
+  .menuUser_container{
+    width: 100%;
+    display: flex;
+    position: absolute;
+    justify-content: flex-end;
+    margin-top: 8rem;
+  }
+}

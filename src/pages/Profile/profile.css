@@ -1,0 +1,67 @@
+.container-sm > .mainProfil{
+    margin-top: 15rem;
+    margin-bottom: 15rem;
+}
+.rounded-circle{
+    max-width: 20rem;
+    border: 1rem solid #0d83ab;
+}
+.rounded p{
+    font-weight: 500;
+    color: #000;
+}
+.card-profil .dropdown-item{
+    font-weight: 300;
+    color: #000;
+}
+.card-profil h4{
+    font-weight: 700;
+    font-size: 3.2rem;
+    color: #000;
+}
+.card-profil{
+    box-shadow: 0 2px 10px 0 rgba(129, 129, 129, 0.2);
+    border: none;
+}
+
+.imgUser{
+    max-width: 200px !important;
+    max-height: 200px !important;
+}
+
+.img-thumbnail{
+    border-radius: 1.25rem !important;
+}
+.page-link{
+    color: #707070;
+}
+.page-item.activePagination .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: #707070;
+    border-color: #707070;
+}
+
+@media (max-width: 768px) {
+    .card-profil p,
+    .card-profil .table td {
+        font-size: 1.4rem !important;
+    }
+    .card-profil h4 {
+        font-size: 2.5rem;
+    }
+    .rounded-circle{
+        max-width: 15rem;
+        border: .8rem solid #0d83ab;
+    }
+}
+@media (max-width: 576px) {
+    .card-profil .table p,
+    .card-profil .table td {
+        font-size: 1.2rem !important;
+    }
+    .rounded-circle{
+        max-width: 12rem;
+        border: .6rem solid #0d83ab;
+    }
+}

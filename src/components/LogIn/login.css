@@ -1,0 +1,46 @@
+.login_container{
+  width: 100%;
+  display: flex;
+  position: fixed;
+  justify-content: center;
+  margin-top: 20rem;
+  z-index: 100;
+}
+
+.login label {
+  display: none;
+}
+
+
+.login div {
+ margin-bottom: 1rem !important;
+}
+
+.login button {
+  font-size: 1.5rem;
+ }
+
+
+.login button {
+  width: 20rem;
+ }
+
+ .login h4:first-child {
+  padding-top: 6rem;
+ }
+
+ .login{
+  position: fixed;
+  top: 7rem;
+  box-shadow: 0px 5px 15px #aaaeb1;
+ }
+
+@media (min-width: 700px) {
+  .login_container{
+    width: 100%;
+    display: flex;
+    position: absolute;
+    justify-content: flex-end;
+    margin-top: 8rem;
+  }
+}
