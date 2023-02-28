@@ -16,16 +16,20 @@ export default function ProductCart({ cartItem }: IProductCartProps) {
 
   // ajoute au panier sur bouton +
   const addToCart = () => {
-    const newQtyInCart = cartItem.qtyInCart + 1;
-    const newProductPrice = cartItem.price * newQtyInCart;
-    const updatedProduct = {
-      ...cartItem,
-      qtyInCart: newQtyInCart,
-      subtotal: newProductPrice,
-    };
-    let updatedCart = cartStore.filter((product) => product.id !== cartItem.id);
-    dispatch(setCart([...updatedCart, updatedProduct]));
-  };
+    if (cartItem.qtyInCart < cartItem.quantity) {
+      const newQtyInCart = cartItem.qtyInCart + 1;
+      const newProductPrice = cartItem.price * newQtyInCart;
+      const updatedProduct = {
+        ...cartItem,
+        qtyInCart: newQtyInCart,
+        subtotal: newProductPrice,
+      };
+      let updatedCart = cartStore.filter((product) => product.id !== cartItem.id);
+      dispatch(setCart([...updatedCart, updatedProduct]));
+    } else {
+      window.alert("Vous avez atteint le stock disponible !")
+    }
+  }
 
   // retire du panier sur bouton -
   const removeFromCart = () => {
@@ -140,7 +144,23 @@ export default function ProductCart({ cartItem }: IProductCartProps) {
           src={cartItem.image}
         />
         <div>
+          <Card.Text style={{ marginBottom: "0.5rem" }}>
+            <span className="fw-bold fs-2">Période</span>
+          </Card.Text>
+          <Card.Text>du {readableDate(cartItem.dateFrom)}</Card.Text>
+          <Card.Text>au {readableDate(cartItem.dateTo)}</Card.Text>
+        </div>
+        <div>
           <Card.Text style={{ marginBottom: "1.5rem" }}>
+            <span className="fw-bold fs-2">Durée</span>
+          </Card.Text>
+          <Card.Text>
+            {getPeriod(cartItem.dateFrom, cartItem.dateTo)}{" "}
+            jour(s)
+          </Card.Text>
+        </div>
+        <div>
+          <Card.Text style={{ marginBottom: "1.3rem" }}>
             <span className="fw-bold fs-2">Quantité</span>
           </Card.Text>
           <Card.Text className="qtyInCartProduct">
@@ -169,14 +189,7 @@ export default function ProductCart({ cartItem }: IProductCartProps) {
           <Card.Text>{cartItem.subtotal} €</Card.Text>
         </div>
         <div>
-          <Card.Text style={{ marginBottom: "0.5rem" }}>
-            <span className="fw-bold fs-2">Période</span>
-          </Card.Text>
-          <Card.Text>du {readableDate(cartItem.dateFrom)}</Card.Text>
-          <Card.Text>au {readableDate(cartItem.dateTo)}</Card.Text>
-        </div>
-        <div>
-          <Card.Text style={{ marginBottom: "1.5rem" }}>
+          <Card.Text style={{ marginBottom: "1.3rem" }}>
             <span className="fw-bold fs-2">Action</span>
           </Card.Text>
           <RiDeleteBin6Line
