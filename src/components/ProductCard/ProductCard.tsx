@@ -8,6 +8,7 @@ import { RootState } from "../../store";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { setCart } from "../../store/features/cartSlice";
+import { getPeriod } from "../../tools/utils";
 
 function ProductCard({ product, isSearchFromHome }: IProductProps) {
   const location = useLocation();
@@ -36,28 +37,36 @@ function ProductCard({ product, isSearchFromHome }: IProductProps) {
     if (selectedProduct === undefined) {
       selectedProduct = productCart;
     }
-    const newQty = selectedProduct.qtyInCart + 1;
-    const newPrice = selectedProduct.price * newQty;
-    const productCartUpdated = {
-      ...selectedProduct,
-      dateFrom: productFilterStore.period.dateFrom,
-      dateTo: productFilterStore.period.dateTo,
-      qtyInCart: newQty,
-      subtotal: newPrice,
-    };
-    let updatedCart = cartStore.filter(
-      (product) => product.id !== selectedProduct?.id
-    );
-    const newCart = [...updatedCart, productCartUpdated];
-    dispatch(setCart(newCart));
-    const pillCart = document.querySelector(".pillCart");
-    const pillCart2 = document.querySelector(".pillCartMobile");
-    pillCart?.classList.add("pillCartSub");
-    pillCart2?.classList.add("pillCartSub");
-    setTimeout(() => {
-      pillCart?.classList.remove("pillCartSub");
-      pillCart2?.classList.remove("pillCartSub");
-    }, 1000)
+    if (selectedProduct.qtyInCart < product.quantity) {
+      const newQty = selectedProduct.qtyInCart + 1;
+      const period = getPeriod(productFilterStore.period.dateFrom, productFilterStore.period.dateTo);
+      const newPrice = selectedProduct.price * newQty * period;
+      const productCartUpdated = {
+        ...selectedProduct,
+        dateFrom: productFilterStore.period.dateFrom,
+        dateTo: productFilterStore.period.dateTo,
+        qtyInCart: newQty,
+        subtotal: newPrice,
+      };
+      let updatedCart = cartStore.filter(
+        (product) => product.id !== selectedProduct?.id
+      );
+      const newCart = [...updatedCart, productCartUpdated];
+      dispatch(setCart(newCart));
+
+      // ajout de pastille du nombre de produits sur icône panier
+      const pillCart = document.querySelector(".pillCart");
+      const pillCart2 = document.querySelector(".pillCartMobile");
+      pillCart?.classList.add("pillCartSub");
+      pillCart2?.classList.add("pillCartSub");
+      setTimeout(() => {
+        pillCart?.classList.remove("pillCartSub");
+        pillCart2?.classList.remove("pillCartSub");
+      }, 1000)
+    } else {
+      window.alert("Vous avez atteint le stock disponible !")
+    }
+    
   };
 
   return (
@@ -80,9 +89,16 @@ function ProductCard({ product, isSearchFromHome }: IProductProps) {
         </Card.Text>
       </Card.Body>
       {isSearchFromHome || productsByDateStore.length ? (
-        <Button className="fs-2 p-3 col-7 m-auto" onClick={handleAddToCart}>
-          Ajouter au panier
-        </Button>
+        <>
+          <Card.Body className="d-flex align-content-between flex-wrap">
+            <Card.Text>
+              Stock : <span className="fw-bold fs-2 mx-2 align-middle"> {product.quantity} </span>
+            </Card.Text>
+          </Card.Body>
+          <Button className="btn btn-primary btnWild fs-2 p-3 col-7 m-auto" onClick={handleAddToCart}>
+            Ajouter au panier
+          </Button>
+        </>
       ) : (
         ""
       )}

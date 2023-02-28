@@ -129,7 +129,7 @@ function SearchProduct({
       // On verifie si la date de debut est superieure à la date de fin
       if (timestampFrom > timestampTo || timestampFrom < now) {
         // Si c'est le cas on affiche un message d'erreur
-        setErrorMessage("La date de début doit être supérieure ou égale à la date du jour et inférieure à la date de fin.");
+        setErrorMessage("La date de début doit être supérieure à la date du jour et inférieure à la date de fin.");
       } else {
         setErrorMessage("");
         handleFindByDate(productFilterStore.period.dateFrom, productFilterStore.period.dateTo);
@@ -151,40 +151,10 @@ function SearchProduct({
 
   return (
     <div className="col-lg-2 col-md-3 col-sm-10 col-11 ms-5">
-      <section className="col-12 m-auto shadow pt-5 pb-5 ml-5 mb-5 mt-4 bg-white rounded search_product_container">
-        <h2 className="text-center mb-3">Filtres : </h2>
-        <div className="col-9 m-auto mb-5 row">
-          <p className="category_chackbox_title">categories</p>
-          {categoriesArray.map((category: ICategory) => (
-            <div className="category_chackbox" key={category.id}>
-              <input
-                className="form-check-input"
-                type="checkbox"
-                value={category.name}
-                onChange={() => handleCheckbox(category.name)}
-                checked={isChecked(category.name)}
-              />
-              <label>{category.name}</label>
-            </div>
-          ))}
-        </div>
-        <div className="col-9 m-auto  row">
-          <label htmlFor="searchValue">quel produit</label>
-          <input
-            name="searchValue"
-            type="text"
-            onChange={handleSearchTerm}
-            value={searchTerm}
-            className="form-control searchTerm"
-          />
-        </div>
-      </section>
-
       <form
         className="col-12  m-auto shadow pt-5 pb-4 ml-5 mb-5 mt-4 bg-white rounded search_product_container"
         onSubmit={handleSubmit}
       >
-        <h2 className="text-center mb-3">Rechercher : </h2>
         <div className="col-9 m-auto mb-5 row">
           <label htmlFor="startDate">debut de location</label>
           <input
@@ -208,7 +178,7 @@ function SearchProduct({
         <div className="row">
           <Button
             type="submit"
-            className="btn btn-primary col-7 m-auto btnWild d-flex align-items-center justify-content-center"
+            className="btn btnWild2 col-7 m-auto text-center py-2"
           >
             Rechercher
           </Button>
@@ -224,7 +194,7 @@ function SearchProduct({
           <div className="row">
             <Button
               type="button"
-              className="btn btn-primary col-7 m-auto btnWild d-flex align-items-center justify-content-center"
+              className="btn btnWild2 col-7 m-auto text-center py-2"
               onClick={handleClickreloadProducts}
             >
               Réinitialiser
@@ -232,6 +202,34 @@ function SearchProduct({
           </div>
         )}
       </form>
+
+      <section className="col-12 m-auto shadow pt-5 pb-5 ml-5 mb-5 mt-4 bg-white rounded search_product_container">
+        <div className="col-9 m-auto mb-5 row">
+          <label>activités</label>
+          {categoriesArray.map((category: ICategory) => (
+            <div className="category_chackbox" key={category.id}>
+              <input
+                className="form-check-input"
+                type="checkbox"
+                value={category.name}
+                onChange={() => handleCheckbox(category.name)}
+                checked={isChecked(category.name)}
+              />
+              <label>{category.name}</label>
+            </div>
+          ))}
+        </div>
+        <div className="col-9 m-auto  row">
+          <label htmlFor="searchValue">produit</label>
+          <input
+            name="searchValue"
+            type="text"
+            onChange={handleSearchTerm}
+            value={searchTerm}
+            className="form-control searchTerm"
+          />
+        </div>
+      </section>
     </div>
   );
 }
