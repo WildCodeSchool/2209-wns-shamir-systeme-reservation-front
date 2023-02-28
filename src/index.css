@@ -85,6 +85,14 @@ header {
   /* margin-bottom: 300px; */
 }
 
+.btnWild2 {
+  background-color: #0d83ab !important;
+  color: #fff;
+  border-radius: 4px !important;
+  border-color: #0d83ab !important;
+  display: inline-block !important;
+  height: fit-content !important;
+}
 .btnWild {
   /* font-size: 16px !important; */
   background-color: #0d83ab !important;
@@ -98,6 +106,10 @@ header {
   background-color: #fff !important;
   color: #0d83ab !important;
 }
+.btnWild:active{
+  scale: 0.97;
+}
+
 .btnsecondary {
   font-size: 16px !important;
   background-color: #777777 !important;
