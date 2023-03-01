@@ -1,0 +1,32 @@
+.orderDetailContainer{
+margin-top: 15rem;
+margin-bottom: 10rem;
+}
+
+.orderPriceContainer {
+  margin: 0 auto;
+  display: flex;
+  justify-content: end;
+}
+
+@media screen and (min-width: 577px){ /* version tablette & desktop */
+.orderPriceContainer {
+  width: 60%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: end;
+}
+}
+
+@media screen and (min-width: 1024px){ /* version desktop */
+  .orderPriceContainer {
+    width: 60%;
+  }
+
+  .orderPrice{
+    padding: 0 2rem ;
+    border-top: 2px solid #767676;
+    font-weight: bold;
+    font-size: 2.5rem;
+  }
+}

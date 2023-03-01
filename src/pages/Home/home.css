@@ -123,6 +123,7 @@ text-align: center;
 
 .home_infos_two_description2 {
   display: none;
+  margin-bottom: 5rem;
 }
 
 
@@ -348,7 +349,6 @@ text-align: center;
   }
 
   .home_infos_two_description2_left div {
-    padding: 0 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -368,6 +368,8 @@ text-align: center;
   .home_infos_two_description2_right {
     width: 35%;
     margin-left: 2rem;
+    display: flex;
+    align-items: center;
   }
 
   .home_infos_two_description2_right div {
@@ -376,8 +378,6 @@ text-align: center;
 
   .home_infos_two_description2_right img {
     width: 100%;
-
-    margin-bottom: 1rem;
   }
 
   .img_mountain {

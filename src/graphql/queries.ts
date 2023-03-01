@@ -112,6 +112,54 @@ const GET_USER = gql`
   }
 `;
 
+const GET_ORDER_BY_CUSTOMER = gql`
+  query getOrderByCustomer($customerId: Float!) {
+    getOrderByCustomer(customerId: $customerId) {
+      id
+      total_price
+      created_at
+      status
+      reservations {
+        id
+        price
+        start
+        end
+        product {
+          id
+          name
+          price
+          description
+          image
+        }
+      }
+    }
+  }
+`;
+
+const GET_ORDER_BY_ID = gql`
+  query getOrderById($id: String!) {
+    getOrderById(id: $id) {
+      id
+      total_price
+      created_at
+      status
+      reservations {
+        id
+        price
+        start
+        end
+        product {
+          id
+          name
+          price
+          description
+          image
+        }
+      }
+    }
+  }
+`;
+
 export {
   GET_ALL_PRODUCTS,
   GET_ALL_CATEGORIES,
@@ -121,4 +169,6 @@ export {
   GET_PRODUCTS_BY_DATE,
   GET_USER,
   IS_ADMIN,
+  GET_ORDER_BY_CUSTOMER,
+  GET_ORDER_BY_ID
 };

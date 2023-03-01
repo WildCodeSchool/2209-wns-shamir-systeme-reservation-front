@@ -1,13 +1,19 @@
-import { useMutation } from "@apollo/client";
-import { useState } from "react";
-import { Badge, Button, Form, Modal } from "react-bootstrap";
+import { useLazyQuery, useMutation } from "@apollo/client";
+import { useEffect, useState } from "react";
+import { Button, Form, Modal } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import IUser from "../../interfaces/IUser";
 import { RootState } from "../../store";
-import { setUser } from "../../store/features/userSlice";
+import {
+  setIsOrdersExist,
+  setOrders,
+  setUser,
+} from "../../store/features/userSlice";
 import { UPDATE_USER } from "../../graphql/mutations";
 import "./profile.css";
+import { GET_ORDER_BY_CUSTOMER } from "../../graphql/queries";
+import OrderCard from "../../components/OrderCard/OrderCard";
 
 function Profile() {
   const userDataStore = useSelector((state: RootState) => state.user.user);
@@ -32,6 +38,41 @@ function Profile() {
   const handleShowUpdateUser = () => setShowUpdateUser(true);
 
   const [updateUser, { data: dataUpdateUser }] = useMutation(UPDATE_USER);
+
+  const [getOrderByCustomer] = useLazyQuery(GET_ORDER_BY_CUSTOMER);
+
+  const orders = useSelector((state: RootState) => state.user.orders);
+  const isOrderExist = useSelector(
+    (state: RootState) => state.user.isOrderExist
+  );
+
+  const currentUser = useSelector((state: RootState) => state.user.user);
+
+ 
+
+  const handleGetOrderByCustomer = (customerId: number) => {
+    getOrderByCustomer({ variables: { customerId } })
+      .then(({ data }) => {
+        dispatch(setOrders(data.getOrderByCustomer));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    if (currentUser.id) {
+      handleGetOrderByCustomer(currentUser.id);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (orders.length) {
+      dispatch(setIsOrdersExist(true));
+    } else {
+      dispatch(setIsOrdersExist(false));
+    }
+  }, [orders]);
 
   const handleUpdateUser = (idUser: number | undefined, userData: IUser) => {
     updateUser({ variables: { userId: idUser, userData: userData } })
@@ -107,44 +148,18 @@ function Profile() {
               <h4 className="text-center">Mes commandes</h4>
               <hr />
               <div className="row overflow-auto">
-                {/* si pas de commande */}
-                <p className="text-center mt-4">
-                  Vous n'avez pas passer de commande pour le moment
-                </p>
-                {/* sinon si user co et commande */}
-                <table className="table table-hover align-middle text-center">
-                  <tbody>
-                    <tr>
-                      <td>
-                        Commande
-                        <br />
-                        N°<strong>ComD 345</strong>
-                      </td>
-                      <td>
-                        Statut
-                        <br />
-                        <p>
-                          <Badge pill bg="dark">
-                            en préparation
-                          </Badge>
-                        </p>
-                      </td>
-                      <td>
-                        Passé le :
-                        <br />
-                        <strong>2034-33-33</strong>
-                      </td>
-                      <td>
-                        Total :<strong> 200 €</strong>
-                      </td>
-                      <td>
-                        <a href="" className="btn btn-outline-dark btn-sm">
-                          Voir
-                        </a>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                {!isOrderExist && (
+                  <p className="text-center mt-4">
+                    Vous n'avez pas passé de commande pour le moment
+                  </p>
+                )}
+                {isOrderExist && (
+                  <table className="table table-hover align-middle text-center">
+                    {orders.map((order) => (
+                     <OrderCard key={order.id} {...order}  /> 
+                    ))}
+                  </table>
+                )}
               </div>
               <ul className="pagination justify-content-center mt-3">
                 <li className="page-item activePagination d-flex">

@@ -126,21 +126,24 @@ const Home = () => {
           <div className="home_infos_two_description1">
             <img className="full_skieur" src={fullSkieur} alt="skieur" />
             <div>
-              <h3>Titre H3</h3>
               <p>
-                Lorem ipsum dolor sit, amet consectetur adipis illo provident
-                similique inventore magnam labore officiis ipsam nulla rem.
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Notre site de location de matériel de sport pour la montagne
+                offre une large sélection d'équipements pour tous les niveaux et
+                toutes les activités en montagne, que ce soit pour le ski, la
+                randonnée, l'escalade ou encore le camping.
               </p>
+              <br />
               <p>
-                Lorem ipsum dolor sit, amet consectetur adipis illo provident
-                similique inventore magnam labore officiis ipsam nulla rem.
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Nous proposons des produits de qualité pour garantir une
+                expérience de montagne inoubliable. Avec notre service de
+                réservation en ligne facile à utiliser, vous pouvez réserver
+                votre équipement en quelques clics et le récupérer directement
+                sur place.
               </p>
+              <br />
               <p>
-                Lorem ipsum dolor sit, amet consectetur adipis illo provident
-                similique inventore magnam labore officiis ipsam nulla rem.
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Louez votre matériel de sport pour la montagne chez nous et
+                profitez pleinement de vos aventures en montagne!
               </p>
             </div>
           </div>
@@ -148,11 +151,10 @@ const Home = () => {
           <div className="home_infos_two_description2">
             <div className="home_infos_two_description2_left justify-between">
               <div>
-                <h3>Titre H3</h3>
                 <p>
-                  Lorem ipsum dolor sit, amet consectetur adipis illo provident
-                  similique inventore magnam labore officiis ipsam nulla rem.
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                   Nous offrons également des conseils d'experts pour vous aider
+                  à choisir le meilleur équipement pour votre activité en
+                  montagne.
                 </p>
               </div>
               <div className="img_mountain_info">
@@ -162,13 +164,6 @@ const Home = () => {
 
             <div className="home_infos_two_description2_right">
               <img src={mountainMan} alt="" />
-              <div>
-                <p>
-                  Lorem ipsum dolor sit ameteos. Culpa numquam eveniet quisquam
-                  asperiores molestias obcaecati velit veritatis quam officia
-                  nisi aspernatur sapiente enim odio quae, voluptate unde?
-                </p>
-              </div>
             </div>
           </div>
         </aside>
