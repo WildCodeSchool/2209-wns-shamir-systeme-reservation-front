@@ -24,7 +24,7 @@ body, .btnWild {
   text-rendering: optimizeSpeed;
   line-height: 1.5;
   color: #000;
-  overflow-x: hidden;
+  /*overflow-x: hidden;*/
 }
 
 /* Remove default margin */
