@@ -226,9 +226,6 @@ function Catalog() {
   return (
     <div className="catalog_container">
       <h1 className="text-center mb-5">Catalogue des produits</h1>
-      <Nav.Link href="/" className="go_back">
-        &#60; Accueil
-      </Nav.Link>
       <div className="row">
         <SearchProduct
           findBySearchTerm={findBySearchTerm}
