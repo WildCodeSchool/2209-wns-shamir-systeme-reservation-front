@@ -1,6 +1,6 @@
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { useEffect, useState } from "react";
-import { Button, Form, Modal } from "react-bootstrap";
+import { Badge, Button, Form, Modal } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import IUser from "../../interfaces/IUser";
@@ -161,7 +161,7 @@ function Profile() {
                   </table>
                 )}
               </div>
-              <ul className="pagination justify-content-center mt-3">
+            {/*   <ul className="pagination justify-content-center mt-3">
                 <li className="page-item activePagination d-flex">
                   <a href="" className="page-link mx-1">
                     1
@@ -170,7 +170,7 @@ function Profile() {
                     2
                   </a>
                 </li>
-              </ul>
+              </ul> */}
             </div>
           </div>
 
