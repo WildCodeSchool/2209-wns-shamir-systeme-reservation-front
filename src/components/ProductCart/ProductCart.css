@@ -42,6 +42,11 @@
     text-align: end;
   }
 
+  .hrStyle{
+    width: 11rem;
+    margin-top: 0;
+  }
+
   .priceProduct{
     display: flex;
     flex-direction: row;
@@ -101,9 +106,9 @@
 
   .cardContainerTotalDesktop{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
-    text-align: center;
+    text-align: right;
     margin: 3rem auto 3rem auto;
     padding: 2rem;
     box-shadow: 5px 5px 5px #9dbcd3;
@@ -111,7 +116,13 @@
   }
 }
 
-@media screen and (min-width: 1024px){ /* version desktop */
+@media screen and (min-width: 1024px){ /* version tablette */
+  .cardContainerDesktop, .cardContainerTotalDesktop{
+    width: 70%;
+  }
+}
+
+@media screen and (min-width: 1440px){ /* version desktop */
   .cardContainerDesktop, .cardContainerTotalDesktop{
     width: 60%;
   }

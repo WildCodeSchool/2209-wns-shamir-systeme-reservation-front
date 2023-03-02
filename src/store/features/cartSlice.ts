@@ -17,10 +17,11 @@ export const cartSlice = createSlice({
     setCart: (state, action: PayloadAction<IProductCart[]>) => {
       state.cart = action.payload;
     },
+    reset: () => initialState,
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setCart } = cartSlice.actions;
+export const { setCart, reset } = cartSlice.actions;
 
 export default cartSlice.reducer;

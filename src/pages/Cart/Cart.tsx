@@ -3,6 +3,13 @@ import Card from "react-bootstrap/Card";
 import "./Cart.css";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
+import { Button } from "react-bootstrap";
+import { CREATE_ORDER } from "../../graphql/mutations";
+import { useMutation } from "@apollo/client";
+import { getPeriod } from "../../tools/utils";
+import { useDispatch } from "react-redux";
+import { reset } from "../../store/features/cartSlice";
+import { useNavigate } from "react-router-dom";
 
 function Cart() {
   const productsStore = useSelector(
@@ -11,6 +18,13 @@ function Cart() {
   const cartStore = useSelector(
     (state: RootState) => state.cart.cart
   );
+  const userStore = useSelector(
+    (state: RootState) => state.user.user
+  );
+
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   // permet de trier les produits par id avant de les afficher dans le panier
   const sortedItems = [...cartStore].sort((a, b) => a.id - b.id);
@@ -23,9 +37,57 @@ function Cart() {
   let totalQtyInCart = 0;
   sortedItems.forEach((element) => (totalQtyInCart += element.qtyInCart));
 
+  const [createOrder] = useMutation(CREATE_ORDER);
+  // on crée un tableau de réservations
+  const reservations : any = [];
+  // on boucle dans le cartStore pour récupérer chaque réservation et l'envoyer dans le tableau
+  cartStore.map((productCart) => {
+    for (let index = 0; index < productCart.qtyInCart; index++) {
+      const reservation = {
+        start : productCart.dateFrom,
+        end : productCart.dateTo,
+        price : productCart.price * (getPeriod(productCart.dateFrom, productCart.dateTo)),
+        product : productsStore.find(product => product.id === productCart.id),
+      }
+      reservations.push(reservation);
+    }
+  })
+  // action de création de la commande puis on vide le panier
+  const handleOrder = () => {
+    const acceptCGV = window.confirm("Acceptez-vous les conditions générales de vente ?")
+    if (acceptCGV) {
+      createOrder({
+        variables: {
+          userId : userStore.id,
+          reservations : reservations,
+        }
+      })
+      dispatch(reset());
+      navigate("/profil");
+    }
+  }
+
+  // permet de vider le panier
+  const handleEmpty = () => {
+    const confirmEmpty = window.confirm("Êtes-vous certain de vouloir vider votre panier ?")
+    if (confirmEmpty) {
+      dispatch(reset());
+    }
+  }
+
   return (
-    <div className="cart_container">
-      <h1 className="text-center mb-5">Mon panier</h1>
+    <div className="cartContainer">
+      <h1 className="mb-5">Mon panier</h1>
+
+      {/* affichage ou non du bouton 'vider le panier' */}
+      {sortedItems.length !== 0 ?
+        <div className="btnEmptyCart">
+          <Button className="btnWild" onClick={handleEmpty}>Vider mon panier</Button>
+        </div>
+        : null
+      }
+
+      {/* affichage ou non de la liste des produits dans le panier */}
       <div className="row">
         {sortedItems.map((cartItem) => {
           const isThereProduct = productsStore.find(
@@ -35,68 +97,49 @@ function Cart() {
             return (
               <div key={cartItem.id}>
                 <ProductCart
-                  cartItem={cartItem}
-                />
+                  cartItem={cartItem} />
               </div>
             );
           } else {
             return null;
           }
         })}
-        {/* partie total */}
+
+        {/* affichage ou non du total du panier */}
         {totalQtyInCart ? (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-            }}
-          >
+          <div className="cartList">
+            {/* version mobile */}
             <Card className="cardContainerTotalMobile">
-              {" "}
-              {/* version mobile */}
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <Card.Text className="fw-bold fs-2">
-                  Nombre de produits :{" "}
-                </Card.Text>
-                <Card.Text className="fw-bold fs-2">
-                  {" "}
-                  {totalQtyInCart}
-                </Card.Text>
+              <div className="total">
+                <Card.Text className="fw-bold fs-2">Nombre de produits :</Card.Text>
+                <Card.Text className="fw-bold fs-2">{totalQtyInCart}</Card.Text>
               </div>
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <div className="total">
                 <Card.Text className="fw-bold fs-2">Prix total : </Card.Text>
                 <Card.Text className="fw-bold fs-2"> {totalPrice} €</Card.Text>
               </div>
-            </Card>
-            <Card className="cardContainerTotalDesktop">
-              {" "}
-              {/* version desktop */}
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <Card.Text className="fw-bold fs-2">
-                  Nombre de produits :{" "}
-                </Card.Text>
-                <Card.Text
-                  className="fw-bold fs-2"
-                  style={{ marginLeft: "1rem" }}
-                >
-                  {" "}
-                  {totalQtyInCart}
-                </Card.Text>
+              <div className="btnValid">
+                <Button className="btnWild" onClick={handleOrder}>Valider ma commande</Button>
               </div>
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <Card.Text className="fw-bold fs-2">Prix total : </Card.Text>
-                <Card.Text
-                  className="fw-bold fs-2"
-                  style={{ marginLeft: "1rem" }}
-                >
-                  {" "}
-                  {totalPrice} €
-                </Card.Text>
+            </Card>
+            {/* version desktop */}
+            <Card className="cardContainerTotalDesktop">
+              <div className="total">
+                <div className="total">
+                  <Card.Text className="fw-bold fs-2">Nombre de produits :</Card.Text>
+                  <Card.Text className="fw-bold fs-2 ms-5">{totalQtyInCart}</Card.Text>
+                </div>
+                <div className="total">
+                  <Card.Text className="fw-bold fs-2">Prix total :</Card.Text>
+                  <Card.Text className="fw-bold fs-2 ms-5">{totalPrice} €</Card.Text>
+                </div>
+              </div>
+              <div className="btnValid">
+                <Button className="btnWild" onClick={handleOrder}>Valider ma commande</Button>
               </div>
             </Card>
           </div>
-        ) : null}
+        ) : <p className="msgPanierVide">Votre panier est vide.</p>}
       </div>
     </div>
   );

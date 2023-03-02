@@ -1,6 +1,35 @@
-.cart_container{
+.cartContainer{
   margin-top: 20rem;
+  min-height: 55vh;
 }
-.cart_container h1{
+
+.cartContainer h1{
   font-size: 6rem;
+  text-align: center;
+}
+
+.btnEmptyCart{
+  display: flex;
+  justify-content: center;
+}
+
+.cartList{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.total{
+  display: flex;
+  justify-content: space-between;
+}
+
+.btnValid{
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+}
+
+.msgPanierVide {
+  text-align: center;
 }

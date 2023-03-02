@@ -18,7 +18,8 @@ export default function ProductCart({ cartItem }: IProductCartProps) {
   const addToCart = () => {
     if (cartItem.qtyInCart < cartItem.quantity) {
       const newQtyInCart = cartItem.qtyInCart + 1;
-      const newProductPrice = cartItem.price * newQtyInCart;
+      const period = getPeriod(cartItem.dateFrom, cartItem.dateTo);
+      const newProductPrice = cartItem.price * newQtyInCart * period;
       const updatedProduct = {
         ...cartItem,
         qtyInCart: newQtyInCart,
@@ -37,7 +38,8 @@ export default function ProductCart({ cartItem }: IProductCartProps) {
       cartItem.qtyInCart = 0;
     } else {
       const newQtyInCart = cartItem.qtyInCart - 1;
-      const newProductPrice = cartItem.price * newQtyInCart;
+      const period = getPeriod(cartItem.dateFrom, cartItem.dateTo);
+      const newProductPrice = cartItem.price * newQtyInCart * period;
       const updatedProduct = {
         ...cartItem,
         qtyInCart: newQtyInCart,
@@ -55,7 +57,8 @@ export default function ProductCart({ cartItem }: IProductCartProps) {
     let selectedProduct = cartStore.find((product) => product.id === productId);
     if (selectedProduct && selectedProduct.qtyInCart) {
       const newQtyInCart = value;
-      const newProductPrice = cartItem.price * newQtyInCart;
+      const period = getPeriod(cartItem.dateFrom, cartItem.dateTo);
+      const newProductPrice = cartItem.price * newQtyInCart * period;
       const updatedProduct = {
         ...cartItem,
         qtyInCart: newQtyInCart,
@@ -83,9 +86,8 @@ export default function ProductCart({ cartItem }: IProductCartProps) {
 
   return (
     <div>
+      {/* version mobile */}
       <Card className="cardContainerMobile">
-        {" "}
-        {/* version mobile */}
         <div className="cardLeft">
           <Card.Img
             className="imgProduct"
@@ -117,10 +119,9 @@ export default function ProductCart({ cartItem }: IProductCartProps) {
         <div className="cardRight">
           <Card.Text>du {readableDate(cartItem.dateFrom)}</Card.Text>
           <Card.Text>au {readableDate(cartItem.dateTo)}</Card.Text>
-          <hr style={{ width: "11rem", marginTop: "0" }} />
+          <hr className="hrStyle" />
           <Card.Text>
-            soit {getPeriod(cartItem.dateFrom, cartItem.dateTo)}{" "}
-            jour(s)
+            soit {getPeriod(cartItem.dateFrom, cartItem.dateTo)} jour(s)
           </Card.Text>
           <br />
           <div className="priceProduct">
@@ -135,23 +136,22 @@ export default function ProductCart({ cartItem }: IProductCartProps) {
         </div>
       </Card>
 
+      {/* version desktop */}
       <Card className="cardContainerDesktop">
-        {" "}
-        {/* version desktop */}
         <Card.Img
           className="imgProduct"
           alt={cartItem.name}
           src={cartItem.image}
         />
         <div>
-          <Card.Text style={{ marginBottom: "0.5rem" }}>
+          <Card.Text className="mb-3">
             <span className="fw-bold fs-2">Période</span>
           </Card.Text>
           <Card.Text>du {readableDate(cartItem.dateFrom)}</Card.Text>
           <Card.Text>au {readableDate(cartItem.dateTo)}</Card.Text>
         </div>
         <div>
-          <Card.Text style={{ marginBottom: "1.5rem" }}>
+          <Card.Text className="mb-4">
             <span className="fw-bold fs-2">Durée</span>
           </Card.Text>
           <Card.Text>
@@ -160,7 +160,7 @@ export default function ProductCart({ cartItem }: IProductCartProps) {
           </Card.Text>
         </div>
         <div>
-          <Card.Text style={{ marginBottom: "1.3rem" }}>
+          <Card.Text  className="mb-3">
             <span className="fw-bold fs-2">Quantité</span>
           </Card.Text>
           <Card.Text className="qtyInCartProduct">
@@ -183,13 +183,13 @@ export default function ProductCart({ cartItem }: IProductCartProps) {
           </Card.Text>
         </div>
         <div>
-          <Card.Text style={{ marginBottom: "1.5rem" }}>
+          <Card.Text  className="mb-4">
             <span className="fw-bold fs-2">Prix</span>
           </Card.Text>
           <Card.Text>{cartItem.subtotal} €</Card.Text>
         </div>
         <div>
-          <Card.Text style={{ marginBottom: "1.3rem" }}>
+          <Card.Text  className="mb-3">
             <span className="fw-bold fs-2">Action</span>
           </Card.Text>
           <RiDeleteBin6Line
