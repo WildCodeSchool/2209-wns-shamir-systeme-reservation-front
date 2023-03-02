@@ -18,10 +18,13 @@ export default function ScrollToTop() {
 // check caractères spéciaux
 export const regexInput = /[<>/;]/g;
 
-// check si uniquement composé de chiffres
+// check si composé de chiffres
 export const regexNumber = /[0-9]/g;
 
-// check si uniquement composé de lettres
+// check si composé de chiffres avec décimale
+export const regexFloat = /[0-9,\.]/g;
+
+// check si composé de lettres
 export const regexAlpha = /[a-zA-Z]/g;
 
 // transforme une date string type datetime en date jj/mm/AAAA
