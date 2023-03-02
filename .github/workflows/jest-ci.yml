@@ -19,5 +19,5 @@ jobs:
           node-version: ${{ matrix.node-version }}
           registry-url: 'https://registry.npmjs.org'
       - name: Run tests
-        run: npm i && npm test
+        run: rm -rf node_modules package-lock.json && npm cache clean --force && npm cache verify && npm i && npm test
   
