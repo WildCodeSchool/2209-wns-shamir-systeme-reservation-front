@@ -46,7 +46,7 @@ export default function Contact() {
             </div>
             <div>
               <h3>N° de téléphone</h3>
-              <p>00 00 00 00 00</p>
+              <p>02 99 88 77 55</p>
             </div>
             <div>
               <h3>Horaires</h3>

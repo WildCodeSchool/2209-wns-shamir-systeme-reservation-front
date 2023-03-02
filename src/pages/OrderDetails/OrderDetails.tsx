@@ -133,7 +133,7 @@ function OrderDetails() {
               fileName={billName}
             >
               {({ blob, url, loading, error }) =>
-                loading ? "" : "Telecharger facture"
+                loading ? "" : "Télécharger la facture"
               }
             </PDFDownloadLink>
           </div>
