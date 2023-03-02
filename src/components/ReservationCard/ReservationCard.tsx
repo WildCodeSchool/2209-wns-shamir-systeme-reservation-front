@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import IReservationCard from "../../interfaces/IReservationCard";
 import { getPeriod, readableDate } from "../../tools/utils";
-import "./reservationCard.css";
+import "../ProductCart/ProductCart.css";
 
 export default function ReservationCard({
   reservation,
