@@ -93,6 +93,7 @@ header {
   display: inline-block !important;
   height: fit-content !important;
 }
+
 .btnWild {
   /* font-size: 16px !important; */
   background-color: #0d83ab !important;
@@ -102,10 +103,12 @@ header {
   border-color: #0d83ab !important;
   display: inline-block !important;
 }
+
 .btnWild:hover {
   background-color: #fff !important;
   color: #0d83ab !important;
 }
+
 .btnWild:active{
   scale: 0.97;
 }
@@ -119,6 +122,7 @@ header {
   border-color: #4c4c4c !important;
   display: inline-block !important;
 }
+
 .btnsecondary:hover {
   background-color: #fff !important;
   color: #4c4c4c !important;

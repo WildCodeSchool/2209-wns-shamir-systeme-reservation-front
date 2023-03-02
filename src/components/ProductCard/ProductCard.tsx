@@ -66,7 +66,6 @@ function ProductCard({ product, isSearchFromHome }: IProductProps) {
     } else {
       window.alert("Vous avez atteint le stock disponible !")
     }
-    
   };
 
   return (
@@ -74,10 +73,10 @@ function ProductCard({ product, isSearchFromHome }: IProductProps) {
       key={product.id}
       className={
         location.pathname === "/catalogue"
-          ? "col-lg-3 col-md-5 col-sm-10 col-11 m-4 p-4"
-          : "col-12 col-md-2 card_product"
+        ? "col-lg-3 col-md-5 col-sm-10 col-11 m-4 p-4"
+        : "col-12 col-md-2 card_product"
       }
-    >
+      >
       <Card.Img alt={product.name} src={product.image} />
       <Card.Body className="d-flex align-content-between flex-wrap">
         <div>

@@ -32,6 +32,7 @@
   top: 2rem;
   right: 2.5rem;
   z-index: 10;
+  cursor: default;
 }
 .pillCartSub{
   animation-name: scalePill;
