@@ -17,6 +17,6 @@ describe("Cart", () => {
       { wrapper: BrowserRouter }
     );
 
-    expect(await screen.findByText(/Panier/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Mon panier/i)).toBeInTheDocument();
   });
 });
