@@ -1,0 +1,106 @@
+.contactContainer{
+  margin-top: 20rem;
+  min-height: 55vh;
+}
+
+.contactContainer h1{
+  font-size: 6rem;
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.contactBodyContainer{
+  margin-bottom: 6rem;
+}
+
+.formContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 3rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 6rem;
+  padding: 2rem;
+  width: 80%;
+  border: solid lightgrey 1px;
+  border-radius: 5px;
+  box-shadow: 5px 5px 5px #9dbcd3;
+}
+
+.textAreaForm{
+  resize: none;
+}
+
+.btnForm{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.contactInfos{
+  text-align: center;
+}
+
+.mapForm{
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.mapForm iframe{
+  width: 80%;
+}
+
+@media screen and (min-width: 577px){ /* version tablette & desktop */
+  .formContainer{
+    padding: 3rem;
+    width: 70%;
+  }
+
+  .mapForm iframe{
+    width: 70%;
+  }
+}
+
+@media screen and (min-width: 1024px){ /* version tablette */
+  .formContainer{
+    padding: 3.5rem;
+    width: 50%;
+  }
+
+  .mapForm iframe{
+    width: 50%;
+  }
+}
+
+@media screen and (min-width: 1440px){ /* version desktop */
+  .formContainer{
+    margin: 0;
+    padding: 4.5rem;
+    width: 40%;
+  }
+
+  .contactBodyContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-bottom: 6rem;
+  }
+
+  .contactInfos{
+    margin: 0;
+    width: 80rem;
+  }
+
+  .infosContact{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 3rem;
+  }
+
+  .mapForm iframe{
+    width: 100%;
+    min-height: 40%;
+    border-radius: 5px;
+  }
+}
