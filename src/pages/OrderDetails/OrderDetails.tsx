@@ -147,9 +147,7 @@ function OrderDetails() {
               />
             ))}
           </div>
-          <div className="orderPriceContainer">
-            <div className="orderPrice">Total : {order?.total_price} €</div>
-          </div>
+            <div className="orderPrice"><p>Total : {order?.total_price} €</p></div>
         </div>
       )}
       {!isOrderLoaded && (

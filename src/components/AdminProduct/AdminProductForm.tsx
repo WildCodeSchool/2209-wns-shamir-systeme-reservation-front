@@ -21,8 +21,9 @@ const AdminProductForm = ({
   const [descriptionProduct, setDescriptionProduct] = useState<string>("");
   const [priceProduct, setPriceProduct] = useState<number>();
   const [quantityProduct, setQuantityProduct] = useState<number>();
-  const [imageProduct, setImageProduct] = useState<string>("");
+  const [imageProduct, setImageProduct] = useState<File>();
   const [categoryProduct, setCategoryProduct] = useState<ICategory>();
+
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
@@ -32,10 +33,26 @@ const AdminProductForm = ({
       setDescriptionProduct(productToEdit.description);
       setPriceProduct(productToEdit.price);
       setQuantityProduct(productToEdit.quantity);
-      setImageProduct(productToEdit.image);
+      //setImageProduct(productToEdit.image);
       setCategoryProduct(productToEdit.category);
     }
   }, []);
+
+  const uploadImage = async (e: any) => {
+    const files = e.target.files;
+    const formData = new FormData();
+    formData.append('file', files[0]);
+    formData.append('upload_preset', 'product_image');
+    const res = await fetch(
+      'https://api.cloudinary.com/v1_1/dsowr6gnx/image/upload',
+      {
+        method: 'POST',
+        body: formData,
+      }
+    );
+    const file = await res.json();
+    setImageProduct(file.secure_url);
+  };
 
   const handleNameProduct = (e: any) => {
     try {
@@ -103,9 +120,11 @@ const AdminProductForm = ({
       console.log(error);
     }
   };
-  const handleImageProduct = (e: any) => {
+
+  /* const handleImageProduct = (e: any) => {
     setImageProduct(e.target.value);
-  };
+  }; */
+
   const handleCategoryProduct = (e: any) => {
     const categoryId = parseInt(e.target.value);
     const cat = categories.find(
@@ -236,12 +255,12 @@ const AdminProductForm = ({
             <Form.Label size="lg">Image</Form.Label>
             <Form.Control
               size="lg"
-              type="text"
+              type="file"
               name="image"
-              value={imageProduct}
+              //value={imageProduct}
               autoFocus
               required
-              onChange={handleImageProduct}
+              onChange={uploadImage}
             />
           </Form.Group>
 
