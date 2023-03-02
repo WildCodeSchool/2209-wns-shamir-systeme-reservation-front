@@ -1,0 +1,23 @@
+name: jest-ci
+
+on: push
+
+jobs:
+  test-front:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x] 
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Setup node-version ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: 'https://registry.npmjs.org'
+      - name: Run tests
+        run: rm -rf node_modules package-lock.json && npm cache clean --force && npm cache verify && npm i && npm test
+  
