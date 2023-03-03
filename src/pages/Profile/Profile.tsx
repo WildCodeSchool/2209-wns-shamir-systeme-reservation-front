@@ -5,11 +5,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import IUser from "../../interfaces/IUser";
 import { RootState } from "../../store";
-import {
-  setIsOrdersExist,
-  setOrders,
-  setUser,
-} from "../../store/features/userSlice";
+import { setOrders, setUser } from "../../store/features/userSlice";
 import { UPDATE_USER } from "../../graphql/mutations";
 import "./profile.css";
 import { GET_ORDER_BY_CUSTOMER } from "../../graphql/queries";
@@ -17,8 +13,11 @@ import OrderCard from "../../components/OrderCard/OrderCard";
 
 function Profile() {
   const userDataStore = useSelector((state: RootState) => state.user.user);
+  const orders = useSelector((state: RootState) => state.user.orders);
+
   const dispatch = useDispatch();
 
+  // Gestion de la modification du profil
   const [firstname, setFirstname] = useState<IUser["firstname"]>(
     userDataStore?.firstname
   );
@@ -38,41 +37,6 @@ function Profile() {
   const handleShowUpdateUser = () => setShowUpdateUser(true);
 
   const [updateUser, { data: dataUpdateUser }] = useMutation(UPDATE_USER);
-
-  const [getOrderByCustomer] = useLazyQuery(GET_ORDER_BY_CUSTOMER);
-
-  const orders = useSelector((state: RootState) => state.user.orders);
-  const isOrderExist = useSelector(
-    (state: RootState) => state.user.isOrderExist
-  );
-
-  const currentUser = useSelector((state: RootState) => state.user.user);
-
- 
-
-  const handleGetOrderByCustomer = (customerId: number) => {
-    getOrderByCustomer({ variables: { customerId } })
-      .then(({ data }) => {
-        dispatch(setOrders(data.getOrderByCustomer));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  useEffect(() => {
-    if (currentUser.id) {
-      handleGetOrderByCustomer(currentUser.id);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (orders.length) {
-      dispatch(setIsOrdersExist(true));
-    } else {
-      dispatch(setIsOrdersExist(false));
-    }
-  }, [orders]);
 
   const handleUpdateUser = (idUser: number | undefined, userData: IUser) => {
     updateUser({ variables: { userId: idUser, userData: userData } })
@@ -102,13 +66,36 @@ function Profile() {
         }
       } else {
         setIsPhoneError(true);
-        setPhoneErrorMessage("Votre numero de telephone n'est pas correct");
+        setPhoneErrorMessage("Votre numero de téléphone n'est pas correct");
       }
     } else {
       setIsPhoneError(true);
       setPhoneErrorMessage("Saisissez votre numéro de téléphone");
     }
   };
+  ///////////////////////////////////////////////
+
+  // Gestion de la récupération des commandes
+  
+  const [getOrderByCustomer, { refetch }] = useLazyQuery(GET_ORDER_BY_CUSTOMER, {
+    variables: { customerId: userDataStore.id },
+    onCompleted: (dataOrders) => {
+      dispatch(setOrders(dataOrders.getOrderByCustomer));
+    },
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (userDataStore.id) {
+        try {
+          await refetch({customerId: userDataStore.id});
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <div className="container-sm">
@@ -148,29 +135,18 @@ function Profile() {
               <h4 className="text-center">Mes commandes</h4>
               <hr />
               <div className="row overflow-auto">
-                {!isOrderExist && (
+                {!orders.length ? (
                   <p className="text-center mt-4">
                     Vous n'avez pas passé de commande pour le moment
                   </p>
-                )}
-                {isOrderExist && (
+                ) : (
                   <table className="table table-hover align-middle text-center">
                     {orders.map((order) => (
-                     <OrderCard key={order.id} {...order}  /> 
+                      <OrderCard key={order.id} {...order} />
                     ))}
                   </table>
                 )}
               </div>
-            {/*   <ul className="pagination justify-content-center mt-3">
-                <li className="page-item activePagination d-flex">
-                  <a href="" className="page-link mx-1">
-                    1
-                  </a>
-                  <a href="" className="page-link mx-1">
-                    2
-                  </a>
-                </li>
-              </ul> */}
             </div>
           </div>
 

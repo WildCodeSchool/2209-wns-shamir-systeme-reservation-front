@@ -45,7 +45,7 @@ export const formatDate = (date: Date ): string | undefined=> {
   return dateString;
 };
 
-// récupère le nombre de jours entre 2 dates string
+// récupère le nombre de jours entre 2 dates string en incluant le jour de fin
 export const getPeriod = (from: string, to: string) => {
     const dateFrom = new Date(from).getTime();
     const dateTo = new Date(to).getTime();
