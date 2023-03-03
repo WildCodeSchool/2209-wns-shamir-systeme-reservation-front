@@ -31,6 +31,8 @@ import ScrollToTop from "./tools/utils";
 import { setCategories, setProducts } from "./store/features/productsSlice";
 import SignIn from "./pages/SignIn/SignIn";
 import AdminRouter from "./router/AdminRouter";
+import ResetPassword from "./pages/ResetPassword/ResetPassword";
+import ModifyPassword from "./pages/ResetPassword/ModifyPassword";
 
 function App() {
   // USER LOGIN SIGNIN LOGOUT ************************************************************************
@@ -121,6 +123,8 @@ function App() {
             path="/inscription"
             element={<SignIn handleLogin={handleLogin} />}
           />
+          <Route path="/resetPassword" element={<ResetPassword />} />
+          <Route path="/resetPassword/:token" element={<ModifyPassword />} />
           <Route path="/admin/*" element={<AdminRouter />} />
         </Routes>
         {!userAdminStore && <Footer />}

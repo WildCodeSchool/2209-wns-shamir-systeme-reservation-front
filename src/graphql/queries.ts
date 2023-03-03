@@ -112,6 +112,12 @@ const GET_USER = gql`
   }
 `;
 
+const CHECK_TOKEN_RESET = gql`
+  query Query($token: String!) {
+    checkTokenResetPassword(token: $token)
+  }
+`;
+
 export {
   GET_ALL_PRODUCTS,
   GET_ALL_CATEGORIES,
@@ -121,4 +127,5 @@ export {
   GET_PRODUCTS_BY_DATE,
   GET_USER,
   IS_ADMIN,
+  CHECK_TOKEN_RESET
 };

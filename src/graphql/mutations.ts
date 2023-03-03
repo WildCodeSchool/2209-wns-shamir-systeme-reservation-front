@@ -73,3 +73,15 @@ export const UPDATE_USER = gql`
     }
   }
 `;
+
+export const RESET_PASSWORD = gql`
+  mutation Mutation($email: String!) {
+    resetPassword(email: $email)
+  }
+`;
+
+export const MODIFY_PASSWORD = gql`
+  mutation Mutation( $token: String!, $password: String!, $passwordConfirm: String!) {
+    modifyPassword(token: $token, password: $password, passwordConfirm: $passwordConfirm )
+  }
+`
