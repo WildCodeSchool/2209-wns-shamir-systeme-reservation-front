@@ -10,3 +10,9 @@ export default interface IReservation {
   product: IProduct;
   order: {id: number, user: IUser}
 }
+export interface IOrderReservation {
+  start: string;
+  end: string;
+  price: number;
+  product: IProduct;
+}
