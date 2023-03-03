@@ -80,18 +80,14 @@ function Profile() {
   const [getOrderByCustomer, { refetch }] = useLazyQuery(GET_ORDER_BY_CUSTOMER, {
     variables: { customerId: userDataStore.id },
     onCompleted: (dataOrders) => {
-      console.log(dataOrders)
       dispatch(setOrders(dataOrders.getOrderByCustomer));
     },
   });
 
   useEffect(() => {
-    console.log("use effect")
     const fetchData = async () => {
-      console.log("use effect 2")
       if (userDataStore.id) {
         try {
-          console.log("use effect 3")
           await refetch({customerId: userDataStore.id});
         } catch (error) {
           console.log(error);
