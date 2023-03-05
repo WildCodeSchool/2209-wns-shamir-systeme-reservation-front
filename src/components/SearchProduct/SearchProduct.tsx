@@ -5,8 +5,15 @@ import { useDispatch } from "react-redux";
 import ICategory from "../../interfaces/ICategory";
 import ISearchTermProps from "../../interfaces/ISearchProductProps";
 import { RootState } from "../../store";
-import { resetFilter, resetProductsByDate, setFilterPeriod } from "../../store/features/productsSlice";
+import {
+  resetFilter,
+  resetProductsByDate,
+  setFilterPeriod,
+} from "../../store/features/productsSlice";
 import "./searchProduct.css";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { fr } from "date-fns/locale";
 
 function SearchProduct({
   findBySearchTerm,
@@ -19,9 +26,15 @@ function SearchProduct({
   isSearchFromHome,
 }: ISearchTermProps) {
   // transforme un objet qui contient une liste d'objects en tableau d'objets
-  const categoriesStore = useSelector((state: RootState) => state.products.categories);
-  const productsByDateStore = useSelector((state: RootState) => state.products.productsByDate);
-  const productFilterStore = useSelector((state: RootState) => state.products.filter)
+  const categoriesStore = useSelector(
+    (state: RootState) => state.products.categories
+  );
+  const productsByDateStore = useSelector(
+    (state: RootState) => state.products.productsByDate
+  );
+  const productFilterStore = useSelector(
+    (state: RootState) => state.products.filter
+  );
 
   // const [dateFrom, setDateFrom] = useState<string>("");
   // const [dateTo, setDateTo] = useState<string>("");
@@ -33,7 +46,7 @@ function SearchProduct({
   const [isProductsByDate, setIsProductsByDate] = useState<boolean>(false);
 
   const dispatch = useDispatch();
-  
+
   const reloadAllProducts = () => {
     dispatch(resetProductsByDate());
   };
@@ -48,9 +61,7 @@ function SearchProduct({
       setCategoriesFiltered(categoriesFromHome);
     }
     if (dateFromHome !== "") {
-      dispatch(setFilterPeriod({dateFrom: dateFromHome, dateTo: dateToHome}))
-      // setDateFrom(dateFromHome);
-      // setDateTo(dateToHome);
+      dispatch(setFilterPeriod({ dateFrom: dateFromHome, dateTo: dateToHome }));
       setIsProductsByDate(true);
     }
   }, [isSearchFromHome]);
@@ -123,16 +134,23 @@ function SearchProduct({
 
     // On contrôle si la date de debut et la date de fin on été sélectionnées
     if (productFilterStore.period) {
-      const timestampFrom = new Date(productFilterStore.period.dateFrom).getTime();
+      const timestampFrom = new Date(
+        productFilterStore.period.dateFrom
+      ).getTime();
       const timestampTo = new Date(productFilterStore.period.dateTo).getTime();
       const now = new Date().getTime();
       // On verifie si la date de debut est superieure à la date de fin
       if (timestampFrom > timestampTo || timestampFrom < now) {
         // Si c'est le cas on affiche un message d'erreur
-        setErrorMessage("La date de début doit être supérieure à la date du jour et inférieure à la date de fin.");
+        setErrorMessage(
+          "La date de début doit être supérieure à la date du jour et inférieure à la date de fin."
+        );
       } else {
         setErrorMessage("");
-        handleFindByDate(productFilterStore.period.dateFrom, productFilterStore.period.dateTo);
+        handleFindByDate(
+          productFilterStore.period.dateFrom,
+          productFilterStore.period.dateTo
+        );
         setCategoriesFiltered([]);
         setSearchTerm("");
       }
@@ -147,7 +165,26 @@ function SearchProduct({
     resetFilter();
     resetProductsView();
     reloadAllProducts();
+    setStartDate(null);
+    setEndDate(null);
   }
+
+  // Gestion du datepocker
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  // la date de début minimum de location est demain
+  const minDate = new Date(Date.now() + (3600 * 1000 * 24));
+  const onChange = (dates: any) => {
+    const [start, end] = dates;
+    setStartDate(start);
+    setEndDate(end);
+    dispatch(
+      setFilterPeriod({
+        dateFrom: start.toISOString(),
+        dateTo: end.toISOString(),
+      })
+    );
+  };
 
   return (
     <div className="col-lg-2 col-md-3 col-sm-10 col-11 ms-5">
@@ -155,25 +192,22 @@ function SearchProduct({
         className="col-12  m-auto shadow pt-5 pb-4 ml-5 mb-5 mt-4 bg-white rounded search_product_container"
         onSubmit={handleSubmit}
       >
-        <div className="col-9 m-auto mb-5 row">
-          <label htmlFor="startDate">debut de location</label>
-          <input
-            className="form-control date"
-            name="startDate"
-            type="date"
-            onChange={(e)=>dispatch(setFilterPeriod({dateFrom: e.target.value, dateTo: productFilterStore.period.dateTo}))}
-            value={productFilterStore.period.dateFrom}
+        <div className="row m-auto mb-5 justify-content-center">
+          <label className="text-center" htmlFor="startDate">Période de location</label>
+          <DatePicker
+            className="w-100 text-center"
+            onChange={onChange}
+            minDate={minDate}
+            startDate={startDate}
+            endDate={endDate}
+            locale={fr}
+            dateFormat="dd/MM/yyyy"
+            calendarStartDay={1}
+            selectsRange
+            withPortal
+            placeholderText="Voir les dates"
           />
-        </div>
-        <div className="col-9 m-auto mb-5 row">
-          <label htmlFor="endDate">fin de location</label>
-          <input
-            className="form-control date"
-            name="endDate"
-            type="date"
-            onChange={(e)=>dispatch(setFilterPeriod({dateFrom: productFilterStore.period.dateFrom, dateTo: e.target.value}))}
-            value={productFilterStore.period.dateTo}
-          />
+          
         </div>
         <div className="row">
           <Button
