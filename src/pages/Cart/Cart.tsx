@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { reset } from "../../store/features/cartSlice";
 import { useNavigate } from "react-router-dom";
 import { IOrderReservation } from "../../interfaces/IReservation";
+import { resetFilter, resetProductsByDate } from "../../store/features/productsSlice";
 
 function Cart() {
   const productsStore = useSelector(
@@ -39,13 +40,17 @@ function Cart() {
   const reservations: IOrderReservation[] = [];
   // on boucle dans le cartStore pour récupérer chaque réservation et l'envoyer dans le tableau
   cartStore.map((productCart) => {
-    const productOrder = productsStore.find((product) => product.id === productCart.id)
+    const productOrder = productsStore.find(
+      (product) => product.id === productCart.id
+    );
     if (productOrder) {
       for (let index = 0; index < productCart.qtyInCart; index++) {
         const reservation: IOrderReservation = {
           start: productCart.dateFrom,
           end: productCart.dateTo,
-          price: productCart.price * getPeriod(productCart.dateFrom, productCart.dateTo),
+          price:
+            productCart.price *
+            getPeriod(productCart.dateFrom, productCart.dateTo),
           product: productOrder,
         };
         reservations.push(reservation);
@@ -69,6 +74,8 @@ function Cart() {
         console.log(error);
       }
       dispatch(reset());
+      dispatch(resetProductsByDate());
+      dispatch(resetFilter());
       navigate("/profil");
     }
   };
