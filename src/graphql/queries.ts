@@ -160,6 +160,12 @@ const GET_ORDER_BY_ID = gql`
   }
 `;
 
+const CHECK_TOKEN_RESET = gql`
+  query Query($token: String!) {
+    checkTokenResetPassword(token: $token)
+  }
+`;
+
 export {
   GET_ALL_PRODUCTS,
   GET_ALL_CATEGORIES,
@@ -170,5 +176,6 @@ export {
   GET_USER,
   IS_ADMIN,
   GET_ORDER_BY_CUSTOMER,
-  GET_ORDER_BY_ID
+  GET_ORDER_BY_ID,
+  CHECK_TOKEN_RESET
 };
