@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x] 
+        node-version: [16.x]
 
     steps:
       - name: Check out code
@@ -17,10 +17,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-          registry-url: 'https://registry.npmjs.org'
+          registry-url: "https://registry.npmjs.org"
       - name: Run tests
         run: rm -rf node_modules package-lock.json && npm cache clean --force && npm cache verify && npm i && npm test
-  
+
   docker:
     needs: test-front
     if: github.ref == 'refs/heads/main'
@@ -38,5 +38,6 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
+          file: build.Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/wildrent-front:latest

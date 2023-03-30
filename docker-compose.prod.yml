@@ -1,7 +1,7 @@
-version: '3.8'
+version: "3.8"
 
 services:
   front:
     image: vantej/wildrent-front
     ports:
-      - 3000:3000
+      - 3000:80
