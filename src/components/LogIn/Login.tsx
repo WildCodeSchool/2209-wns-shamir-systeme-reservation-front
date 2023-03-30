@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button, Nav } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import "./login.css";
 
 function Login({ handleLogin, loginError, setLoginError }: any) {
@@ -60,10 +61,13 @@ function Login({ handleLogin, loginError, setLoginError }: any) {
             placeholder="Mot de Passe"
           />
         </div>
-        <div className="row justify-content-center">
+        <div className="row justify-content-center text-center">
           <Button className="btnWild" type="submit">
             Se connecter
           </Button>
+          <Link to="/resetPassword" className="linkResetPassword">
+            Mot de passe oublié ?
+          </Link>
         </div>
         {errorMessage && (
           <p

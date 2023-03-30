@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { useMutation } from "@apollo/client";
 import { CREATE_PRODUCT, UPDATE_PRODUCT } from "../../graphql/mutations";
 import { GET_ALL_PRODUCTS } from "../../graphql/queries";
-import { regexAlpha, regexInput } from "../../tools/utils";
+import { regexAlpha, regexFloat, regexInput } from "../../tools/utils";
 import IAdminProductFormProps from "../../interfaces/IAdminProductFormProps";
 
 const AdminProductForm = ({
@@ -19,10 +19,11 @@ const AdminProductForm = ({
 }: IAdminProductFormProps) => {
   const [nameProduct, setNameProduct] = useState<string>("");
   const [descriptionProduct, setDescriptionProduct] = useState<string>("");
-  const [priceProduct, setPriceProduct] = useState<number>();
+  const [priceProduct, setPriceProduct] = useState<string>();
   const [quantityProduct, setQuantityProduct] = useState<number>();
-  const [imageProduct, setImageProduct] = useState<string>("");
+  const [imageProduct, setImageProduct] = useState<File>();
   const [categoryProduct, setCategoryProduct] = useState<ICategory>();
+
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
@@ -30,12 +31,27 @@ const AdminProductForm = ({
     if (productToEdit) {
       setNameProduct(productToEdit.name);
       setDescriptionProduct(productToEdit.description);
-      setPriceProduct(productToEdit.price);
+      setPriceProduct((productToEdit.price).toString());
       setQuantityProduct(productToEdit.quantity);
-      setImageProduct(productToEdit.image);
       setCategoryProduct(productToEdit.category);
     }
   }, []);
+
+  const uploadImage = async (e: any) => {
+    const files = e.target.files;
+    const formData = new FormData();
+    formData.append('file', files[0]);
+    formData.append('upload_preset', 'product_image');
+    const res = await fetch(
+      'https://api.cloudinary.com/v1_1/dsowr6gnx/image/upload',
+      {
+        method: 'POST',
+        body: formData,
+      }
+    );
+    const file = await res.json();
+    setImageProduct(file.secure_url);
+  };
 
   const handleNameProduct = (e: any) => {
     try {
@@ -66,18 +82,18 @@ const AdminProductForm = ({
   };
   const handlePriceProduct = (e: any) => {
     try {
-      const price: number = parseFloat(e.target.value);
-      setPriceProduct(price);
-      if (regexAlpha.test(e.target.value)) {
-        setErrors({
-          ...errors,
-          price:
-            "Le prix doit être un nombre décimal. Pour séparer les euros des centimes privilégiez le point.",
-        });
-      } else {
+      const price = (e.target.value).replace(',', '.');
+      if (regexFloat.test(e.target.value)) {
+        price ? setPriceProduct(price) : setPriceProduct(undefined);
         setErrors({
           ...errors,
           price: "",
+        });
+      } else if (regexAlpha.test(e.target.value)) {
+        setErrors({
+          ...errors,
+          price:
+          "Le prix doit être un nombre décimal.",
         });
       }
     } catch (error) {
@@ -86,14 +102,14 @@ const AdminProductForm = ({
   };
   const handleQuantityProduct = (e: any) => {
     try {
-      const quantity = parseInt(e.target.value);
-      setQuantityProduct(quantity);
+      const quantity = e.target.value;
       if (regexAlpha.test(e.target.value)) {
         setErrors({
           ...errors,
           quantity: "La quantité doit être un nombre entier.",
         });
       } else {
+        quantity ? setQuantityProduct(parseInt(quantity)) : setQuantityProduct(undefined);
         setErrors({
           ...errors,
           quantity: "",
@@ -103,9 +119,11 @@ const AdminProductForm = ({
       console.log(error);
     }
   };
-  const handleImageProduct = (e: any) => {
+
+  /* const handleImageProduct = (e: any) => {
     setImageProduct(e.target.value);
-  };
+  }; */
+
   const handleCategoryProduct = (e: any) => {
     const categoryId = parseInt(e.target.value);
     const cat = categories.find(
@@ -123,7 +141,7 @@ const AdminProductForm = ({
 
   const [
     updateProduct,
-    { loading: loadingUpdate, error: errorUpdate, data: dataUpdate },
+    { },
   ] = useMutation(UPDATE_PRODUCT, {
     refetchQueries: [{ query: GET_ALL_PRODUCTS }, "getAllProducts"],
   });
@@ -133,7 +151,7 @@ const AdminProductForm = ({
     const productToSubmit = {
       name: nameProduct.trim().replace(regexInput, ""),
       description: descriptionProduct.trim().replace(regexInput, ""),
-      price: priceProduct,
+      price: priceProduct ? parseFloat(priceProduct) : 0,
       quantity: quantityProduct,
       image: imageProduct,
       category: { id: categoryProduct?.id, name: categoryProduct?.name },
@@ -236,13 +254,12 @@ const AdminProductForm = ({
             <Form.Label size="lg">Image</Form.Label>
             <Form.Control
               size="lg"
-              type="text"
+              type="file"
               name="image"
-              value={imageProduct}
               autoFocus
               required
-              onChange={handleImageProduct}
-            />
+              onChange={uploadImage}
+              />
           </Form.Group>
 
           <Form.Label size="lg">Catégorie</Form.Label>

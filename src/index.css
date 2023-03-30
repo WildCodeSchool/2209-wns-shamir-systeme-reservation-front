@@ -24,7 +24,7 @@ body, .btnWild {
   text-rendering: optimizeSpeed;
   line-height: 1.5;
   color: #000;
-  overflow-x: hidden;
+  /*overflow-x: hidden;*/
 }
 
 /* Remove default margin */
@@ -85,6 +85,15 @@ header {
   /* margin-bottom: 300px; */
 }
 
+.btnWild2 {
+  background-color: #0d83ab !important;
+  color: #fff;
+  border-radius: 4px !important;
+  border-color: #0d83ab !important;
+  display: inline-block !important;
+  height: fit-content !important;
+}
+
 .btnWild {
   /* font-size: 16px !important; */
   background-color: #0d83ab !important;
@@ -94,10 +103,16 @@ header {
   border-color: #0d83ab !important;
   display: inline-block !important;
 }
+
 .btnWild:hover {
   background-color: #fff !important;
   color: #0d83ab !important;
 }
+
+.btnWild:active{
+  scale: 0.97;
+}
+
 .btnsecondary {
   font-size: 16px !important;
   background-color: #777777 !important;
@@ -107,6 +122,7 @@ header {
   border-color: #4c4c4c !important;
   display: inline-block !important;
 }
+
 .btnsecondary:hover {
   background-color: #fff !important;
   color: #4c4c4c !important;

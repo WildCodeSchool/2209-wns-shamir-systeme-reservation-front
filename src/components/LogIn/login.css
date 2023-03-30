@@ -35,6 +35,14 @@
   box-shadow: 0px 5px 15px #aaaeb1;
  }
 
+ .linkResetPassword {
+  text-decoration: revert;
+  margin-top: .5rem;
+ }
+ .linkResetPassword:hover {
+  color: #719bbb;
+ }
+
 @media (min-width: 700px) {
   .login_container{
     width: 100%;
