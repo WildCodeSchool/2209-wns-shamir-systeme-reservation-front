@@ -6,6 +6,11 @@
     max-width: 20rem;
     border: 1rem solid #0d83ab;
 }
+.rounded-circle2{
+    width: 30rem;
+    height: 30rem;
+    border-radius: 50%;
+}
 .rounded p{
     font-weight: 500;
     color: #000;

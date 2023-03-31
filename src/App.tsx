@@ -34,6 +34,9 @@ import AdminRouter from "./router/AdminRouter";
 import OrderDetails from "./pages/OrderDetails/OrderDetails";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
 import ModifyPassword from "./pages/ResetPassword/ModifyPassword";
+import OrderValidate from './pages/OrderConfirm/OrderValidate';
+import OrderCancel from './pages/OrderConfirm/OrderCancel';
+import OrderConfirm from './pages/OrderConfirm/OrderConfirm';
 
 function App() {
   // USER LOGIN SIGNIN LOGOUT ************************************************************************
@@ -123,6 +126,9 @@ function App() {
             <Route path="/commande/:id" element={<OrderDetails />} />
           )}
           <Route path="/panier" element={<Cart />} />
+          <Route path="/commande" element={<OrderConfirm />} />
+          <Route path="/commande/valide" element={<OrderValidate />} />
+          <Route path="/commande/refuse" element={<OrderCancel />} />
           <Route
             path="/inscription"
             element={<SignIn handleLogin={handleLogin} />}

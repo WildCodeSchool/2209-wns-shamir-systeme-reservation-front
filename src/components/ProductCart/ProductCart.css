@@ -69,6 +69,42 @@
   }
 }
 
+.hrRecap{
+  display: none;
+}
+@media screen and (max-width: 576px){
+  .imgCard{
+    text-align: center;
+  }
+  .hrRecap{
+    display: block;
+  }
+}
+@media screen and (min-width: 768px){
+  .imgCard{
+    text-align: center;
+  }
+  .hrRecap{
+    display: block !important;
+  }
+}
+@media screen and (min-width: 992px){
+  .imgCard{
+    text-align: start;
+  }
+  .hrRecap{
+    display: none !important;
+  }
+}
+@media screen and (max-width: 992px){
+  .cardRecap{
+    text-align: center;
+  }
+}
+.infoRecap{
+  height: fit-content;
+}
+
 @media screen and (min-width: 577px){ /* version tablette & desktop */
   .cardContainerMobile, .cardContainerTotalMobile {
     display: none;

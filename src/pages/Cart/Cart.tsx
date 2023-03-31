@@ -57,28 +57,6 @@ function Cart() {
       }
     }
   });
-  // action de création de la commande puis on vide le panier
-  const handleOrder = async () => {
-    const acceptCGV = window.confirm(
-      "Acceptez-vous les conditions générales de vente ?"
-    );
-    if (acceptCGV) {
-      try {
-        await createOrder({
-          variables: {
-            userId: userStore.id,
-            reservations: reservations,
-          },
-        });
-      } catch (error) {
-        console.log(error);
-      }
-      dispatch(reset());
-      dispatch(resetProductsByDate());
-      dispatch(resetFilter());
-      navigate("/profil");
-    }
-  };
 
   // permet de vider le panier
   const handleEmpty = () => {
@@ -136,7 +114,7 @@ function Cart() {
                 <Card.Text className="fw-bold fs-2"> {totalPrice} €</Card.Text>
               </div>
               <div className="btnValid">
-                <Button className="btnWild" onClick={handleOrder}>
+                <Button className="btnWild" onClick={() => navigate('/commande')}>
                   Valider ma commande
                 </Button>
               </div>
@@ -160,7 +138,7 @@ function Cart() {
                 </div>
               </div>
               <div className="btnValid">
-                <Button className="btnWild" onClick={handleOrder}>
+                <Button className="btnWild" onClick={() => navigate('/commande')}>
                   Valider ma commande
                 </Button>
               </div>

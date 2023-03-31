@@ -3,7 +3,6 @@ margin-top: 15rem;
 margin-bottom: 10rem;
 }
 
-
 .orderPrice p{
   padding: 0 2rem ;
   border-top: 2px solid #767676;
@@ -23,30 +22,25 @@ margin-bottom: 10rem;
 }
 
 @media screen and (min-width: 577px){ /* version tablette & desktop */
+  .orderPrice p{
+    border-top: 2px solid #767676;
+    font-weight: bold;
+    font-size: 2.5rem;
+  }
 
-
-.orderPrice p{
-  border-top: 2px solid #767676;
-  font-weight: bold;
-  font-size: 2.5rem;
-}
-
-.orderPrice,
-.printBill{
-  width:80%;
-  margin: 0 auto;
-  display: flex;
-  justify-content: end;
-  position: relative;
-  top: 2rem;
-  right: 0;
-}
-
+  .orderPrice,
+  .printBill{
+    width:80%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: end;
+    position: relative;
+    top: 2rem;
+    right: 0;
+  }
 }
 
 @media screen and (min-width: 1024px){ /* version desktop */
-  
-
   .orderPrice p{
     border-top: 2px solid #767676;
     font-weight: bold;
@@ -64,20 +58,21 @@ margin-bottom: 10rem;
    
   }
 }
-  @media screen and (min-width: 1439px){ /* version desktop */  
-    .orderPrice p{
-      border-top: 2px solid #767676;
-      font-weight: bold;
-      font-size: 2.5rem;
-    }
-    .orderPrice,
-    .printBill{
-      width:60%;
-      margin: 0 auto;
-      display: flex;
-      justify-content: end;
-      position: relative;
-      top: 2rem;
-     
-    }
+
+@media screen and (min-width: 1439px){ /* version desktop */  
+  .orderPrice p{
+    border-top: 2px solid #767676;
+    font-weight: bold;
+    font-size: 2.5rem;
   }
+  .orderPrice,
+  .printBill{
+    width:60%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: end;
+    position: relative;
+    top: 2rem;
+    
+  }
+}
