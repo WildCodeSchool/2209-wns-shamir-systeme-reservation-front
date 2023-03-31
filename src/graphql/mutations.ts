@@ -76,16 +76,7 @@ export const UPDATE_USER = gql`
 
 export const CREATE_ORDER = gql`
   mutation Mutation($userId: Float!, $reservations: [ReservationType!]!) {
-    createOrder(userId: $userId, reservations: $reservations) {
-      id
-      created_at
-      status
-      total_price
-      user {
-        email
-        id
-      }
-    }
+    createOrder(userId: $userId, reservations: $reservations)
   }
 `;
 export const RESET_PASSWORD = gql`
