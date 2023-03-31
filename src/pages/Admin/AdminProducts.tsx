@@ -5,16 +5,17 @@ import {
   MdOutlineAddTask,
 } from "react-icons/md";
 import Table from "react-bootstrap/Table";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import IProduct from "../../interfaces/IProduct";
 import { Button } from "react-bootstrap";
 import AdminProductForm from "../../components/AdminProduct/AdminProductForm";
-import { FlashMessage } from "../../components/Alert/FlashMessage";
 import { DELETE_PRODUCT } from "../../graphql/mutations";
 import { useMutation } from "@apollo/client";
 import { GET_ALL_PRODUCTS } from "../../graphql/queries";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
+import Swal from "sweetalert2";
+import { Toast } from "../../tools/utils";
 
 const AdminProducts = () => {
   const productsStore = useSelector(
@@ -35,26 +36,6 @@ const AdminProducts = () => {
     }
   };
 
-  // Flash message
-  const [flashMessageType, setFlashMessageType] = useState<string>("");
-  const [flashMessageMessage, setFlashMessageMessage] = useState<string>("");
-  const [showMessage, setShowMessage] = useState(false);
-  const handleFlashMessage = (type: string, message: string) => {
-    setFlashMessageType(type);
-    setFlashMessageMessage(message);
-  };
-  useEffect(() => {
-    if (flashMessageMessage !== "") {
-      setShowMessage(true);
-      const timer = setTimeout(() => {
-        setShowMessage(false);
-        setFlashMessageMessage("");
-        setFlashMessageType("");
-      }, 4000);
-      return () => clearTimeout(timer);
-    }
-  }, [flashMessageMessage]);
-
   // Edit Product
   const handleEditProduct = (product: IProduct) => {
     setProductToEdit(product);
@@ -67,29 +48,36 @@ const AdminProducts = () => {
   });
 
   const handleDeleteProduct = (productId: number) => {
-    const confirmation = window.confirm(
-      "Êtes-vous sûr de vouloir supprimer ce produit ?"
-    );
-    if (confirmation) {
-      deleteProduct({
-        variables: { deleteProductId: productId },
-      });
-      handleFlashMessage("success", "Le produit a bien été supprimé.");
-    }
+    Swal.fire({
+      title: 'Êtes-vous sûr de vouloir supprimer ce produit ?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui, supprimer !',
+      cancelButtonText: 'Annuler'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteProduct({
+          variables: { deleteProductId: productId },
+        });
+        Toast.fire({
+          icon: 'success',
+          title: '<h3 class="m-0">Votre produit est supprimé.</h3>',
+          width: '45rem'
+        })
+      }
+    })
   };
 
   return (
     <div className="">
-      {showMessage && (
-        <FlashMessage type={flashMessageType} message={flashMessageMessage} />
-      )}
       {show && (
         <AdminProductForm
           productToEdit={productToEdit}
           categories={categoriesStore}
           show={show}
           handleShow={handleShow}
-          handleFlashMessage={handleFlashMessage}
         />
       )}
       <div className="product_container d-flex flex-column align-items-center">
