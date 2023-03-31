@@ -34,9 +34,9 @@ import AdminRouter from "./router/AdminRouter";
 import OrderDetails from "./pages/OrderDetails/OrderDetails";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
 import ModifyPassword from "./pages/ResetPassword/ModifyPassword";
-import OrderValidate from './pages/OrderConfirm/OrderValidate';
-import OrderCancel from './pages/OrderConfirm/OrderCancel';
-import OrderConfirm from './pages/OrderConfirm/OrderConfirm';
+import OrderValidate from "./pages/OrderConfirm/OrderValidate";
+import OrderCancel from "./pages/OrderConfirm/OrderCancel";
+import OrderConfirm from "./pages/OrderConfirm/OrderConfirm";
 
 function App() {
   // USER LOGIN SIGNIN LOGOUT ************************************************************************
