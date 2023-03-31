@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 import { reset } from "../../store/features/cartSlice";
 import { useNavigate } from "react-router-dom";
 import { IOrderReservation } from "../../interfaces/IReservation";
-import { resetFilter, resetProductsByDate } from "../../store/features/productsSlice";
+import Swal from "sweetalert2";
 
 function Cart() {
   const productsStore = useSelector(
@@ -60,12 +60,18 @@ function Cart() {
 
   // permet de vider le panier
   const handleEmpty = () => {
-    const confirmEmpty = window.confirm(
-      "Êtes-vous certain de vouloir vider votre panier ?"
-    );
-    if (confirmEmpty) {
+    Swal.fire({
+      title: 'Êtes-vous sûr de vouloir vider votre panier ?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '<h4 class="m-0">Oui, vider !</h4>',
+      cancelButtonText: '<h4 class="m-0">Annuler</h4>'
+    }).then((result) => {
+      if (result.isConfirmed) {
       dispatch(reset());
-    }
+    }})
   };
 
   return (

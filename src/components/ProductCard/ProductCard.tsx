@@ -8,7 +8,7 @@ import { RootState } from "../../store";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { setCart } from "../../store/features/cartSlice";
-import { getPeriod } from "../../tools/utils";
+import { getPeriod, Toast } from "../../tools/utils";
 
 function ProductCard({ product, isSearchFromHome }: IProductProps) {
   const location = useLocation();
@@ -64,7 +64,11 @@ function ProductCard({ product, isSearchFromHome }: IProductProps) {
         pillCart2?.classList.remove("pillCartSub");
       }, 1000)
     } else {
-      window.alert("Vous avez atteint le stock disponible !")
+      Toast.fire({
+        icon: 'warning',
+        title: '<h3 class="m-0">Vous avez atteint le stock disponible !</h3>',
+        width: '45rem'
+      })
     }
   };
 

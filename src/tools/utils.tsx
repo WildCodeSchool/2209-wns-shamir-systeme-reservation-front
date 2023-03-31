@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import Swal from "sweetalert2";
 
 // renvoie en haut de la page à chaque navigation
 export default function ScrollToTop() {
@@ -52,3 +53,16 @@ export const getPeriod = (from: string, to: string) => {
     const diff = 1 + ((dateTo - dateFrom) / (1000*3600*24))
     return diff
 }
+
+// modèle de toast alerte
+export const Toast = Swal.mixin({
+  toast: true,
+  position: 'top',
+  showConfirmButton: false,
+  timer: 4000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})

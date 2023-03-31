@@ -7,7 +7,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { useDispatch } from "react-redux";
 import { setCart } from "../../store/features/cartSlice";
-import { getPeriod, readableDate } from "../../tools/utils";
+import { getPeriod, readableDate, Toast } from "../../tools/utils";
+import Swal from "sweetalert2";
 
 export default function ProductCart({ cartItem }: IProductCartProps) {
   const cartStore = useSelector((state: RootState) => state.cart.cart);
@@ -28,7 +29,11 @@ export default function ProductCart({ cartItem }: IProductCartProps) {
       let updatedCart = cartStore.filter((product) => product.id !== cartItem.id);
       dispatch(setCart([...updatedCart, updatedProduct]));
     } else {
-      window.alert("Vous avez atteint le stock disponible !")
+      Toast.fire({
+        icon: 'warning',
+        title: '<h3 class="m-0">Vous avez atteint le stock disponible !</h3>',
+        width: '45rem'
+      })
     }
   }
 
@@ -73,15 +78,21 @@ export default function ProductCart({ cartItem }: IProductCartProps) {
 
   // supprime le produit du panier
   const deleteItem = () => {
-    const reallyDelete = window.confirm(
-      "Souhaitez-vous confirmer la suppression de ce produit ?"
-    );
-    if (reallyDelete) {
-      let updatedCart = cartStore.filter(
-        (product) => product.id !== cartItem.id
-      );
-      dispatch(setCart([...updatedCart]));
-    }
+    Swal.fire({
+      title: 'Êtes-vous sûr de vouloir supprimer ce produit ?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '<h4 class="m-0">Oui, supprimer !</h4>',
+      cancelButtonText: '<h4 class="m-0">Annuler</h4>'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let updatedCart = cartStore.filter(
+          (product) => product.id !== cartItem.id
+        );
+        dispatch(setCart([...updatedCart]));
+    }})
   };
 
   return (
