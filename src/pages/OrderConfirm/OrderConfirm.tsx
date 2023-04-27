@@ -89,7 +89,7 @@ function OrderConfirm() {
           </Link>
           <div className="row justify-content-between mt-5">
             <div className="col-md-4 mt-4 card-profil p-4 infoRecap">
-              <h3 className="titleRecap2 mb-4">Mes informations personnel</h3>
+              <h3 className="titleRecap2 mb-4">Mes informations personnelles</h3>
               <div className="card-RecapCommand me-5 mb-5">
                 <span className="fw-bold">Nom Prénom :</span>
                 <p className="m-0">
@@ -105,7 +105,7 @@ function OrderConfirm() {
                 <span className="fw-bold">Boutique WILD Booking</span>
                 <p className="m-0">10 Rue de la Montagne - Alpes, FRANCE</p>
                 <span className="fw-bold">Téléphone :</span>
-                <p className="m-0">02 75 86 89 90</p>
+                <p className="m-0">02 99 88 77 55</p>
               </div>
               <Button className="btnWild w-100 mt-5" onClick={handleOrder}>
                   Valider ma commande
@@ -130,7 +130,7 @@ function OrderConfirm() {
                           <Card.Text>
                             Quantité :{" "}
                             <span className="fw-bold fs-2">
-                              {totalQtyInCart}
+                              {cartItem.qtyInCart}
                             </span>
                           </Card.Text>
                           <hr className="hrRecap" />
@@ -153,9 +153,7 @@ function OrderConfirm() {
                           </Card.Text>
                           <hr />
                           <Card.Text>
-                            {" "}
-                            Prix total :{" "}
-                            <span className="fw-bold fs-2">{totalPrice} €</span>
+                            Total : {cartItem.subtotal} €
                           </Card.Text>
                         </Card.Text>
                       </Card.Body>
@@ -165,6 +163,11 @@ function OrderConfirm() {
                   return null;
                 }
               })}
+               <hr />
+               <p className="m-0 text-end">
+                Prix total :{" "}
+                <span className="fw-bold fs-2">{totalPrice} €</span>
+               </p>
             </div>
           </div>
         </div>

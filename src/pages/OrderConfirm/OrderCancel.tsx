@@ -31,7 +31,7 @@ function OrderCancel() {
           </Link>
         <div className="col-md-6 text-center mt-5">
           <img className="text-white mb-5 rounded-circle2" src={imgChute} alt="" />
-          <p className="mb-3">Toute nos excuses</p>
+          <p className="mb-3">Toutes nos excuses</p>
           <p className="mb-5">Une erreur est survenue, merci de réessayer.</p>
         </div>
       </div>
