@@ -9,7 +9,7 @@ function OrderValidate() {
   useEffect(() => {
     Swal.fire({
       title: 'Confirmation',
-      text: 'Commande validé',
+      text: 'Commande validée',
       icon: 'success',
       confirmButtonText: 'Ok',
       confirmButtonColor: '#0d83ab',
@@ -19,7 +19,7 @@ function OrderValidate() {
     <div className="container-sm">
     <main role="main" className="mainProfil">
       <div className="row justify-content-center mt-10">
-          <h1 className="text-center titleResetPassword">Votre commande à bien été validé</h1>
+          <h1 className="text-center titleResetPassword">Votre commande a bien été validée</h1>
           <Link className="text-dark RetourProfil text-decoration-none" to="/">
               <FontAwesomeIcon
               icon={faChevronLeft}
