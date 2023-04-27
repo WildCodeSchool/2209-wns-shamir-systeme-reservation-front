@@ -28,8 +28,8 @@ function OrderDetails() {
 
   const [getOrderById] = useLazyQuery(GET_ORDER_BY_ID);
 
-  const handleGetOrderById = (id: string | undefined) => {
-    getOrderById({ variables: { id } })
+  const handleGetOrderById = (orderId: number, userId: number) => {
+    getOrderById({ variables: { orderId, userId } })
       .then(({ data }) => {
         setOrder(data.getOrderById[0]);
         setIsOrderLoaded(true);
@@ -39,7 +39,10 @@ function OrderDetails() {
       });
   };
   useEffect(() => {
-    handleGetOrderById(id);
+    if (id && currentUser.id) {
+      const orderId: number = parseInt(id);
+      handleGetOrderById(orderId, currentUser.id);
+    }
   }, []);
 
   // Function pour filtrer les reservation:
