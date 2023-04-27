@@ -14,14 +14,14 @@ function OrderCard(order: IOrder) {
         <strong>{formatDate(order.created_at)}</strong>
       </td>
       <td>
-        Total :<strong> {order.total_price} €</strong>
+        Total :<strong> {order.total_price.toFixed(2)} €</strong>
       </td>
       <td>
         Statut
         <br />
         <div>
           <Badge pill bg="dark">
-           { order.status === 1 ?  "Confirmée" : "Annullée" }
+           { order.status === 1 ?  "Confirmée" : "Annulée" }
           </Badge>
         </div>
       </td>

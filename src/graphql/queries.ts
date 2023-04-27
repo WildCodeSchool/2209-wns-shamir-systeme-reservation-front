@@ -137,8 +137,8 @@ const GET_ORDER_BY_CUSTOMER = gql`
 `;
 
 const GET_ORDER_BY_ID = gql`
-  query getOrderById($id: String!) {
-    getOrderById(id: $id) {
+  query getOrderById($orderId: Float!, $userId: Float!) {
+    getOrderById(orderId: $orderId, userId : $userId) {
       id
       total_price
       created_at
