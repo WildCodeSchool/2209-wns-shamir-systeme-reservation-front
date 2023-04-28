@@ -50,6 +50,14 @@
   width: 80%;
 }
 
+.displayNone{
+  display: none;
+}
+
+#confirmAlert {
+  text-align: center;
+}
+
 @media screen and (min-width: 577px){ /* version tablette & desktop */
   .formContainer{
     padding: 3rem;

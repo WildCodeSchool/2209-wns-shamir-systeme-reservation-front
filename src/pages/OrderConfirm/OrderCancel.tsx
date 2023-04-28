@@ -11,7 +11,7 @@ function OrderCancel() {
   useEffect(() => {
     Swal.fire({
       title: 'Une erreur est survenue',
-      text: 'Commande refusé',
+      text: 'Commande refusée',
       icon: 'error',
       confirmButtonText: 'Ok',
       confirmButtonColor: '#DD6B55',
@@ -21,7 +21,7 @@ function OrderCancel() {
     <div className="container-sm">
     <main role="main" className="mainProfil">
       <div className="row justify-content-center">
-          <h1 className="text-center titleResetPassword">Votre commande a été refusé</h1>
+          <h1 className="text-center titleResetPassword">Votre commande a été refusée.</h1>
           <Link className="text-dark RetourProfil text-decoration-none" to="/">
               <FontAwesomeIcon
               icon={faChevronLeft}
@@ -31,7 +31,7 @@ function OrderCancel() {
           </Link>
         <div className="col-md-6 text-center mt-5">
           <img className="text-white mb-5 rounded-circle2" src={imgChute} alt="" />
-          <p className="mb-3">Toutes nos excuses</p>
+          <p className="mb-3">Toutes nos excuses.</p>
           <p className="mb-5">Une erreur est survenue, merci de réessayer.</p>
         </div>
       </div>

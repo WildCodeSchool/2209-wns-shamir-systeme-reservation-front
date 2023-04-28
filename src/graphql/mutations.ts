@@ -90,3 +90,8 @@ export const MODIFY_PASSWORD = gql`
     modifyPassword(token: $token, password: $password, passwordConfirm: $passwordConfirm )
   }
 `
+export const MAKING_CONTACT = gql`
+  mutation Mutation($message: String!, $subject: String!, $email: String!, $name: String!) {
+    makingContact(name: $name, email: $email, subject: $subject, message: $message)
+  }
+`;
