@@ -21,6 +21,10 @@ margin-bottom: 10rem;
   right: 3rem;
 }
 
+.container-sm {
+  min-height: 65vh;
+}
+
 @media screen and (min-width: 577px){ /* version tablette & desktop */
   .orderPrice p{
     border-top: 2px solid #767676;

@@ -4,17 +4,29 @@ import imgSurf from "../../assets/images/surf.jpeg"
 import Swal from 'sweetalert2'
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
+import { useMutation } from '@apollo/client';
+import { VALIDATE_ORDER } from '../../graphql/mutations';
 
 function OrderValidate() {
+  const [validateOrder] = useMutation(VALIDATE_ORDER);
+  
+  async function handleValidateOrder() {
+    const orderId = localStorage.getItem("orderIdToConfirm");
+    localStorage.removeItem("orderIdToConfirm");
+    const result = await validateOrder({ variables: {orderId: orderId ? parseInt(orderId) : 0}})
+    console.log(result)
+  }
+
   useEffect(() => {
+    handleValidateOrder()
     Swal.fire({
-      title: 'Confirmation',
-      text: 'Commande validée',
+      position: 'center',
       icon: 'success',
-      confirmButtonText: 'Ok',
-      confirmButtonColor: '#0d83ab',
+      title: '<h2 class="m-2">Commande validée</h2>',
+      showConfirmButton: false,
+      timer: 2500
     })
-  })
+  }, [])
   return (
     <div className="container-sm">
     <main role="main" className="mainProfil">

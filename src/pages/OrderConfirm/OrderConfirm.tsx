@@ -1,16 +1,15 @@
-import { useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Card } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { resetFilter, resetProductsByDate } from "../../store/features/productsSlice";
-import { CREATE_ORDER } from "../../graphql/mutations";
+import { Link, useNavigate } from "react-router-dom";
 import { IOrderReservation } from "../../interfaces/IReservation";
 import { RootState } from "../../store";
-import { reset } from "../../store/features/cartSlice";
 import { getPeriod, readableDate } from "../../tools/utils";
+import { PAYMENT_ORDER } from "../../graphql/queries";
+import { DELETE_ORDER } from "../../graphql/mutations";
 
 function OrderConfirm() {
   const productsStore = useSelector(
@@ -19,8 +18,10 @@ function OrderConfirm() {
   const cartStore = useSelector((state: RootState) => state.cart.cart);
   const userStore = useSelector((state: RootState) => state.user.user);
 
-  const [createOrder] = useMutation(CREATE_ORDER);
-  const dispatch      = useDispatch();
+  const [paymentOrder] = useLazyQuery(PAYMENT_ORDER);
+  const [deleteOrder] = useMutation(DELETE_ORDER);
+
+  const navigate = useNavigate();
 
   // permet de trier les produits par id avant de les afficher
   const sortedItems = [...cartStore].sort((a, b) => a.id - b.id);
@@ -55,22 +56,30 @@ function OrderConfirm() {
     }
   });
 
-  const handleOrder = async () => {
-    await createOrder({ variables: {userId: userStore.id, reservations: reservations}})
-    .then(({ data }) => {
+  const handlePayment = async () => {
+    try {
+        const orderIdToConfirm = localStorage.getItem("orderIdToConfirm");
+        const result = await paymentOrder({ variables: {userId: userStore.id, orderId: orderIdToConfirm ? parseInt(orderIdToConfirm) : 0}})
+        window.location.replace(result.data.paymentOrder);
+    } catch (error) {
       console.log('====================================');
-      console.log('dans order la data ', data);
+      console.log('error dans front ', error);
       console.log('====================================');
-      window.location.replace(data.createOrder);
-      dispatch(reset());
-      dispatch(resetProductsByDate());
-      dispatch(resetFilter());
-    })
-    .catch((error) => {
-        console.log('====================================');
-        console.log('error dans front ', error);
-        console.log('====================================');
-    });
+    }
+  };
+
+  const handleContinueShop = async () => {
+    try {
+      const orderId = localStorage.getItem("orderIdToConfirm");
+      localStorage.removeItem("orderIdToConfirm");
+      await deleteOrder({ variables: {orderId: orderId ? parseInt(orderId) : 0}})
+      navigate('/catalogue')
+    
+    } catch (error) {
+      console.log('====================================');
+      console.log('error dans front ', error);
+      console.log('====================================');
+    }
   };
 
   return (
@@ -80,13 +89,6 @@ function OrderConfirm() {
           <h1 className="text-center titleResetPassword">
             Récapitulatif de la commande
           </h1>
-          <Link className="text-dark RetourProfil text-decoration-none" to="/">
-            <FontAwesomeIcon
-              icon={faChevronLeft}
-              className="fas fa-chevron-left me-3 iconRetourProfil"
-            />
-            Retour
-          </Link>
           <div className="row justify-content-between mt-5">
             <div className="col-md-4 mt-4 card-profil p-4 infoRecap">
               <h3 className="titleRecap2 mb-4">Mes informations personnelles</h3>
@@ -107,9 +109,12 @@ function OrderConfirm() {
                 <span className="fw-bold">Téléphone :</span>
                 <p className="m-0">02 99 88 77 55</p>
               </div>
-              <Button className="btnWild w-100 mt-5" onClick={handleOrder}>
-                  Valider ma commande
+              <Button className="btnWild w-100 mt-5" onClick={handlePayment}>
+                  Payer ma commande
               </Button>
+              <button className="btnWildOutline w-100 mt-5" onClick={() => handleContinueShop()}>
+                  Continuer mes achats
+              </button>
             </div>
             <div className="col-md-5 mt-4 card-RecapCommand">
               <h2 className="text-center mb-3 text-uppercase">Commande</h2>
