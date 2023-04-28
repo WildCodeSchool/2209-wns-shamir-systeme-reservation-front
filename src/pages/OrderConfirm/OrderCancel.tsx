@@ -16,7 +16,6 @@ function OrderCancel() {
   const [deleteOrder] = useMutation(DELETE_ORDER);
   const [getOrderById] = useLazyQuery(GET_ORDER_BY_ID);
   const userIdStore = useSelector((state: RootState) => state.user.user.id);
-  const cartStore = useSelector((state: RootState) => state.cart.cart);
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -89,6 +88,7 @@ function OrderCancel() {
           showConfirmButton: false,
           timer: 2500
         })
+        navigate('/catalogue')
       } else if (result.isDenied) {
         handleDeleteOrder()
         Swal.fire({
