@@ -81,7 +81,6 @@ function OrderCancel() {
       confirmButtonText: '<h4 class="m-2">Continuer</h4><h4 class="m-2">mes achats !</h4>',
       denyButtonText: '<h4 class="m-2">Annuler</h4><h4 class="m-2">ma commande</h4>',
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         handleRestoreCart()
         Swal.fire({

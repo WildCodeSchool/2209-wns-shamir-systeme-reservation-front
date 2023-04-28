@@ -41,8 +41,8 @@ function OrderValidate() {
           </Link>
         <div className="col-md-6 text-center mt-5 pt-5">
         <img className="text-white mb-5 rounded-circle2" src={imgSurf} alt="" />
-          <p className="mb-5">Merci d'avoir passé commande sur Wild Booking</p>
-          <p className="mb-5">Vous pouvez allez consulter votre commande sur votre profil <Link to="/profil">en cliquant ici</Link></p>
+          <p className="mb-5">Merci d'avoir passé commande sur Wild Booking.</p>
+          <p className="mb-5">Vous pouvez allez consulter votre commande sur votre profil <Link to="/profil">en cliquant ici.</Link></p>
         </div>
       </div>
     </main>
