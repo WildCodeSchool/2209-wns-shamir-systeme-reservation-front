@@ -12,6 +12,7 @@ import { reset } from "../../store/features/cartSlice";
 import { useNavigate } from "react-router-dom";
 import { IOrderReservation } from "../../interfaces/IReservation";
 import Swal from "sweetalert2";
+import { useEffect } from "react";
 
 function Cart() {
   const productsStore = useSelector(
@@ -57,6 +58,20 @@ function Cart() {
       }
     }
   });
+
+  const handleOrder = async () => {
+    try {
+      if (!localStorage.getItem("orderIdToConfirm")) {
+        const result = await createOrder({ variables: {userId: userStore.id, reservations: reservations}})
+        localStorage.setItem("orderIdToConfirm", result.data.createOrder);
+      }
+      navigate('/commande')
+    } catch (error) {
+      console.log('====================================');
+      console.log('error dans front ', error);
+      console.log('====================================');
+    }
+  };
 
   // permet de vider le panier
   const handleEmpty = () => {
@@ -120,7 +135,7 @@ function Cart() {
                 <Card.Text className="fw-bold fs-2"> {totalPrice} €</Card.Text>
               </div>
               <div className="btnValid">
-                <Button className="btnWild" onClick={() => navigate('/commande')}>
+                <Button className="btnWild" onClick={handleOrder}>
                   Valider ma commande
                 </Button>
               </div>
@@ -144,7 +159,7 @@ function Cart() {
                 </div>
               </div>
               <div className="btnValid">
-                <Button className="btnWild" onClick={() => navigate('/commande')}>
+                <Button className="btnWild" onClick={handleOrder}>
                   Valider ma commande
                 </Button>
               </div>

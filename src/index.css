@@ -113,6 +113,25 @@ header {
   scale: 0.97;
 }
 
+.btnWildOutline {
+  /* font-size: 16px !important; */
+  background-color: #fff !important;
+  color: #0d83ab;
+  padding: 0.5em 1.8em !important;
+  border-radius: 4px !important;
+  border: solid 2px #0d83ab !important;
+  display: inline-block !important;
+}
+
+.btnWildOutline:hover {
+  background-color: #0d83ab !important;
+  color: #fff !important;
+}
+
+/* .btnWildOutline:active{
+  scale: 0.97;
+} */
+
 .btnsecondary {
   font-size: 16px !important;
   background-color: #777777 !important;

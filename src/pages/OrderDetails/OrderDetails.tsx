@@ -31,7 +31,7 @@ function OrderDetails() {
   const handleGetOrderById = (orderId: number, userId: number) => {
     getOrderById({ variables: { orderId, userId } })
       .then(({ data }) => {
-        setOrder(data.getOrderById[0]);
+        setOrder(data.getOrderById);
         setIsOrderLoaded(true);
       })
       .catch((error) => {
