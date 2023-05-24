@@ -14,8 +14,7 @@ const AdminProductForm = ({
   productToEdit,
   show,
   categories,
-  handleShow,
-  handleFlashMessage,
+  handleShow
 }: IAdminProductFormProps) => {
   const [nameProduct, setNameProduct] = useState<string>("");
   const [descriptionProduct, setDescriptionProduct] = useState<string>("");
@@ -165,7 +164,6 @@ const AdminProductForm = ({
           },
         });
         handleShow();
-        handleFlashMessage("success", "Produit modifié !");
       } catch (error) {}
     } else {
       try {
@@ -175,7 +173,6 @@ const AdminProductForm = ({
           },
         });
         handleShow();
-        handleFlashMessage("success", "Produit enregistré !");
       } catch (error) {}
     }
   };

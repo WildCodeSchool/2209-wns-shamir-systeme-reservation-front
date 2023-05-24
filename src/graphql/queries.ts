@@ -137,8 +137,8 @@ const GET_ORDER_BY_CUSTOMER = gql`
 `;
 
 const GET_ORDER_BY_ID = gql`
-  query getOrderById($id: String!) {
-    getOrderById(id: $id) {
+  query getOrderById($orderId: Float!, $userId: Float!) {
+    getOrderById(orderId: $orderId, userId : $userId) {
       id
       total_price
       created_at
@@ -166,6 +166,12 @@ const CHECK_TOKEN_RESET = gql`
   }
 `;
 
+const PAYMENT_ORDER = gql`
+  query Query($userId: Float!, $orderId: Float!) {
+    paymentOrder(userId: $userId, orderId: $orderId)
+  }
+`;
+
 export {
   GET_ALL_PRODUCTS,
   GET_ALL_CATEGORIES,
@@ -177,5 +183,6 @@ export {
   IS_ADMIN,
   GET_ORDER_BY_CUSTOMER,
   GET_ORDER_BY_ID,
-  CHECK_TOKEN_RESET
+  CHECK_TOKEN_RESET,
+  PAYMENT_ORDER
 };

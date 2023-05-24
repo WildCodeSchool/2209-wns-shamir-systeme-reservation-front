@@ -11,7 +11,8 @@ import { useDispatch } from "react-redux";
 import { reset } from "../../store/features/cartSlice";
 import { useNavigate } from "react-router-dom";
 import { IOrderReservation } from "../../interfaces/IReservation";
-import { resetFilter, resetProductsByDate } from "../../store/features/productsSlice";
+import Swal from "sweetalert2";
+import { useEffect } from "react";
 
 function Cart() {
   const productsStore = useSelector(
@@ -57,37 +58,35 @@ function Cart() {
       }
     }
   });
-  // action de création de la commande puis on vide le panier
+
   const handleOrder = async () => {
-    const acceptCGV = window.confirm(
-      "Acceptez-vous les conditions générales de vente ?"
-    );
-    if (acceptCGV) {
-      try {
-        await createOrder({
-          variables: {
-            userId: userStore.id,
-            reservations: reservations,
-          },
-        });
-      } catch (error) {
-        console.log(error);
+    try {
+      if (!localStorage.getItem("orderIdToConfirm")) {
+        const result = await createOrder({ variables: {userId: userStore.id, reservations: reservations}})
+        localStorage.setItem("orderIdToConfirm", result.data.createOrder);
       }
-      dispatch(reset());
-      dispatch(resetProductsByDate());
-      dispatch(resetFilter());
-      navigate("/profil");
+      navigate('/commande')
+    } catch (error) {
+      console.log('====================================');
+      console.log('error dans front ', error);
+      console.log('====================================');
     }
   };
 
   // permet de vider le panier
   const handleEmpty = () => {
-    const confirmEmpty = window.confirm(
-      "Êtes-vous certain de vouloir vider votre panier ?"
-    );
-    if (confirmEmpty) {
+    Swal.fire({
+      title: 'Êtes-vous sûr de vouloir vider votre panier ?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '<h4 class="m-0">Oui, vider !</h4>',
+      cancelButtonText: '<h4 class="m-0">Annuler</h4>'
+    }).then((result) => {
+      if (result.isConfirmed) {
       dispatch(reset());
-    }
+    }})
   };
 
   return (

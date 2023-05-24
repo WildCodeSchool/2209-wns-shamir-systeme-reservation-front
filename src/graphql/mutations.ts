@@ -76,18 +76,22 @@ export const UPDATE_USER = gql`
 
 export const CREATE_ORDER = gql`
   mutation Mutation($userId: Float!, $reservations: [ReservationType!]!) {
-    createOrder(userId: $userId, reservations: $reservations) {
-      id
-      created_at
-      status
-      total_price
-      user {
-        email
-        id
-      }
-    }
+    createOrder(userId: $userId, reservations: $reservations)
   }
 `;
+
+export const VALIDATE_ORDER = gql`
+  mutation Mutation($orderId: Float!) {
+    validateOrder(orderId: $orderId)
+  
+  }
+`;
+export const DELETE_ORDER = gql`
+  mutation Mutation($orderId: Float!) {
+    deleteOrder(orderId: $orderId)
+  }
+`;
+
 export const RESET_PASSWORD = gql`
   mutation Mutation($email: String!) {
     resetPassword(email: $email)
@@ -99,3 +103,8 @@ export const MODIFY_PASSWORD = gql`
     modifyPassword(token: $token, password: $password, passwordConfirm: $passwordConfirm )
   }
 `
+export const MAKING_CONTACT = gql`
+  mutation Mutation($message: String!, $subject: String!, $email: String!, $name: String!) {
+    makingContact(name: $name, email: $email, subject: $subject, message: $message)
+  }
+`;

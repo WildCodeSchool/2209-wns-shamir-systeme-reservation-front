@@ -17,6 +17,6 @@ describe("SignIn", () => {
       { wrapper: BrowserRouter }
     );
 
-    expect(await screen.findByText(/INSCRIPTION/)).toBeInTheDocument();
+    expect(await screen.findByText(/Inscription/)).toBeInTheDocument();
   });
 });

@@ -2,7 +2,7 @@ import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 
 const httpLink = createHttpLink({
-  uri: "https://api.shamir6.wns.wilders.dev",
+  uri: "http://localhost:5000",
 });
 
 // Middleware pour intercepter

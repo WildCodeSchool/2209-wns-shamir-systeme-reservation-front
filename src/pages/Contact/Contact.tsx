@@ -1,38 +1,80 @@
-import { Button, Form } from "react-bootstrap";
+import { Alert, Button, Form } from "react-bootstrap";
 import "./contact.css";
+import { useState } from "react";
+import { useMutation } from "@apollo/client";
+import { MAKING_CONTACT } from "../../graphql/mutations";
 
 export default function Contact() {
+
+  const [name, setName]                     = useState<string>("");
+  const [email, setEmail]                   = useState<string>("");
+  const [subject, setSubject]               = useState<string>("");
+  const [message, setMessage]               = useState<string>("");
+  const [messageConfirm, setMessageConfirm] = useState<string>("");
+
+  const [makingContact] = useMutation(MAKING_CONTACT);
+
+  const submitContact = (e: any): void => {
+    e.preventDefault();
+    handleSubmit(name, email, subject, message);
+    setName("");
+    setEmail("");
+    setSubject("");
+    setMessage("");
+    setMessageConfirm("");
+  };
+
+  const handleSubmit = (name: string, email: string, subject: string, message: string): void => {
+    makingContact({
+      variables: {
+        name,
+        email,
+        subject,
+        message
+      }
+    }).then(({data})=>{
+      setMessageConfirm(data.makingContact);
+      setTimeout(() => {
+        const confirmAlert = document.querySelector("#confirmAlert");
+        confirmAlert?.classList.add("displayNone");
+      }, 4000);
+    }).catch((e)=>{
+      console.log("Une erreur est survenue : ", e)
+    })
+  };
+
   return (
     <div className="contactContainer">
       <h1>Contact</h1>
       <div className="contactBodyContainer">
-        <Form className="formContainer">
+        <Form className="formContainer" onSubmit={submitContact}>
           <Form.Group>
             <Form.Label>Nom</Form.Label>
-            <Form.Control className="mb-3 form-control form-control-lg" required />
+            <Form.Control className="mb-3 form-control form-control-lg" value={name} onChange={(e)=>setName(e.target.value)} required />
           </Form.Group>
 
           <Form.Group>
             <Form.Label>Email</Form.Label>
-            <Form.Control type="email" className="mb-3 form-control form-control-lg" required />
+            <Form.Control type="email" className="mb-3 form-control form-control-lg" value={email} onChange={(e)=>setEmail(e.target.value)} required />
           </Form.Group>
 
           <Form.Label>Objet</Form.Label>
-          <Form.Select className="mb-3 custom-select custom-select-lg" size="lg">
-            <option>Sélectionnez une rubrique</option>
-            <option value="1">Question sur ma réservation</option>
-            <option value="2">Question sur un produit</option>
-            <option value="3">Autre question</option>
+          <Form.Select className="mb-3 custom-select custom-select-lg" value={subject} onChange={(e)=>setSubject(e.target.value)} size="lg">
+            <option value="">Sélectionnez une rubrique</option>
+            <option value="- réservation">Question sur ma réservation</option>
+            <option value="- produit">Question sur un produit</option>
+            <option value="- divers">Autre question</option>
           </Form.Select>
 
           <Form.Group>
             <Form.Label>Message</Form.Label>
-            <Form.Control className="textAreaForm" as="textarea" rows={10} required />
+            <Form.Control className="textAreaForm form-control-lg" as="textarea" rows={10} value={message} onChange={(e)=>setMessage(e.target.value)} required />
           </Form.Group>
 
           <div className="btnForm">
             <Button type="submit" className="btnWild mt-5">Envoyer</Button>
           </div>
+            {messageConfirm && <Alert id="confirmAlert">{messageConfirm}</Alert>}
         </Form>
         <div className="contactInfos">
           <div className="mapForm">

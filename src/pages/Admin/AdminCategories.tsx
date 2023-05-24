@@ -5,12 +5,12 @@ import {
   MdOutlineModeEditOutline,
 } from "react-icons/md";
 import ICategory from "../../interfaces/ICategory";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { GET_ALL_CATEGORIES } from "../../graphql/queries";
 import { useMutation, useQuery } from "@apollo/client";
-import { FlashMessage } from "../../components/Alert/FlashMessage";
 import { Button, Table } from "react-bootstrap";
 import { DELETE_CATEGORY } from "../../graphql/mutations";
+import Swal from "sweetalert2";
 
 const AdminCategories = () => {
   const [categoriesAdmin, setCategoriesAdmin] = useState<ICategory[]>([]);
@@ -27,46 +27,38 @@ const AdminCategories = () => {
   });
 
   const handleDeleteCategory = async (id: number) => {
-    const confirmation = window.confirm(
-      "Êtes-vous sûr de vouloir supprimer cette catégorie ?"
-    );
-    if (confirmation) {
-      const response = await deleteCategory({
-        variables: { deleteCategoryId: id },
-      });
-      if (response.data.deleteCategory === "Catégorie supprimée.") {
-        handleFlashMessage("success", "La catégorie a bien été supprimée.");
-      } else {
-        handleFlashMessage("danger", response.data.deleteCategory);
+    Swal.fire({
+      title: 'Êtes-vous sûr de vouloir supprimer cette catégorie ?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Oui, supprimer !',
+      cancelButtonText: 'Annuler'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const response = await deleteCategory({
+          variables: { deleteCategoryId: id },
+        });
+        if (response.data.deleteCategory === "Catégorie supprimée.") {
+          Swal.fire(
+            'Catégorie supprimée',
+            '',
+            'success'
+          )
+        } else {
+          Swal.fire(
+            'Une erreur est survenue',
+            '',
+            'warning'
+          )
+        }
       }
-    }
+    })
   };
-
-  // Flash message
-  const [flashMessageType, setFlashMessageType] = useState<string>("");
-  const [flashMessageMessage, setFlashMessageMessage] = useState<string>("");
-  const [showMessage, setShowMessage] = useState(false);
-  const handleFlashMessage = (type: string, message: string) => {
-    setFlashMessageType(type);
-    setFlashMessageMessage(message);
-  };
-  useEffect(() => {
-    if (flashMessageMessage !== "") {
-      setShowMessage(true);
-      const timer = setTimeout(() => {
-        setShowMessage(false);
-        setFlashMessageMessage("");
-        setFlashMessageType("");
-      }, 4000);
-      return () => clearTimeout(timer);
-    }
-  }, [flashMessageMessage]);
 
   return (
     <div className="">
-      {showMessage && (
-        <FlashMessage type={flashMessageType} message={flashMessageMessage} />
-      )}
       <div className="product_container d-flex flex-column align-items-center">
         <h1 className="my-5">Catégories</h1>
 

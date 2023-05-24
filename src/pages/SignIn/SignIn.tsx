@@ -190,7 +190,7 @@ function SignIn({ handleLogin }: any) {
 
   return (
     <div className="signin row">
-      <h1 className="text-center">INSCRIPTION</h1>
+      <h1 className="text-center">Inscription</h1>
       <form
         className="col-xl-4 col-lg-6 col-md-8 col-sm-10 col-11 m-auto shadow ml-5 mb-5 bg-white rounded search_product_container"
         onSubmit={handleSubmit}
