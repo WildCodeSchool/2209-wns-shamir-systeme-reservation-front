@@ -14,7 +14,6 @@ function OrderValidate() {
     const orderId = localStorage.getItem("orderIdToConfirm");
     localStorage.removeItem("orderIdToConfirm");
     const result = await validateOrder({ variables: {orderId: orderId ? parseInt(orderId) : 0}})
-    console.log(result)
   }
 
   useEffect(() => {
