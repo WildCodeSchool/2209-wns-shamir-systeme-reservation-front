@@ -8,7 +8,7 @@ export default interface IReservation {
   price: number;
   status: string;
   product: IProduct;
-  order: {id: number, user: IUser}
+  order: {id: number, user: IUser, total_price: number, status: number}
 }
 export interface IOrderReservation {
   start: string;
