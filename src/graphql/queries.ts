@@ -77,7 +77,11 @@ const GET_ALL_RESERVATIONS = gql`
         user {
           id
           email
+          firstname
+          lastname
         }
+        status
+        total_price
       }
     }
   }
