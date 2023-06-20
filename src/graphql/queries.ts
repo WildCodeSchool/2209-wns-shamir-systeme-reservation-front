@@ -74,14 +74,15 @@ const GET_ALL_RESERVATIONS = gql`
       }
       order {
         id
+        status
+        total_price
         user {
           id
           email
           firstname
           lastname
+          phone
         }
-        status
-        total_price
       }
     }
   }
