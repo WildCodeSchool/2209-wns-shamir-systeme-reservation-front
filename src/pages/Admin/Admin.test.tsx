@@ -58,7 +58,9 @@ describe("Admin", () => {
       </Provider>,
       { wrapper: BrowserRouter }
     );
-
-    expect(await screen.findByText(/Réservations/i)).toBeInTheDocument();
+    
+    const title = screen.getByRole('heading', {level: 1});
+    expect (title).toBeInTheDocument();
+    expect (title).toHaveTextContent(/Réservations/i);
   });
 });
