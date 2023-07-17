@@ -1,82 +1,65 @@
 import "./admin.css";
 import { useEffect, useState } from "react";
-import IReservation from "../../interfaces/IReservation";
 import { useQuery } from "@apollo/client";
-import { GET_ALL_RESERVATIONS } from "../../graphql/queries";
+import { GET_ALL_ORDERS } from "../../graphql/queries";
 import { Table } from "react-bootstrap";
 import { readableDate } from "../../tools/utils";
 import DatePicker from "react-datepicker";
 import { fr } from "date-fns/locale";
 import { RxCrossCircled } from "react-icons/rx";
+import IOrderAdmin from "../../interfaces/IOrderAdmin";
 
 const AdminReservations = () => {
-  const [reservationsAdmin, setReservationsAdmin] = useState<IReservation[]>(
+  const [ordersAdmin, setOrdersAdmin] = useState<IOrderAdmin[]>(
     []
   );
-  const [reservationsFiltered, setReservationsFiltered] = useState<
-    IReservation[]
+  const [ordersFiltered, setOrdersFiltered] = useState<
+    IOrderAdmin[]
   >([]);
   const [dateFilter, setDateFilter] = useState<number>(Date.now());
   const [numOrder, setNumOrder] = useState<string | undefined>(undefined);
+  const [clientName, setClientName] = useState<string | undefined>(undefined);
+
+  const filterOrdersByDate = () => {
+    let ordersFilt: IOrderAdmin[] = [];
+    ordersAdmin.forEach(order => {
+      const reservationsFiltered = order.reservations.filter((reservation) => (Date.parse(reservation.start) > dateFilter - 60 * 60 * 24 * 1000))
+      if (reservationsFiltered.length) {
+        ordersFilt.push(order);
+      }
+    });
+    setOrdersFiltered(ordersFilt);
+  }
 
   useEffect(() => {
-    setReservationsFiltered(
-      reservationsAdmin.filter(
-        (reservation) => (Date.parse(reservation.start) > dateFilter - 60 * 60 * 24 * 1000)
-      )
-    );
+    filterOrdersByDate();
   }, []);
 
   useEffect(() => {
-    setReservationsFiltered(
-      reservationsAdmin.filter(
-        (reservation) => (Date.parse(reservation.start) > dateFilter - 60 * 60 * 24 * 1000)
-      )
-    );
+    filterOrdersByDate();
   }, [dateFilter]);
 
   useEffect(() => {
     if (numOrder) {
-      setReservationsFiltered(
-        reservationsAdmin.filter(
-          (reservation) => (reservation.order.id.toString().startsWith(numOrder))
-        )
-      );
+      setOrdersFiltered(ordersAdmin.filter(order => order.id.toString().startsWith(numOrder)))
     } else {
       resetDates();
     }
   }, [numOrder]);
 
-  const {} = useQuery(GET_ALL_RESERVATIONS, {
-    onCompleted: (dataAllReservations) => {
-      setReservationsAdmin(dataAllReservations.getAllReservations);
+  useEffect(() => {
+    if (clientName) {
+      setOrdersFiltered(ordersAdmin.filter(order => order.user.lastname?.toLowerCase().startsWith(clientName.toLowerCase())))
+    } else {
+      resetDates();
+    }
+  }, [clientName]);
+
+  const {} = useQuery(GET_ALL_ORDERS, {
+    onCompleted: (dataAllOrders) => {
+      setOrdersAdmin(dataAllOrders.getAllOrders);
     },
   });
-
-  type filteredOrders = {
-    id: number;
-    total: number;
-    client: string;
-    clientPhone?: string;
-    status: number;
-  }[]
-
-  const filteredOrders: filteredOrders = [];
-
-  reservationsFiltered.forEach(reservation => {
-    if (!filteredOrders.find((order) => order.id == reservation.order.id)) {
-      filteredOrders.push({
-        id: reservation.order.id,
-        status: reservation.order.status,
-        total: reservation.order.total_price,
-        client: `${reservation.order.user.lastname} ${reservation.order.user.firstname}`,
-        clientPhone: reservation.order.user.phone
-      });
-    }
-    
-  });
-
-  filteredOrders.sort((a, b) => a.id - b.id);
 
   // Gestion du datepicker
   const [startDate, setStartDate] = useState(new Date(Date.now()));
@@ -100,12 +83,22 @@ const AdminReservations = () => {
     setStartDate(new Date(Date.now()));
   };
 
+  const filterByClientName = (e: any) => {
+    setClientName(e.target.value);
+  };
+
+  const resetClientName = () => {
+    setClientName(undefined)
+    setDateFilter(Date.now());
+    setStartDate(new Date(Date.now()));
+  };
+
   return (
     <div className="">
       <div className="product_container d-flex flex-column align-items-center">
         <h1 className="my-5">Réservations</h1>
-        <div className="d-flex align-items-center mb-5">
-          <div className="d-flex align-items-center mb-5 me-5">
+        <div className="w-100 d-flex align-items-center justify-content-between mb-5">
+          <div className="d-flex flex-column align-items-center">
             <label className="text-center me-3" htmlFor="numOrder">
               N° commande
             </label>
@@ -125,7 +118,7 @@ const AdminReservations = () => {
               />
             }
           </div>
-          <div className="d-flex align-items-center mb-5">
+          <div className="d-flex flex-column align-items-center">
             <label className="text-center me-3" htmlFor="startDate">
               Voir les réservations débutant le
             </label>
@@ -147,6 +140,25 @@ const AdminReservations = () => {
               />
             }
           </div>
+          <div className="d-flex flex-column align-items-center">
+            <label className="text-center me-3" htmlFor="numOrder">
+              Nom du client
+            </label>
+            <input
+              className="w-100"
+              name="clientName"
+              type="text"
+              onChange={filterByClientName}
+              value={clientName ? clientName : ""}
+            />
+            {clientName && 
+              <RxCrossCircled
+              className="fs-2 ms-3 text-danger"
+              role="button"
+              onClick={resetClientName}
+              />
+            }
+          </div>
         </div>
 
         <Table hover>
@@ -162,9 +174,7 @@ const AdminReservations = () => {
             </tr>
           </thead>
           <tbody>
-            {reservationsFiltered &&
-              filteredOrders &&
-              filteredOrders
+              {ordersFiltered
               .filter(order => order.status == 1)
               .map((order) => (
                 <>
@@ -178,26 +188,25 @@ const AdminReservations = () => {
                         : "Non validée"}
                     </th>
                     <th colSpan={3}></th>
-                    <th className="text-end pe-4">{order.total.toFixed(2)}</th>
-                    <th><div data-bs-toggle="tooltip" title={order.clientPhone}>{order.client}</div></th>
+                    <th className="text-end pe-4">{order.total_price.toFixed(2)}</th>
+                    <th><div data-bs-toggle="tooltip" title={order.user.phone}>{`${order.user.lastname} ${order.user.firstname}` }</div></th>
                   </tr>
-                  {reservationsFiltered
-                    .filter((reservation) => reservation.order.id == order.id)
-                    .map((filteredReservation) => (
-                      <tr key={filteredReservation.id}>
+                  {order.reservations
+                    .map((reservation) => (
+                      <tr key={reservation.id}>
                         <td colSpan={2}></td>
                         <td className="text-center">
-                          {readableDate(filteredReservation.start)}
+                          {readableDate(reservation.start)}
                         </td>
                         <td className="text-center">
-                          {readableDate(filteredReservation.end)}
+                          {readableDate(reservation.end)}
                         </td>
                         <td>
-                          {filteredReservation.product.id} -{" "}
-                          {filteredReservation.product.name}{" "}
+                          {reservation.product.id} -{" "}
+                          {reservation.product.name}{" "}
                         </td>
                         <td className="text-end pe-4">
-                          {filteredReservation.price.toFixed(2)}
+                          {reservation.price.toFixed(2)}
                         </td>
                         <td></td>
                       </tr>
@@ -206,8 +215,8 @@ const AdminReservations = () => {
               ))}
           </tbody>
         </Table>
-        {reservationsFiltered.length == 0 && !numOrder && <div className="mt-5 fs-3">Aucune réservation après le {(startDate.toLocaleDateString())}</div>}
-        {reservationsFiltered.length == 0 && numOrder && <div className="mt-5 fs-3">Aucune commande trouvée</div>}
+        {ordersFiltered.length == 0 && !numOrder && <div className="mt-5 fs-3">Aucune réservation après le {(startDate.toLocaleDateString())}</div>}
+        {ordersFiltered.length == 0 && numOrder && <div className="mt-5 fs-3">Aucune commande trouvée</div>}
       </div>
     </div>
   );

@@ -165,6 +165,35 @@ const GET_ORDER_BY_ID = gql`
   }
 `;
 
+const GET_ALL_ORDERS = gql`
+  query Query {
+    getAllOrders {
+      id
+      created_at
+      total_price
+      status
+      reservations {
+        product {
+          id
+          name
+        }
+        id
+        start
+        end
+        price
+        status
+      }
+      user {
+        id
+        email
+        firstname
+        lastname
+        phone
+      }
+    }
+  }
+`;
+
 const CHECK_TOKEN_RESET = gql`
   query Query($token: String!) {
     checkTokenResetPassword(token: $token)
@@ -188,6 +217,7 @@ export {
   IS_ADMIN,
   GET_ORDER_BY_CUSTOMER,
   GET_ORDER_BY_ID,
+  GET_ALL_ORDERS,
   CHECK_TOKEN_RESET,
   PAYMENT_ORDER
 };
