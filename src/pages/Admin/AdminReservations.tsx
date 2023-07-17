@@ -33,7 +33,7 @@ const AdminReservations = () => {
 
   useEffect(() => {
     filterOrdersByDate();
-  }, []);
+  }, [ordersAdmin]);
 
   useEffect(() => {
     filterOrdersByDate();
